@@ -30,6 +30,7 @@ function Start () {
 		innerAttackRadius = attackRadius*0.8;
 	}
 
+	tickTime = UnityEngine.Random.value*tickInterval;
 }
 
 // Helper Functions
@@ -84,6 +85,9 @@ function Attack(){
 //			If Outside AttackRadius, back to 1
 //			If Player too close, back to 1
 
+private var tickInterval:float = 1.0;
+private var tickTime:float;
+
 function Update () {
 	// No longer controlled by AI
 	if (blowBack){
@@ -95,7 +99,22 @@ function Update () {
 	}
 
 	super.Update();	
+
+	tickTime += Time.deltaTime;
+	if (tickTime >= tickInterval){
+		tickTime = 0;
+		UpdateGoals();
+	}
 	
+
+	
+	// Execute Goals
+	if (goal == Goal.Attack){
+		UpdateAttack();
+	}
+}
+
+private function UpdateGoals(){
 	// Change Goals	
 	switch (goal){
 		case Goal.Wait:
@@ -115,11 +134,6 @@ function Update () {
 			break;
 		default:
 			break;
-	}
-	
-	// Execute Goals
-	if (goal == Goal.Attack){
-		UpdateAttack();
 	}
 }
 

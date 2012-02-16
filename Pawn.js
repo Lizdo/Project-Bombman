@@ -94,9 +94,31 @@ private function Renderer():Renderer{
 	return child.renderer;
 }
 
+private function LineOfSightToTarget():boolean{
+	// TODO: Current implenmentation is buggy, need to consider cylinder radius into consideration
+	var source:Vector3 = SnapToGround(transform.position);
+	var ray : Ray = new Ray(source,targetPosition);
+    var hit : RaycastHit;
+    var distance:float = Vector3.Distance(source, targetPosition);
+    if (distance <= distanceTolerance)
+    	return true;
+	var obstacleMask:int = 1 << 9;
+    if (Physics.Raycast (ray, hit, distance, obstacleMask)){
+		return false;
+	}
+	return true;
+}
+
+private function DirectPathToTarget(){
+	path = new Path();
+	path.vectorPath = new Vector3[2];
+	path.vectorPath[0] = transform.position;	
+	path.vectorPath[1] = targetPosition;
+	print("Direct Path Generated");
+	currentWaypoint = 0;	
+}
 
 private function UpdateMovement(){
-
     if (path == null) {
          //We have no path to move after yet
 		SwitchAnimation(AnimationState.Idle);         
@@ -112,8 +134,8 @@ private function UpdateMovement(){
         return;
     }
 
+	RotateTowardTarget();
     //Direction to the next waypoint
-    RotateTowardTarget();
     if (AngleNeedToRotate() < turnOnSpotRotationLimit){
     	MoveTowardTarget();
     }
@@ -121,12 +143,16 @@ private function UpdateMovement(){
     var distance:float = Vector3.Distance(NextPoint(), transform.position);
     if (distance < distanceTolerance){
     	currentWaypoint++;
+    	// Don't check if it's already the last segment
+    	if (currentWaypoint+1 < path.vectorPath.Length && LineOfSightToTarget()){
+    		DirectPathToTarget();
+    	}
     	return;
     }
 }
 
 private function AngleNeedToRotate(){
-	var offset:Vector3 = NextPoint() - targetPosition;
+	var offset:Vector3 = NextPoint() - transform.position;
 	if (offset == Vector3.zero) {
 		return 0;
 	};
@@ -135,7 +161,7 @@ private function AngleNeedToRotate(){
 }
 
 private function RotateTowardTarget(){
-	var offset:Vector3 = NextPoint() - targetPosition;
+	var offset:Vector3 = NextPoint() - transform.position;
 	// Update Rotation
 	if (offset == Vector3.zero) {
 		return;
@@ -167,7 +193,11 @@ private function NextPoint(){
 function MoveTo(p:Vector3){
 	targetPosition = SnapToGround(p);
 	print("Moving To:" + targetPosition.ToString());
-    seeker.StartPath (transform.position,targetPosition, PathfindingComplete);		
+	if (!LineOfSightToTarget()){
+    	seeker.StartPath (transform.position,targetPosition, PathfindingComplete);		
+    }else{
+    	DirectPathToTarget();	
+    }
 }
 
 function PathfindingComplete(p:Path){
