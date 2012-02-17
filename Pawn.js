@@ -345,6 +345,14 @@ function Damage(damage:float){
 	}
 }
 
+function Heal(amount:float){
+	// TODO: Add feedback;
+	HP += amount;
+	if (HP >= maxHP){
+		HP = maxHP;
+	}
+}
+
 private var effects:Array = new Array();
 
 function AddEffect(e:Effect){

@@ -28,7 +28,6 @@ function Start() {
 function Update () {
 	super.Update();
 	UpdateMP();
-	
 }
 
 public var holdTimeThreshold:float = 0.1;
@@ -108,6 +107,13 @@ function UseAbility(a:Ability){
 	
 }
 
+function RefillMP(amount:float){
+	// TODO: Add feedback;
+	MP += amount;
+	if (MP >= maxMP){
+		MP = maxMP;
+	}
+}
 
 function StopMoving(){
 	targetPosition = Vector3.zero;

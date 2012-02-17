@@ -85,7 +85,7 @@ function Attack(){
 //			If Outside AttackRadius, back to 1
 //			If Player too close, back to 1
 
-private var tickInterval:float = 1.0;
+private var tickInterval:float = 0.2;
 private var tickTime:float;
 
 function Update () {

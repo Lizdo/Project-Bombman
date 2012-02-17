@@ -25,7 +25,9 @@ public class Ability{
 
 public class Effect{
 	static var Freeze:String = "Freeze";
-	static var Fire:String = "Fire";	
+	static var Fire:String = "Fire";
+	static var Armor:String = "Armor";
+	static var Strength:String = "Strength";
 	
 	public var name:String;
 	public var duration:float;
@@ -46,6 +48,10 @@ public class Effect{
 			return new Effect(Freeze, 8);
 		else if (name == Fire)
 			return new Effect(Fire, 10);
+		else if (name == Fire)
+			return new Effect(Strength, 10);			
+		else if (name == Fire)
+			return new Effect(Armor, 10);			
 		else
 			return null;
 	}
