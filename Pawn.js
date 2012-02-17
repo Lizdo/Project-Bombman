@@ -64,10 +64,7 @@ function Start () {
 	Renderer().material.SetFloat(kOutlineWidth, outlineWidth);
 	
 	// Snap the Y axis
-	transform.position = Vector3(transform.position.x,
-		Tweakable.FootCompensation,
-		transform.position.z
-	);
+	transform.position = SnapToGround(transform.position);
 	
 	deathParticle = Resources.Load("Sparks");	
 }
@@ -97,15 +94,30 @@ private function Renderer():Renderer{
 private function LineOfSightToTarget():boolean{
 	// TODO: Current implenmentation is buggy, need to consider cylinder radius into consideration
 	var source:Vector3 = SnapToGround(transform.position);
-	var ray : Ray = new Ray(source,targetPosition);
-    var hit : RaycastHit;
     var distance:float = Vector3.Distance(source, targetPosition);
+	var offset:Vector3 = targetPosition - source;
+
     if (distance <= distanceTolerance)
     	return true;
+    
 	var obstacleMask:int = 1 << 9;
-    if (Physics.Raycast (ray, hit, distance, obstacleMask)){
+    if (Physics.Raycast (source, offset, distance, obstacleMask)){
 		return false;
 	}
+
+
+	var source1:Vector3 = source + Quaternion.AngleAxis(90, Vector3.up) * offset.normalized * radius;
+	var target1:Vector3 = targetPosition + Quaternion.AngleAxis(90, Vector3.up) * offset.normalized * radius;
+    if (Physics.Raycast (source1, offset, distance, obstacleMask)){
+		return false;
+	}
+
+	var source2:Vector3 = source + Quaternion.AngleAxis(-90, Vector3.up) * offset.normalized * radius;
+	var target2:Vector3 = targetPosition + Quaternion.AngleAxis(-90, Vector3.up) * offset.normalized * radius;
+    if (Physics.Raycast (source2, offset, distance, obstacleMask)){
+		return false;
+	}
+
 	return true;
 }
 
@@ -114,7 +126,8 @@ private function DirectPathToTarget(){
 	path.vectorPath = new Vector3[2];
 	path.vectorPath[0] = transform.position;	
 	path.vectorPath[1] = targetPosition;
-	print("Direct Path Generated");
+	if (this == player)
+		print("Direct Path Generated");
 	currentWaypoint = 0;	
 }
 
