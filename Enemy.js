@@ -37,6 +37,7 @@ function Start () {
 
 function InInnerAttackRadius():boolean{
 	var distanceToPlayer = Vector3.Distance(transform.position, player.Position());
+	print("Distance to Player:" + distanceToPlayer.ToString());
 	return distanceToPlayer <= innerAttackRadius;
 }
 
@@ -70,6 +71,7 @@ function Attack(){
 	if (goal == Goal.Attack){
 		return;
 	}
+	print("Attack!");
 	goal = Goal.Attack;
 	attackTime = 0;
 }
@@ -106,12 +108,20 @@ function Update () {
 		UpdateGoals();
 	}
 	
-
-	
 	// Execute Goals
 	if (goal == Goal.Attack){
 		UpdateAttack();
+		SwitchAnimation(PawnAnimationState.Attack);
 	}
+
+	if (goal == Goal.Move){
+		SwitchAnimation(PawnAnimationState.Move);
+	}
+
+	if (goal == Goal.Wait){
+		SwitchAnimation(PawnAnimationState.Idle);
+	}
+
 }
 
 private function UpdateGoals(){

@@ -1,7 +1,7 @@
 public class Tweakable{
 
 static var PlayerSpeed = 3.0;
-static var PlayerHP = 100000.0;
+static var PlayerHP = 1000.0;
 static var PlayerRadius = 0.5;
 static var PlayerAttackRadius = 0.5;
 static var PlayerDPS = 10.0;
@@ -9,8 +9,8 @@ static var PlayerAttackType = AttackType.Melee;
 
 static var TickerSpeed = 2.8;
 static var TickerHP = 50.0;
-static var TickerRadius = 0.5;
-static var TickerAttackRadius = 0.5;
+static var TickerRadius = 0.3;
+static var TickerAttackRadius = 1.2;
 static var TickerDPS = 10.0;
 static var TickerAttackType = AttackType.Melee;
 

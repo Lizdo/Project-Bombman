@@ -134,12 +134,8 @@ private function DirectPathToTarget(){
 private function UpdateMovement(){
     if (path == null) {
          //We have no path to move after yet
-		SwitchAnimation(AnimationState.Idle);         
         return;
      }
-
-     SwitchAnimation(AnimationState.Move);
-
      
     if (currentWaypoint >= path.vectorPath.Length) {
         Debug.Log ("End Of Path Reached");
@@ -286,13 +282,13 @@ private function UpdateEffects(){
 	
 }
 
-private var currentAnimation:AnimationState;
+private var currentAnimation:PawnAnimationState;
 private var blendTime:float = 0.2;
 
-enum AnimationState{
+enum PawnAnimationState{
 	Idle = 0,
 	Move = 1,
-	Attack = 2
+	Attack = 2,
 }
 
 static var AnimationName = [
@@ -301,14 +297,15 @@ static var AnimationName = [
 	"attack"
 ];
 
-function SwitchAnimation(newAnimation:AnimationState){
+function SwitchAnimation(newAnimation:PawnAnimationState){
 	if (newAnimation == currentAnimation)
 		return;
 		
 	currentAnimation = newAnimation;
 	if (animation && animation[AnimationName[newAnimation]]){
 		//print(AnimationName[newAnimation]);
-		animation.CrossFade(AnimationName[newAnimation], blendTime);		
+		animation.CrossFade(AnimationName[newAnimation], blendTime);
+		print("Attack Anim")		;
 	}
 }
 
@@ -331,7 +328,7 @@ function SnapToGround(p:Vector3):Vector3{
 
 
 
-var centerCompensation:float = 1.2;
+private var centerCompensation:float = 1.2;
 
 function CenterCompensatedPosition(p:Vector3):Vector3{
 	return Vector3(p.x, p.y+centerCompensation, p.z);

@@ -8,6 +8,7 @@ private var ZOffset:float;
 private var holdingTouch:boolean = false;
 
 function Start (){
+	InitializeQualitySetting();
 	//initialize the Player	
 	player = FindObjectOfType(Player); 
 	transform.rotation = Quaternion.Euler(Rotation,0,0);	 
@@ -24,4 +25,14 @@ function UpdateCameraPosition(){
 		return;
 	var MCPosition:Vector3 = player.Position();
 	transform.position = Vector3(MCPosition.x, Height, MCPosition.z - ZOffset);
+}
+
+function InitializeQualitySetting(){
+	if (Application.platform == RuntimePlatform.IPhonePlayer){
+		switch (iPhoneSettings.generation){
+			case iPhoneGeneration.iPad1Gen:
+			case iPhoneGeneration.iPhone3GS:
+				QualitySettings.antiAliasing = 0;
+		}
+	}
 }
