@@ -10,6 +10,7 @@ private var blowBack:boolean = false;
 private var innerAttackRadius:float;
 private var minimumAttackRadius:float;
 
+public var phase:int = 0;
 
 
 enum Goal{
@@ -91,6 +92,10 @@ private var tickInterval:float = 0.2;
 private var tickTime:float;
 
 function Update () {
+	if (phase != objectiveManager.phase){
+		return;
+	}
+
 	// No longer controlled by AI
 	if (blowBack){
 		//TODO: What if AI hit wall

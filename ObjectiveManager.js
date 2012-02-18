@@ -7,7 +7,13 @@ function Start() {
 	yield WaitForSeconds(2);
 	SetText("");
 	isGamePaused = false;
+
+	GUI.color = Tweakable.DefaultColor;
+	StartPhase();
 }
+
+private var phase:int = 0;
+private var maxPhase:int = 1;
 
 function Update () {
 	var allDead:boolean = true;
@@ -23,6 +29,25 @@ function Update () {
 	if (allDead){
 		MissionComplete();
 	}
+}
+
+function GotoNextPhase(){
+	phase++;
+	if (phase == maxPhase){
+		MissionComplete();
+		return;
+	}
+
+	//Spawn Phase X creatures
+	StartPhase();
+}
+
+function StartPhase(){
+	if (phase >= 1){
+		SetText("Phase " + phase.ToString() + " Start");
+	}
+
+	
 }
 
 function IsGamePaused():boolean{
