@@ -45,7 +45,9 @@ private function IsPositionAvailable(position:Vector3, pawn:Pawn):boolean{
 
 private function ClosestRandomPositions(position:Vector3, pawn:Pawn){
 	var positions = new Vector3[PositionCount];
-	var offset:Vector3 = Vector3(pawn.Radius()*1.8, 0, 0);
+	var offset:Vector3 = Vector3(pawn.Radius(), 0, 0);
+	var intialAngle:float = Random.value*360;
+	offset = Quaternion.AngleAxis(intialAngle, Vector3.up) * offset;
 	for (var i:int = 0; i < PositionCount; i++){
 		positions[i] = position + offset;
 		offset = Quaternion.AngleAxis(360/PositionCount, Vector3.up) * offset;

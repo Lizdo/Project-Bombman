@@ -37,6 +37,7 @@ static var BeastAttackType = AttackType.Melee;
 
 static var FootCompensation = 0.38;
 
+static var UsePathfinding:boolean = false;
 
 enum PawnType{
 	Player	= 0,

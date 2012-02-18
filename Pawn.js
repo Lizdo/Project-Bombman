@@ -132,6 +132,17 @@ private function DirectPathToTarget(){
 }
 
 private function UpdateMovement(){
+
+	if(!Tweakable.UsePathfinding){
+		RotateTowardTarget();
+	    //Direction to the next waypoint
+	    if (AngleNeedToRotate() < turnOnSpotRotationLimit){
+	    	MoveTowardTarget();
+	    }
+	    return;
+	}
+
+
     if (path == null) {
          //We have no path to move after yet
         return;
@@ -196,17 +207,24 @@ private function RotateToPlayer(){
 }
 
 private function NextPoint(){
-	return path.vectorPath[currentWaypoint];
+	if(Tweakable.UsePathfinding){
+		return path.vectorPath[currentWaypoint];
+	}else{
+		return targetPosition;
+	}
 }
 
 function MoveTo(p:Vector3){
 	targetPosition = SnapToGround(p);
 	print("Moving To:" + targetPosition.ToString());
-	if (!LineOfSightToTarget()){
-    	seeker.StartPath (transform.position,targetPosition, PathfindingComplete);		
-    }else{
-    	DirectPathToTarget();	
-    }
+
+	if(Tweakable.UsePathfinding){
+		if (!LineOfSightToTarget()){
+	    	seeker.StartPath (transform.position,targetPosition, PathfindingComplete);		
+	    }else{
+	    	DirectPathToTarget();	
+	    }	
+	}
 }
 
 function PathfindingComplete(p:Path){
