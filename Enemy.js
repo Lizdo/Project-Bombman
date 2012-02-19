@@ -38,7 +38,6 @@ function Start () {
 
 function InInnerAttackRadius():boolean{
 	var distanceToPlayer = Vector3.Distance(transform.position, player.Position());
-	print("Distance to Player:" + distanceToPlayer.ToString());
 	return distanceToPlayer <= innerAttackRadius;
 }
 
@@ -92,7 +91,7 @@ private var tickInterval:float = 0.2;
 private var tickTime:float;
 
 function Update () {
-	if (phase != objectiveManager.phase){
+	if (phase != objectiveManager.Phase()){
 		return;
 	}
 
@@ -154,12 +153,11 @@ private function UpdateGoals(){
 
 
 // TODO: Expose this to Enemy Archetypes
-private var attackDuration:float = 1.0;
 private var attackTime:float = 0;
 
 function UpdateAttack(){
 	attackTime += Time.deltaTime;
-	if (attackTime >= attackDuration){
+	if (attackTime >= attackSpeed){
 		DealDamage();
 		attackTime = 0;
 	}

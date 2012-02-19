@@ -9,6 +9,7 @@ protected var attackRadius:float;
 protected var dps:float;
 protected var attackType:AttackType;
 protected var radius:float = 2.0;
+protected var attackSpeed = 1.0;
 
 protected var deathParticle:GameObject;
 
@@ -57,6 +58,7 @@ function Start () {
 	dps = Tweakable.DPSForType(type);
 	attackType = Tweakable.AttackTypeForType(type);
 	radius = Tweakable.RadiusForType(type);
+	attackSpeed = Tweakable.AttackSpeedForType(type);
 	
 	maxHP = HP;
 	color = Renderer().material.color;
@@ -126,12 +128,15 @@ private function DirectPathToTarget(){
 	path.vectorPath = new Vector3[2];
 	path.vectorPath[0] = transform.position;	
 	path.vectorPath[1] = targetPosition;
-	if (this == player)
-		print("Direct Path Generated");
+	//if (this == player)
+		//print("Direct Path Generated");
 	currentWaypoint = 0;	
 }
 
 private function UpdateMovement(){
+
+	if (targetPosition == Vector3.zero)
+		return;
 
 	if(!Tweakable.UsePathfinding){
 		RotateTowardTarget();
@@ -172,16 +177,19 @@ private function UpdateMovement(){
 }
 
 private function AngleNeedToRotate(){
-	var offset:Vector3 = NextPoint() - transform.position;
+	var offset:Vector3 = -(NextPoint() - transform.position);
 	if (offset == Vector3.zero) {
 		return 0;
 	};
  	var targetRotation:Quaternion = Quaternion.LookRotation(offset);	
-	return Quaternion.Angle(transform.rotation, targetRotation);
+ 	var angle:float = Quaternion.Angle(transform.rotation, targetRotation);
+ 	if (this == player)
+ 		print("Angle Need to Rotate:" + angle.ToString());
+	return angle;
 }
 
 private function RotateTowardTarget(){
-	var offset:Vector3 = NextPoint() - transform.position;
+	var offset:Vector3 = -(NextPoint() - transform.position);
 	// Update Rotation
 	if (offset == Vector3.zero) {
 		return;
@@ -202,7 +210,7 @@ private function RotateToPlayer(){
 		var targetRotation:Quaternion = Quaternion.LookRotation(offset);
 	 	
 		transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
-                                   Time.deltaTime * smooth);		
+			Time.deltaTime * smooth);		
 	}	
 }
 
@@ -215,6 +223,11 @@ private function NextPoint(){
 }
 
 function MoveTo(p:Vector3){
+	if (p == Vector3.zero){
+		targetPosition = Vector3.zero;
+		path = null;
+		return;
+	}
 	targetPosition = SnapToGround(p);
 	print("Moving To:" + targetPosition.ToString());
 

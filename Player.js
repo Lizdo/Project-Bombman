@@ -116,7 +116,8 @@ function RefillMP(amount:float){
 }
 
 function StopMoving(){
-	targetPosition = Vector3.zero;
+	MoveTo(Vector3.zero);
+	print("Stop Moving");
 }
 
 function Die(){

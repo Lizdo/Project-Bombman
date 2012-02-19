@@ -6,6 +6,7 @@ static var PlayerRadius = 0.5;
 static var PlayerAttackRadius = 0.5;
 static var PlayerDPS = 10.0;
 static var PlayerAttackType = AttackType.Melee;
+static var PlayerAttackSpeed = 1.0;
 
 static var TickerSpeed = 2.8;
 static var TickerHP = 50.0;
@@ -13,13 +14,15 @@ static var TickerRadius = 0.3;
 static var TickerAttackRadius = 1.2;
 static var TickerDPS = 10.0;
 static var TickerAttackType = AttackType.Melee;
+static var TickerAttackSpeed = 0.5;
 
 static var BoomerSpeed = 1.5;
 static var BoomerHP = 500.0;
 static var BoomerRadius = 0.5;
-static var BoomerAttackRadius = 5.0;
-static var BoomerDPS = 10.0;
+static var BoomerAttackRadius = 3.0;
+static var BoomerDPS = 30.0;
 static var BoomerAttackType = AttackType.Ranged;
+static var BoomerAttackSpeed = 1.5;
 
 static var GunnerSpeed = 3.0;
 static var GunnerHP = 250.0;
@@ -27,6 +30,7 @@ static var GunnerRadius = 2.0;
 static var GunnerAttackRadius = 5.0;
 static var GunnerDPS = 5.0;
 static var GunnerAttackType = AttackType.Melee;
+static var GunnerAttackSpeed = 2.0;
 
 static var BeastSpeed = 3.0;
 static var BeastHP = 250.0;
@@ -34,6 +38,7 @@ static var BeastRadius = 2.0;
 static var BeastAttackRadius = 5.0;
 static var BeastDPS = 5.0;
 static var BeastAttackType = AttackType.Melee;
+static var BeastAttackSpeed = 1.0;
 
 static var FootCompensation = 0.38;
 
@@ -101,6 +106,14 @@ static var _attackType = [
 	BeastAttackType
 ];
 
+static var _attackSpeed = [
+	PlayerAttackSpeed,
+	TickerAttackSpeed,
+	BoomerAttackSpeed,
+	GunnerAttackSpeed,
+	BeastAttackSpeed
+];
+
 
 static function SpeedForType(type:PawnType){
 	return _speed[type];
@@ -124,6 +137,10 @@ static function DPSForType(type:PawnType){
 
 static function AttackTypeForType(type:PawnType){
 	return _attackType[type];
+}
+
+static function AttackSpeedForType(type:PawnType){
+	return _attackSpeed[type];
 }
 
 // Colors

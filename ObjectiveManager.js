@@ -15,6 +15,10 @@ function Start() {
 private var phase:int = 0;
 private var maxPhase:int = 1;
 
+function Phase(){
+	return phase;
+}
+
 function Update () {
 	var allDead:boolean = true;
 
@@ -46,9 +50,8 @@ function StartPhase(){
 	if (phase >= 1){
 		SetText("Phase " + phase.ToString() + " Start");
 	}
-
-	
 }
+
 
 function IsGamePaused():boolean{
 	return isGamePaused;
