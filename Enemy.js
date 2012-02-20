@@ -12,6 +12,7 @@ private var minimumAttackRadius:float;
 
 public var phase:int = 0;
 
+private var line:Line;
 
 enum Goal{
 	Wait = 0,
@@ -32,6 +33,7 @@ function Start () {
 	}
 
 	tickTime = UnityEngine.Random.value*tickInterval;
+	line = UnityEngine.Resources.Load("LineMesh");
 }
 
 // Helper Functions
@@ -64,8 +66,6 @@ function MoveToInnerRadius(){
 	
 	MoveTo(pawnManager.NearestAvailablePositon(playerPosition + offset, this));
 }
-
-private var line : LineRenderer;
 
 function Attack(){
 	if (goal == Goal.Attack){
@@ -160,6 +160,7 @@ function UpdateAttack(){
 	if (attackTime >= attackSpeed){
 		DealDamage();
 		attackTime = 0;
+
 	}
 }
 
@@ -168,6 +169,9 @@ function DealDamage(){
 	Debug.DrawLine (CenterCompensatedPosition(transform.position), 
 		CenterCompensatedPosition(player.Position()), 
 		Color.red);
+	//var hitParticle = Instantiate(line, Vector3.zero, Quaternion.identity);
+	//hitParticle.SetPoints(CenterCompensatedPosition(transform.position), 
+	//	CenterCompensatedPosition(player.Position()));
 	var v:Vector3 = Camera.main.WorldToViewportPoint(CenterCompensatedPosition(player.transform.position));
 	FindObjectOfType(UI).SpawnFloatingText(dps*attackTime, v.x, v.y, Tweakable.PlayerDamageColor);		
 }

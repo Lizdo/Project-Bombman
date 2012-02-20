@@ -4,7 +4,7 @@ private var maxLifeTime:float = 1.0;
 
 function Start () {
 	yield WaitForSeconds(maxLifeTime);
-	Destroy(this.gameObject);
+	Destroy(gameObject);
 }
 
 function Update () {
