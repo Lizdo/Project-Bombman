@@ -182,8 +182,6 @@ private function AngleNeedToRotate(){
 	};
  	var targetRotation:Quaternion = Quaternion.LookRotation(offset);	
  	var angle:float = Quaternion.Angle(transform.rotation, targetRotation);
- 	if (this == player)
- 		print("Angle Need to Rotate:" + angle.ToString());
 	return angle;
 }
 
@@ -332,10 +330,18 @@ function SwitchAnimation(newAnimation:PawnAnimationState){
 		return;
 		
 	currentAnimation = newAnimation;
-	if (animation && animation[AnimationName[newAnimation]]){
+	var state:AnimationState = animation[AnimationName[newAnimation]];
+	if (animation && state){
 		//print(AnimationName[newAnimation]);
-		animation.CrossFade(AnimationName[newAnimation], blendTime);
-		print("Attack Anim")		;
+		animation.Play(AnimationName[newAnimation]);
+		if (newAnimation == PawnAnimationState.Attack){
+			// Need to sync with attack time
+			var animationTime:float = state.length;
+			print(animationTime);
+    		state.speed = animationTime/attackSpeed;
+		}else{
+			state.speed = 1;			
+		}
 	}
 }
 

@@ -161,7 +161,6 @@ function UpdateAttack(){
 	if (attackTime >= attackSpeed){
 		DealDamage();
 		attackTime = 0;
-
 	}
 }
 
