@@ -83,6 +83,8 @@ function InGameUI(){
 
 function MPUI(){
 	// Upper Left
+    if (FindObjectOfType(Player) == null)
+        return;
 	var HP:int = Mathf.Ceil(FindObjectOfType(Player).HP);
 	var maxHP:int = Mathf.Ceil(FindObjectOfType(Player).maxHP);	
 	var MP:int = Mathf.Ceil(FindObjectOfType(Player).MP);

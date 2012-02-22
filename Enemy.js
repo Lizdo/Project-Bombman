@@ -12,7 +12,7 @@ private var minimumAttackRadius:float;
 
 public var phase:int = 0;
 
-private var line:Line;
+private var line:GameObject;
 
 enum Goal{
 	Wait = 0,
@@ -34,6 +34,7 @@ function Start () {
 
 	tickTime = UnityEngine.Random.value*tickInterval;
 	line = UnityEngine.Resources.Load("LineMesh");
+
 }
 
 // Helper Functions
@@ -164,14 +165,21 @@ function UpdateAttack(){
 	}
 }
 
+private var BulletLineWidth:float = 0.1;
+
 function DealDamage(){
 	player.Damage(dps*attackTime);
-	Debug.DrawLine (CenterCompensatedPosition(transform.position), 
-		CenterCompensatedPosition(player.Position()), 
-		Color.red);
-	//var hitParticle = Instantiate(line, Vector3.zero, Quaternion.identity);
-	//hitParticle.SetPoints(CenterCompensatedPosition(transform.position), 
-	//	CenterCompensatedPosition(player.Position()));
+
+	// Debug.DrawLine (CenterCompensatedPosition(transform.position), 
+	// 	CenterCompensatedPosition(player.Position()), 
+	// 	Color.red);
+
+	var bulletLine:GameObject = Instantiate(line, Vector3.zero, Quaternion.identity);
+	bulletLine.GetComponent(Line).SetPoints(CenterCompensatedPosition(transform.position), 
+		CenterCompensatedPosition(player.Position()));
+	bulletLine.GetComponent(Line).SetColor(borderColor);
+	bulletLine.GetComponent(Line).SetWidth(BulletLineWidth);
+
 	var v:Vector3 = Camera.main.WorldToViewportPoint(CenterCompensatedPosition(player.transform.position));
 	FindObjectOfType(UI).SpawnFloatingText(dps*attackTime, v.x, v.y, Tweakable.PlayerDamageColor);		
 }

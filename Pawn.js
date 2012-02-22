@@ -32,8 +32,8 @@ public var HP:float;
 public var maxHP:float;
 protected var isDead:boolean = false;
 
-private var color:Color;
-private var borderColor:Color;
+protected var color:Color;
+protected var borderColor:Color;
 
 protected var objectiveManager:ObjectiveManager;
 protected var pawnManager:PawnManager;
@@ -94,7 +94,6 @@ private function Renderer():Renderer{
 }
 
 private function LineOfSightToTarget():boolean{
-	// TODO: Current implenmentation is buggy, need to consider cylinder radius into consideration
 	var source:Vector3 = SnapToGround(transform.position);
     var distance:float = Vector3.Distance(source, targetPosition);
 	var offset:Vector3 = targetPosition - source;
@@ -229,7 +228,7 @@ function MoveTo(p:Vector3){
 		return;
 	}
 	targetPosition = SnapToGround(p);
-	print("Moving To:" + targetPosition.ToString());
+	//print("Moving To:" + targetPosition.ToString());
 
 	if(Tweakable.UsePathfinding){
 		if (!LineOfSightToTarget()){
@@ -359,7 +358,7 @@ function SnapToGround(p:Vector3):Vector3{
 
 
 
-private var centerCompensation:float = 1.2;
+private var centerCompensation:float = 0.6;
 
 function CenterCompensatedPosition(p:Vector3):Vector3{
 	return Vector3(p.x, p.y+centerCompensation, p.z);

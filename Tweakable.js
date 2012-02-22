@@ -20,7 +20,7 @@ static var BoomerSpeed = 1.5;
 static var BoomerHP = 500.0;
 static var BoomerRadius = 0.5;
 static var BoomerAttackRadius = 3.0;
-static var BoomerDPS = 30.0;
+static var BoomerDPS = 100.0;
 static var BoomerAttackType = AttackType.Ranged;
 static var BoomerAttackSpeed = 1.5;
 
@@ -42,7 +42,10 @@ static var BeastAttackSpeed = 1.0;
 
 static var FootCompensation = 0.38;
 
+
+// global flags
 static var UsePathfinding:boolean = false;
+static var UseDynamicSpawn:boolean = false;
 
 enum PawnType{
 	Player	= 0,
