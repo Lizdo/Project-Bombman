@@ -1,13 +1,39 @@
 private var player:Player;
-public var pawns:Pawn[];
+public var pawns:Array;
 
 function Start () {
+	player = FindObjectOfType(Player);
 	pawns = FindObjectsOfType(Pawn);
 }
 
-
 function Update () {
 	
+}
+
+function Spawn(type:PawnType){
+	var template:GameObject;
+	switch(type){
+		case PawnType.Ticker:
+			template = Resources.Load("Ticker");
+			break;
+		case PawnType.Boomer:
+			template = Resources.Load("Boomer");
+			break;
+	}
+
+	if (template == null){
+		print("Spawn Failed!");
+		return;
+	}
+
+	var enemy:GameObject = Instantiate(template, RandomOffScreenPosition(), Quaternion.identity);
+	pawns.Add(enemy.GetComponent(Pawn));
+}
+
+function RandomOffScreenPosition(){
+	var screenbound:float = FindObjectOfType(CameraManager).ScreenBound();
+	var randomOffset:Vector3 = Quaternion.AngleAxis(Random.value*360, Vector3.up) * Vector3(screenbound,0,0);
+	return player.Position() + randomOffset;
 }
 
 static var PositionCount:int = 8;

@@ -1,5 +1,7 @@
 
 private var isGamePaused:boolean;
+private var pawnManager:PawnManager;
+
 
 function Start() {
 	isGamePaused = true;
@@ -10,6 +12,16 @@ function Start() {
 
 	GUI.color = Tweakable.DefaultColor;
 	StartPhase();
+
+	pawnManager = FindObjectOfType(PawnManager);
+	pawnManager.Spawn(PawnType.Boomer);
+	pawnManager.Spawn(PawnType.Boomer);
+	pawnManager.Spawn(PawnType.Boomer);
+
+	pawnManager.Spawn(PawnType.Ticker);
+	pawnManager.Spawn(PawnType.Ticker);
+	pawnManager.Spawn(PawnType.Ticker);
+
 }
 
 private var phase:int = 0;

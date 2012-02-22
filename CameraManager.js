@@ -20,6 +20,10 @@ function Update () {
 	UpdateCameraPosition();
 }
 
+function ScreenBound():float{
+	return Height * Mathf.Tan(Rotation*Mathf.Deg2Rad) + PivotCompensation;
+}
+
 function UpdateCameraPosition(){
 	if (player == null)
 		return;
