@@ -170,17 +170,12 @@ private var BulletLineWidth:float = 0.1;
 function DealDamage(){
 	player.Damage(dps*attackTime);
 
-	// Debug.DrawLine (CenterCompensatedPosition(transform.position), 
-	// 	CenterCompensatedPosition(player.Position()), 
-	// 	Color.red);
-
 	var bulletLine:GameObject = Instantiate(line, Vector3.zero, Quaternion.identity);
-	bulletLine.GetComponent(Line).SetPoints(CenterCompensatedPosition(transform.position), 
-		CenterCompensatedPosition(player.Position()));
+	bulletLine.GetComponent(Line).SetPoints(Center(), player.Center());
 	bulletLine.GetComponent(Line).SetColor(borderColor);
 	bulletLine.GetComponent(Line).SetWidth(BulletLineWidth);
 
-	var v:Vector3 = Camera.main.WorldToViewportPoint(CenterCompensatedPosition(player.transform.position));
+	var v:Vector3 = Camera.main.WorldToViewportPoint(player.Center());
 	FindObjectOfType(UI).SpawnFloatingText(dps*attackTime, v.x, v.y, Tweakable.PlayerDamageColor);		
 }
 

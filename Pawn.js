@@ -356,12 +356,9 @@ function SnapToGround(p:Vector3):Vector3{
 	return Vector3(p.x, Tweakable.FootCompensation, p.z);
 }
 
-
-
-private var centerCompensation:float = 0.6;
-
-function CenterCompensatedPosition(p:Vector3):Vector3{
-	return Vector3(p.x, p.y+centerCompensation, p.z);
+function Center():Vector3{
+	//return Vector3(p.x, p.y+centerCompensation, p.z);
+	return Renderer().bounds.center;
 }
 
 function Damage(damage:float){

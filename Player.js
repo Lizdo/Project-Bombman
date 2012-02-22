@@ -79,7 +79,7 @@ function Explode(){
 				e.BlowBack(transform.position, BlowBackType.Tiny);
 			}
 			e.Damage(Explosive.Damage());
-		    var v:Vector3 = Camera.main.WorldToViewportPoint(CenterCompensatedPosition(e.transform.position));
+		    var v:Vector3 = Camera.main.WorldToViewportPoint(Center());
 			FindObjectOfType(UI).SpawnFloatingText(Explosive.Damage(), v.x, v.y, Tweakable.EnemyDamageColor);
 		}
 	}
