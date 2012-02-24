@@ -2,36 +2,42 @@
 private var isGamePaused:boolean;
 private var pawnManager:PawnManager;
 
+private var waves:Array = new Array();
+private var waveSpawned:boolean = false;
 
 function Start() {
 	isGamePaused = true;
 	MissionStart();
-	yield WaitForSeconds(2);
-	SetText("");
-	isGamePaused = false;
+
 
 	GUI.color = Tweakable.DefaultColor;
-	StartPhase();
 
 	pawnManager = FindObjectOfType(PawnManager);
-	pawnManager.Spawn(PawnType.Boomer);
-	pawnManager.Spawn(PawnType.Boomer);
-	pawnManager.Spawn(PawnType.Boomer);
 
-	pawnManager.Spawn(PawnType.Ticker);
-	pawnManager.Spawn(PawnType.Ticker);
-	pawnManager.Spawn(PawnType.Ticker);
+	waves[0] = [1,1,1];
+	waves[1] = [2,2,2];
+	waves[2] = [1,1,1,2,2,2];
+
+	print("ObjManager Initialized");
+
+	StartPhase();
+	isGamePaused = false;
+
 
 }
 
 private var phase:int = 0;
-private var maxPhase:int = 1;
+private var maxPhase:int = 2;
 
 function Phase(){
 	return phase;
 }
 
 function Update () {
+	if (!waveSpawned){
+		return;
+	}
+
 	var allDead:boolean = true;
 
 	var enemies:Enemy[] = FindObjectsOfType(Enemy);
@@ -41,13 +47,14 @@ function Update () {
 			break;
 		}
 	}
-	
+
 	if (allDead){
-		MissionComplete();
+		GotoNextPhase();
 	}
 }
 
 function GotoNextPhase(){
+	print("Phase "+phase.ToString()+"Ended");
 	phase++;
 	if (phase == maxPhase){
 		MissionComplete();
@@ -59,9 +66,20 @@ function GotoNextPhase(){
 }
 
 function StartPhase(){
+	waveSpawned = false;
+
 	if (phase >= 1){
-		SetText("Phase " + phase.ToString() + " Start");
+		SetText("Phase " + (phase+1).ToString() + " Start");
 	}
+
+	for (var i:int in waves[phase]){
+		pawnManager.Spawn(i);
+	}
+	waveSpawned = true;
+
+
+	yield WaitForSeconds(2);
+	SetText("");	
 }
 
 
@@ -75,6 +93,9 @@ function SetText(text:String){
 
 function MissionStart() {
 	SetText("Mission Start");
+
+	yield WaitForSeconds(2);
+	SetText("");	
 }
 
 function MissionComplete() {

@@ -69,7 +69,6 @@ function Explode(){
 	explodeCooldown = true;
 	
 	var enemies:Enemy[] = FindObjectsOfType(Enemy);
-	print("Explode!");
 	for (var e:Enemy in enemies){
 		if (Vector2.Distance(e.Position(), transform.position) <= Explosive.Range()){
 			if (Explosive.Pushback()){
@@ -79,7 +78,7 @@ function Explode(){
 				e.BlowBack(transform.position, BlowBackType.Tiny);
 			}
 			e.Damage(Explosive.Damage());
-		    var v:Vector3 = Camera.main.WorldToViewportPoint(Center());
+		    var v:Vector3 = Camera.main.WorldToViewportPoint(e.Center());
 			FindObjectOfType(UI).SpawnFloatingText(Explosive.Damage(), v.x, v.y, Tweakable.EnemyDamageColor);
 		}
 	}
@@ -117,7 +116,6 @@ function RefillMP(amount:float){
 
 function StopMoving(){
 	MoveTo(Vector3.zero);
-	print("Stop Moving");
 }
 
 function Die(){

@@ -245,7 +245,6 @@ function PathfindingComplete(p:Path){
         currentWaypoint = 0;
 		for (var i:int = 0; i< path.vectorPath.Length; i++){
 			path.vectorPath[i] = SnapToGround(path.vectorPath[i]);
-			print(path.vectorPath[i]);
 		}
     }
 }
@@ -276,9 +275,9 @@ private function UpdateEffects(){
 	
 	effects = newEffects;
 
-	if (effects.length != 0){
-		print(effects[0]);
-	}
+	// if (effects.length != 0){
+	// 	print(effects[0]);
+	// }
 
 	// Update the visual
 	if (HasEffect(Effect.Freeze)){
@@ -337,7 +336,6 @@ function SwitchAnimation(newAnimation:PawnAnimationState){
 		if (newAnimation == PawnAnimationState.Attack){
 			// Need to sync with attack time
 			var animationTime:float = state.length;
-			print(animationTime);
     		state.speed = animationTime/attackSpeed;
 		}else{
 			state.speed = 1;			

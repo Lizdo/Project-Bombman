@@ -10,7 +10,7 @@ private var blowBack:boolean = false;
 private var innerAttackRadius:float;
 private var minimumAttackRadius:float;
 
-public var phase:int = 0;
+//public var phase:int = 0;
 
 private var line:GameObject;
 
@@ -72,7 +72,6 @@ function Attack(){
 	if (goal == Goal.Attack){
 		return;
 	}
-	print("Attack!");
 	goal = Goal.Attack;
 	attackTime = 0;
 }
@@ -92,9 +91,9 @@ private var tickInterval:float = 0.2;
 private var tickTime:float;
 
 function Update () {
-	if (phase != objectiveManager.Phase()){
-		return;
-	}
+	// if (phase != objectiveManager.Phase()){
+	// 	return;
+	// }
 
 	// No longer controlled by AI
 	if (blowBack){
