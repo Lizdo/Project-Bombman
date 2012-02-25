@@ -23,17 +23,20 @@ function Start () {
     super.Start();
     
     goal = Goal.Move;
-    
+
+    tickTime = Random.value*tickInterval;
+    line = Resources.Load("LineMesh");
+
+    InitAttackRadius();
+}
+
+function InitAttackRadius(){
     if (attackType == AttackType.Ranged){
         innerAttackRadius = attackRadius*0.8;
         minimumAttackRadius = attackRadius*0.5;
     }else if(attackType == AttackType.Melee){
         innerAttackRadius = attackRadius*0.9;
-    }
-
-    tickTime = Random.value*tickInterval;
-    line = Resources.Load("LineMesh");
-
+    }    
 }
 
 // Helper Functions
@@ -93,7 +96,7 @@ function Attack(){
 //          If Outside AttackRadius, back to 1
 //          If Player too close, back to 1
 
-private var tickInterval:float = 0.2;
+protected var tickInterval:float = 0.2;
 private var tickTime:float;
 
 function Update () {
@@ -134,7 +137,7 @@ function Update () {
 
 }
 
-private function UpdateGoals(){
+function UpdateGoals(){
     // Change Goals 
     switch (goal){
         case Goal.Wait:

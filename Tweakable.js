@@ -62,6 +62,7 @@ enum PawnType{
     Gunner  = 3,
     Beast   = 4,
     Brawler = 5,
+    Boss    = 100,
 }
 
 enum AttackType{
@@ -135,30 +136,44 @@ static var _attackSpeed = [
 
 
 static function SpeedForType(type:PawnType){
+    if (type == PawnType.Boss)
+        return 0;
     return _speed[type];
 }
 
 static function HPForType(type:PawnType){
+if (type == PawnType.Boss)
+        return 0;    
     return _hp[type];
 }
 
 static function RadiusForType(type:PawnType){
+    if (type == PawnType.Boss)
+            return 0;    
     return _radius[type];
 }
 
 static function AttackRadiusForType(type:PawnType){
+    if (type == PawnType.Boss)
+        return 0;    
     return _attackRadius[type];
 }
 
 static function DPSForType(type:PawnType){
+    if (type == PawnType.Boss)
+        return 0;    
     return _dps[type];
 }
 
 static function AttackTypeForType(type:PawnType){
+    if (type == PawnType.Boss)
+        return 0;
     return _attackType[type];
 }
 
 static function AttackSpeedForType(type:PawnType){
+    if (type == PawnType.Boss)
+        return 0;
     return _attackSpeed[type];
 }
 

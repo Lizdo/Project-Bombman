@@ -35,7 +35,7 @@ function Update(){
 }
 
 private var offTime:float;
-private var blinkDuration:float = 0.3;
+private var blinkDuration:float = 0.1;
 function Blink(){
     offTime += Time.deltaTime;
     if (offTime >= blinkDuration){
