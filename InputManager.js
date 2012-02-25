@@ -1,5 +1,3 @@
-public var moveTargetMark:MoveToMark;
-
 private var player:Player;
 
 private var holdingTouch:boolean = false;
@@ -98,7 +96,7 @@ function TouchEndedAt (point:Vector2){
     var floorLayerMask:int = 1 << 10;
     if (Physics.Raycast (ray, hit, 200, floorLayerMask)){
     	//Spawn Mark
-    	Instantiate(moveTargetMark, hit.point, Quaternion.identity);	
+    	//Instantiate(moveTargetMark, hit.point, Quaternion.identity);	
 		player.MoveTo(hit.point);
 	}
 	

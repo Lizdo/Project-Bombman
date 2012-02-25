@@ -12,6 +12,7 @@ protected var radius:float = 2.0;
 protected var attackSpeed = 1.0;
 
 protected var deathParticle:GameObject;
+protected var moveTargetMark:GameObject;
 
 protected var smooth:float = 4.0;
 protected var turnOnSpotRotationLimit = 60.0;
@@ -57,9 +58,11 @@ function Start () {
 	attackRadius = Tweakable.AttackRadiusForType(type);
 	dps = Tweakable.DPSForType(type);
 	attackType = Tweakable.AttackTypeForType(type);
-	radius = Tweakable.RadiusForType(type);
+	
 	attackSpeed = Tweakable.AttackSpeedForType(type);
 	
+	radius = Radius();
+
 	maxHP = HP;
 	color = Renderer().material.color;
 	borderColor = Renderer().material.GetColor(kOutlineColor);
@@ -69,6 +72,7 @@ function Start () {
 	transform.position = SnapToGround(transform.position);
 	
 	deathParticle = Resources.Load("Sparks");
+	moveTargetMark = Resources.Load("MoveToCube");
 }
 
 function Update () {
@@ -227,6 +231,9 @@ function MoveTo(p:Vector3){
 	}
 	targetPosition = SnapToGround(p);
 	//print("Moving To:" + targetPosition.ToString());
+	if (this == player){
+		Instantiate(moveTargetMark, targetPosition, Quaternion.identity);		
+	}
 
 	if(Tweakable.UsePathfinding){
 		if (!LineOfSightToTarget()){
@@ -353,7 +360,9 @@ function Rotation():Quaternion{
 }
 
 function Radius():float{
-	return radius;
+	//return radius;
+	var extent:Vector3 = Renderer().bounds.extents;
+	return Mathf.Max(extent.x, extent.y);
 }
 
 

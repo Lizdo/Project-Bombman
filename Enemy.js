@@ -29,7 +29,7 @@ function Start () {
 		innerAttackRadius = attackRadius*0.8;
 		minimumAttackRadius = attackRadius*0.5;
 	}else if(attackType == AttackType.Melee){
-		innerAttackRadius = attackRadius*0.8;
+		innerAttackRadius = attackRadius*0.9;
 	}
 
 	tickTime = UnityEngine.Random.value*tickInterval;
@@ -40,12 +40,13 @@ function Start () {
 // Helper Functions
 
 function InInnerAttackRadius():boolean{
-	var distanceToPlayer = Vector3.Distance(transform.position, player.Position());
+	var distanceToPlayer:float = Vector3.Distance(transform.position, player.Position());
+	//print("Distance to Player:" + distanceToPlayer.ToString());
 	return distanceToPlayer <= innerAttackRadius;
 }
 
 function OutsideAttackRadius():boolean{
-	var distanceToPlayer = Vector3.Distance(transform.position, player.Position());	
+	var distanceToPlayer:float = Vector3.Distance(transform.position, player.Position());	
 	return distanceToPlayer > attackRadius;
 }
 
@@ -53,7 +54,7 @@ function PlayerTooClose():boolean{
 	if (attackType == AttackType.Melee){
 		return false;
 	}
-	var distanceToPlayer = Vector3.Distance(transform.position, player.Position());		
+	var distanceToPlayer:float = Vector3.Distance(transform.position, player.Position());		
 	return distanceToPlayer < minimumAttackRadius;
 }
 
@@ -63,7 +64,7 @@ function MoveToInnerRadius(){
 	var myPosition:Vector3 = transform.position;
 	
 	var offset:Vector3 = myPosition - playerPosition;
-	offset = offset.normalized * innerAttackRadius;
+	offset = offset.normalized * innerAttackRadius * 0.95; //a little bit tolerance
 	
 	MoveTo(pawnManager.NearestAvailablePositon(playerPosition + offset, this));
 }
