@@ -19,6 +19,9 @@ function Spawn(type:PawnType){
 		case PawnType.Boomer:
 			template = Resources.Load("Boomer");
 			break;
+		case PawnType.Beast:
+			template = Resources.Load("Beast");
+			break;
 	}
 
 	if (template == null){

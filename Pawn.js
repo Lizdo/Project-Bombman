@@ -332,12 +332,13 @@ function SwitchAnimation(newAnimation:PawnAnimationState){
 	var state:AnimationState = animation[AnimationName[newAnimation]];
 	if (animation && state){
 		//print(AnimationName[newAnimation]);
-		animation.Play(AnimationName[newAnimation]);
 		if (newAnimation == PawnAnimationState.Attack){
+			animation.Play(AnimationName[newAnimation]);			
 			// Need to sync with attack time
 			var animationTime:float = state.length;
     		state.speed = animationTime/attackSpeed;
 		}else{
+			animation.CrossFade(AnimationName[newAnimation]);
 			state.speed = 1;			
 		}
 	}

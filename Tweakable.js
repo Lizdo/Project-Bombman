@@ -33,12 +33,12 @@ static var GunnerAttackType = AttackType.Melee;
 static var GunnerAttackSpeed = 2.0;
 
 static var BeastSpeed = 3.0;
-static var BeastHP = 250.0;
-static var BeastRadius = 2.0;
-static var BeastAttackRadius = 5.0;
-static var BeastDPS = 5.0;
+static var BeastHP = 500.0;
+static var BeastRadius = 1.5;
+static var BeastAttackRadius = 2.6;
+static var BeastDPS = 100.0;
 static var BeastAttackType = AttackType.Melee;
-static var BeastAttackSpeed = 1.0;
+static var BeastAttackSpeed = 3.0;
 
 static var FootCompensation = 0.38;
 
