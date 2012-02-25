@@ -3,7 +3,7 @@ private var isGamePaused:boolean;
 private var pawnManager:PawnManager;
 
 private var waves:Array = new Array();
-private var waveSpawned:boolean = false;
+private var spawnInProgress:boolean = true;
 
 function Start() {
 	isGamePaused = true;
@@ -15,7 +15,7 @@ function Start() {
 	pawnManager = FindObjectOfType(PawnManager);
 
 	waves[0] = [1,1,1];
-	waves[1] = [2,2,2];
+	waves[1] = [1,1,1,1];
 	waves[2] = [1,1,1,2,2,2];
 
 	print("ObjManager Initialized");
@@ -27,14 +27,14 @@ function Start() {
 }
 
 private var phase:int = 0;
-private var maxPhase:int = 2;
+private var maxPhase:int = 3;
 
 function Phase(){
 	return phase;
 }
 
 function Update () {
-	if (!waveSpawned){
+	if (spawnInProgress){
 		return;
 	}
 
@@ -48,13 +48,16 @@ function Update () {
 		}
 	}
 
+
+
 	if (allDead){
 		GotoNextPhase();
 	}
 }
 
 function GotoNextPhase(){
-	print("Phase "+phase.ToString()+"Ended");
+	spawnInProgress = true;
+
 	phase++;
 	if (phase == maxPhase){
 		MissionComplete();
@@ -66,7 +69,6 @@ function GotoNextPhase(){
 }
 
 function StartPhase(){
-	waveSpawned = false;
 
 	if (phase >= 1){
 		SetText("Phase " + (phase+1).ToString() + " Start");
@@ -75,11 +77,12 @@ function StartPhase(){
 	for (var i:int in waves[phase]){
 		pawnManager.Spawn(i);
 	}
-	waveSpawned = true;
 
+	spawnInProgress = false;	
 
 	yield WaitForSeconds(2);
 	SetText("");	
+
 }
 
 
