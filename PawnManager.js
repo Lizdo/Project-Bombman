@@ -32,8 +32,10 @@ function Spawn(type:PawnType){
 
 function RandomOffScreenPosition(){
 	var screenbound:float = FindObjectOfType(CameraManager).ScreenBound();
+	var cameraHeight:float = FindObjectOfType(CameraManager).Height();
 	var randomOffset:Vector3 = Quaternion.AngleAxis(Random.value*360, Vector3.up) * Vector3(screenbound,0,0);
-	return player.Position() + randomOffset;
+	var verticalHeight:Vector3 = Vector3(0,cameraHeight,0);
+	return player.Position() + randomOffset + verticalHeight;
 }
 
 static var PositionCount:int = 8;

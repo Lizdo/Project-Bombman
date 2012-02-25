@@ -5,6 +5,8 @@ private var pawnManager:PawnManager;
 private var waves:Array = new Array();
 private var spawnInProgress:boolean = true;
 
+private var delayBetweenWaves:float = 1;
+
 function Start() {
 	isGamePaused = true;
 	MissionStart();
@@ -73,6 +75,8 @@ function StartPhase(){
 	if (phase >= 1){
 		SetText("Phase " + (phase+1).ToString() + " Start");
 	}
+
+	yield WaitForSeconds(delayBetweenWaves);
 
 	for (var i:int in waves[phase]){
 		pawnManager.Spawn(i);

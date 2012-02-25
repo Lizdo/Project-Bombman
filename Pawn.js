@@ -68,7 +68,7 @@ function Start () {
 	// Snap the Y axis
 	transform.position = SnapToGround(transform.position);
 	
-	deathParticle = Resources.Load("Sparks");	
+	deathParticle = Resources.Load("Sparks");
 }
 
 function Update () {
