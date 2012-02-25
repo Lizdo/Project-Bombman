@@ -48,102 +48,102 @@ static var UsePathfinding:boolean = false;
 static var UseDynamicSpawn:boolean = false;
 
 enum PawnType{
-	Player	= 0,
-	Ticker 	= 1,
-	Boomer 	= 2,
-	Gunner 	= 3,
-	Beast 	= 4,
+    Player  = 0,
+    Ticker  = 1,
+    Boomer  = 2,
+    Gunner  = 3,
+    Beast   = 4,
 }
 
 enum AttackType{
-	Melee = 0,
-	Ranged = 1
+    Melee = 0,
+    Ranged = 1
 }
 
 static var _speed = [
-	PlayerSpeed,
-	TickerSpeed,
-	BoomerSpeed,
-	GunnerSpeed,
-	BeastSpeed
+    PlayerSpeed,
+    TickerSpeed,
+    BoomerSpeed,
+    GunnerSpeed,
+    BeastSpeed
 ];
 
 static var _hp = [
-	PlayerHP,
-	TickerHP,
-	BoomerHP,
-	GunnerHP,
-	BeastHP
+    PlayerHP,
+    TickerHP,
+    BoomerHP,
+    GunnerHP,
+    BeastHP
 ];
 
 
 static var _radius = [
-	PlayerRadius,
-	TickerRadius,
-	BoomerRadius,
-	GunnerRadius,
-	BeastRadius
+    PlayerRadius,
+    TickerRadius,
+    BoomerRadius,
+    GunnerRadius,
+    BeastRadius
 ];
 
 static var _attackRadius = [
-	PlayerAttackRadius,
-	TickerAttackRadius,
-	BoomerAttackRadius,
-	GunnerAttackRadius,
-	BeastAttackRadius
+    PlayerAttackRadius,
+    TickerAttackRadius,
+    BoomerAttackRadius,
+    GunnerAttackRadius,
+    BeastAttackRadius
 ];
 
 static var _dps = [
-	PlayerDPS,
-	TickerDPS,
-	BoomerDPS,
-	GunnerDPS,
-	BeastDPS
+    PlayerDPS,
+    TickerDPS,
+    BoomerDPS,
+    GunnerDPS,
+    BeastDPS
 ];
 
 static var _attackType = [
-	PlayerAttackType,
-	TickerAttackType,
-	BoomerAttackType,
-	GunnerAttackType,
-	BeastAttackType
+    PlayerAttackType,
+    TickerAttackType,
+    BoomerAttackType,
+    GunnerAttackType,
+    BeastAttackType
 ];
 
 static var _attackSpeed = [
-	PlayerAttackSpeed,
-	TickerAttackSpeed,
-	BoomerAttackSpeed,
-	GunnerAttackSpeed,
-	BeastAttackSpeed
+    PlayerAttackSpeed,
+    TickerAttackSpeed,
+    BoomerAttackSpeed,
+    GunnerAttackSpeed,
+    BeastAttackSpeed
 ];
 
 
 static function SpeedForType(type:PawnType){
-	return _speed[type];
+    return _speed[type];
 }
 
 static function HPForType(type:PawnType){
-	return _hp[type];
+    return _hp[type];
 }
 
 static function RadiusForType(type:PawnType){
-	return _radius[type];
+    return _radius[type];
 }
 
 static function AttackRadiusForType(type:PawnType){
-	return _attackRadius[type];
+    return _attackRadius[type];
 }
 
 static function DPSForType(type:PawnType){
-	return _dps[type];
+    return _dps[type];
 }
 
 static function AttackTypeForType(type:PawnType){
-	return _attackType[type];
+    return _attackType[type];
 }
 
 static function AttackSpeedForType(type:PawnType){
-	return _attackSpeed[type];
+    return _attackSpeed[type];
 }
 
 // Colors

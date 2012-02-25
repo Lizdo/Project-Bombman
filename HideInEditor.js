@@ -1,6 +1,6 @@
 @script ExecuteInEditMode()
 
 function update(){
-	guiText.text = "";
+    guiText.text = "";
 }
 

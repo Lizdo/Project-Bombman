@@ -8,39 +8,39 @@ private var ZOffset:float;
 private var holdingTouch:boolean = false;
 
 public function Height(){
-	return height;
+    return height;
 }
 
 function Start (){
-	InitializeQualitySetting();
-	//initialize the Player	
-	player = FindObjectOfType(Player); 
-	transform.rotation = Quaternion.Euler(rotation,0,0);	 
-	ZOffset = height * Mathf.Tan(rotation*Mathf.Deg2Rad)-PivotCompensation;
-	print("Camera Initialized.");
+    InitializeQualitySetting();
+    //initialize the Player 
+    player = FindObjectOfType(Player); 
+    transform.rotation = Quaternion.Euler(rotation,0,0);     
+    ZOffset = height * Mathf.Tan(rotation*Mathf.Deg2Rad)-PivotCompensation;
+    print("Camera Initialized.");
 }
 
 function Update () {
-	UpdateCameraPosition();
+    UpdateCameraPosition();
 }
 
 function ScreenBound():float{
-	return height * Mathf.Tan(rotation*Mathf.Deg2Rad) + PivotCompensation;
+    return height * Mathf.Tan(rotation*Mathf.Deg2Rad) + PivotCompensation;
 }
 
 function UpdateCameraPosition(){
-	if (player == null)
-		return;
-	var MCPosition:Vector3 = player.Position();
-	transform.position = Vector3(MCPosition.x, height, MCPosition.z - ZOffset);
+    if (player == null)
+        return;
+    var MCPosition:Vector3 = player.Position();
+    transform.position = Vector3(MCPosition.x, height, MCPosition.z - ZOffset);
 }
 
 function InitializeQualitySetting(){
-	if (Application.platform == RuntimePlatform.IPhonePlayer){
-		switch (iPhoneSettings.generation){
-			case iPhoneGeneration.iPad1Gen:
-			case iPhoneGeneration.iPhone3GS:
-				QualitySettings.antiAliasing = 0;
-		}
-	}
+    if (Application.platform == RuntimePlatform.IPhonePlayer){
+        switch (iPhoneSettings.generation){
+            case iPhoneGeneration.iPad1Gen:
+            case iPhoneGeneration.iPhone3GS:
+                QualitySettings.antiAliasing = 0;
+        }
+    }
 }

@@ -10,23 +10,23 @@ function Start() {
 function OnGUI () {
     if (skin != null) {
         GUI.skin = skin;
-    }	
-	
+    }   
+    
     if (IsGamePaused()) {
-		PauseUI();
+        PauseUI();
     }else{
-		InGameUI();
-	}	
+        InGameUI();
+    }   
 }
 
 
 function LateUpdate () {
     if (Input.GetKeyDown("escape")) {
-		if (IsGamePaused()){
-			UnPauseGame();
-		}else{
-			PauseGame();
-		}
+        if (IsGamePaused()){
+            UnPauseGame();
+        }else{
+            PauseGame();
+        }
     }
 }
 
@@ -35,7 +35,7 @@ private var savedTimeScale:float;
 
 
 function PauseUI() {
-	GUILayout.BeginArea(Rect(Screen.width - 200 - padding, padding, 200, 400));
+    GUILayout.BeginArea(Rect(Screen.width - 200 - padding, padding, 200, 400));
     if (GUILayout.Button ("Continue")) {
         UnPauseGame();
     }
@@ -43,56 +43,56 @@ function PauseUI() {
         FindObjectOfType(ObjectiveManager).RestartMission();
     }
 
-	GUI.color = Tweakable.BombColor;
+    GUI.color = Tweakable.BombColor;
     if (GUILayout.Button ("Bomb")) {
-		Explosive.type = ExplosiveType.Bomb;
-		UnPauseGame();
+        Explosive.type = ExplosiveType.Bomb;
+        UnPauseGame();
     }
     if (GUILayout.Button ("Zap")) {
-		Explosive.type = ExplosiveType.Zap;
+        Explosive.type = ExplosiveType.Zap;
         UnPauseGame();
     }
     if (GUILayout.Button ("Pulse")) {
-		Explosive.type = ExplosiveType.Pulse;
+        Explosive.type = ExplosiveType.Pulse;
         UnPauseGame();
     }
-	GUI.color = Tweakable.DefaultColor;
-	
+    GUI.color = Tweakable.DefaultColor;
+    
     GUI.color = Tweakable.FreezeColor;
     if (GUILayout.Button ("Freeze")) {
-        FindObjectOfType(Player).UseAbility(Ability.AbilityFreeze);		
+        FindObjectOfType(Player).UseAbility(Ability.AbilityFreeze);     
         UnPauseGame();
     }
-	GUI.color = Tweakable.DefaultColor;
-	
-	GUILayout.EndArea();
-	
-	MPUI();	
+    GUI.color = Tweakable.DefaultColor;
+    
+    GUILayout.EndArea();
+    
+    MPUI(); 
 }
 
 function InGameUI(){
-	// Upper Right
-	GUILayout.BeginArea(Rect(Screen.width - 200 - padding, padding, 200, 200));	
+    // Upper Right
+    GUILayout.BeginArea(Rect(Screen.width - 200 - padding, padding, 200, 200)); 
     if (GUILayout.Button ("Pause")) {
         PauseGame();
     }
-	GUILayout.EndArea();
-	
-	MPUI();
+    GUILayout.EndArea();
+    
+    MPUI();
 }
 
 function MPUI(){
-	// Upper Left
+    // Upper Left
     if (FindObjectOfType(Player) == null)
         return;
-	var HP:int = Mathf.Ceil(FindObjectOfType(Player).HP);
-	var maxHP:int = Mathf.Ceil(FindObjectOfType(Player).maxHP);	
-	var MP:int = Mathf.Ceil(FindObjectOfType(Player).MP);
-	var maxMP:int = Mathf.Ceil(FindObjectOfType(Player).maxMP);	
-	GUILayout.BeginArea(Rect(padding, padding, 400, 200));
+    var HP:int = Mathf.Ceil(FindObjectOfType(Player).HP);
+    var maxHP:int = Mathf.Ceil(FindObjectOfType(Player).maxHP); 
+    var MP:int = Mathf.Ceil(FindObjectOfType(Player).MP);
+    var maxMP:int = Mathf.Ceil(FindObjectOfType(Player).maxMP); 
+    GUILayout.BeginArea(Rect(padding, padding, 400, 200));
     GUILayout.Label("Health:"+HP+"/"+maxHP);
     GUILayout.Label("Mana:"+MP+"/"+maxMP);
-	GUILayout.EndArea();
+    GUILayout.EndArea();
 }
 
 function PauseGame() {

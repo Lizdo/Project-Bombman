@@ -6,5 +6,5 @@ function SpawnFloatingText(points: float, x: float, y: float, color:Color){
 
     var gui:FloatingText = Instantiate(floatingText,Vector3(x,y,0),Quaternion.identity);
     gui.guiText.text = Mathf.Round(points).ToString();
-	gui.color = color;
+    gui.color = color;
 }

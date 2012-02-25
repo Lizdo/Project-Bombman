@@ -1,8 +1,8 @@
 enum PickupType{
-	HP = 0,
-	MP = 1,
-	Strength = 2,
-	Armor = 3,
+    HP = 0,
+    MP = 1,
+    Strength = 2,
+    Armor = 3,
 }
 
 public var type:PickupType;
@@ -14,55 +14,55 @@ private var blinkTime:float = 5.0;
 private var pickupDistance:float = 1.0;
 
 function Start(){
-	player = FindObjectOfType(Player);
+    player = FindObjectOfType(Player);
 }
 
 private var rotateSpeed:float = 360;
 
 function Update(){
-	currentLifeTime += Time.deltaTime;
+    currentLifeTime += Time.deltaTime;
 
-	if (lifeTime - currentLifeTime <= blinkTime){
-		Blink();
-	}
+    if (lifeTime - currentLifeTime <= blinkTime){
+        Blink();
+    }
 
-	// Rotating
-	transform.Rotate(Vector3.up * Time.deltaTime*rotateSpeed);
+    // Rotating
+    transform.Rotate(Vector3.up * Time.deltaTime*rotateSpeed);
 
-	if (Vector3.Distance(player.Position(), transform.position) <= pickupDistance){
-		PickedUp();
-	}
+    if (Vector3.Distance(player.Position(), transform.position) <= pickupDistance){
+        PickedUp();
+    }
 }
 
 private var offTime:float;
 private var blinkDuration:float = 0.3;
 function Blink(){
-	offTime += Time.deltaTime;
-	if (offTime >= blinkDuration){
-		offTime = 0;
-		renderer.enabled = !renderer.enabled;
-	}
+    offTime += Time.deltaTime;
+    if (offTime >= blinkDuration){
+        offTime = 0;
+        renderer.enabled = !renderer.enabled;
+    }
 }
 
 function PickedUp(){
-	switch (type){
-		case PickupType.HP:
-			player.Heal(50);
-			break;
-		case PickupType.MP:
-			player.RefillMP(50);
-			break;
-		case PickupType.Strength:
-			player.AddEffect(Effect.EffectWithName(Effect.Strength));
-			break;
-		case PickupType.Armor:
-			player.AddEffect(Effect.EffectWithName(Effect.Armor));
-			break;
-	}
-	
-	Destroy(this.gameObject);
+    switch (type){
+        case PickupType.HP:
+            player.Heal(50);
+            break;
+        case PickupType.MP:
+            player.RefillMP(50);
+            break;
+        case PickupType.Strength:
+            player.AddEffect(Effect.EffectWithName(Effect.Strength));
+            break;
+        case PickupType.Armor:
+            player.AddEffect(Effect.EffectWithName(Effect.Armor));
+            break;
+    }
+    
+    Destroy(this.gameObject);
 }
 
 function Disappear(){
-	Destroy(this.gameObject);
+    Destroy(this.gameObject);
 }

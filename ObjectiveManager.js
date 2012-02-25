@@ -8,22 +8,22 @@ private var spawnInProgress:boolean = true;
 private var delayBetweenWaves:float = 1;
 
 function Start() {
-	isGamePaused = true;
-	MissionStart();
+    isGamePaused = true;
+    MissionStart();
 
 
-	GUI.color = Tweakable.DefaultColor;
+    GUI.color = Tweakable.DefaultColor;
 
-	pawnManager = FindObjectOfType(PawnManager);
+    pawnManager = FindObjectOfType(PawnManager);
 
-	waves[0] = [4];
-	waves[1] = [1,1,1,1];
-	waves[2] = [1,1,1,2,2,2];
+    waves[0] = [4];
+    waves[1] = [1,1,1,1];
+    waves[2] = [1,1,1,2,2,2];
 
-	print("ObjManager Initialized");
+    print("ObjManager Initialized");
 
-	StartPhase();
-	isGamePaused = false;
+    StartPhase();
+    isGamePaused = false;
 
 
 }
@@ -32,91 +32,91 @@ private var phase:int = 0;
 private var maxPhase:int = 3;
 
 function Phase(){
-	return phase;
+    return phase;
 }
 
 function Update () {
-	if (spawnInProgress){
-		return;
-	}
+    if (spawnInProgress){
+        return;
+    }
 
-	var allDead:boolean = true;
+    var allDead:boolean = true;
 
-	var enemies:Enemy[] = FindObjectsOfType(Enemy);
-	for (var e:Enemy in enemies){
-		if (e != null && !e.IsDead()){
-			allDead = false;
-			break;
-		}
-	}
+    var enemies:Enemy[] = FindObjectsOfType(Enemy);
+    for (var e:Enemy in enemies){
+        if (e != null && !e.IsDead()){
+            allDead = false;
+            break;
+        }
+    }
 
 
 
-	if (allDead){
-		GotoNextPhase();
-	}
+    if (allDead){
+        GotoNextPhase();
+    }
 }
 
 function GotoNextPhase(){
-	spawnInProgress = true;
+    spawnInProgress = true;
 
-	phase++;
-	if (phase == maxPhase){
-		MissionComplete();
-		return;
-	}
+    phase++;
+    if (phase == maxPhase){
+        MissionComplete();
+        return;
+    }
 
-	//Spawn Phase X creatures
-	StartPhase();
+    //Spawn Phase X creatures
+    StartPhase();
 }
 
 function StartPhase(){
 
-	if (phase >= 1){
-		SetText("Phase " + (phase+1).ToString() + " Start");
-	}
+    if (phase >= 1){
+        SetText("Phase " + (phase+1).ToString() + " Start");
+    }
 
-	yield WaitForSeconds(delayBetweenWaves);
+    yield WaitForSeconds(delayBetweenWaves);
 
-	for (var i:int in waves[phase]){
-		pawnManager.Spawn(i);
-	}
+    for (var i:int in waves[phase]){
+        pawnManager.Spawn(i);
+    }
 
-	spawnInProgress = false;	
+    spawnInProgress = false;    
 
-	yield WaitForSeconds(2);
-	SetText("");	
+    yield WaitForSeconds(2);
+    SetText("");    
 
 }
 
 
 function IsGamePaused():boolean{
-	return isGamePaused;
+    return isGamePaused;
 }
 
 function SetText(text:String){
-	guiText.text = text;
+    guiText.text = text;
 }
 
 function MissionStart() {
-	SetText("Mission Start");
+    SetText("Mission Start");
 
-	yield WaitForSeconds(2);
-	SetText("");	
+    yield WaitForSeconds(2);
+    SetText("");    
 }
 
 function MissionComplete() {
-	SetText("Mission Complete");
-	yield WaitForSeconds(5);
-	RestartMission();
+    SetText("Mission Complete");
+    yield WaitForSeconds(5);
+    RestartMission();
 }
 
 function RestartMission(){
-	Application.LoadLevel ("Level0");	
+    Application.LoadLevel ("Level0");   
 }
 
 function MissionFail() {
-	SetText("Mission Failed");
-	yield WaitForSeconds(5);
-	Application.LoadLevel ("Level0");	
+    SetText("Mission Failed");
+    yield WaitForSeconds(5);
+    Application.LoadLevel ("Level0");   
 }
