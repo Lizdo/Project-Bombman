@@ -32,13 +32,21 @@ static var GunnerDPS = 5.0;
 static var GunnerAttackType = AttackType.Melee;
 static var GunnerAttackSpeed = 2.0;
 
-static var BeastSpeed = 3.0;
+static var BeastSpeed = 2.0;
 static var BeastHP = 500.0;
 static var BeastRadius = 1.5;
 static var BeastAttackRadius = 2.2;
 static var BeastDPS = 100.0;
 static var BeastAttackType = AttackType.Melee;
 static var BeastAttackSpeed = 3.0;
+
+static var BrawlerSpeed = 3.0;
+static var BrawlerHP = 100.0;
+static var BrawlerRadius = 1.5;
+static var BrawlerAttackRadius = 2.2;
+static var BrawlerDPS = 30.0;
+static var BrawlerAttackType = AttackType.Melee;
+static var BrawlerAttackSpeed = 1.5;
 
 static var FootCompensation = 0.38;
 
@@ -53,11 +61,12 @@ enum PawnType{
     Boomer  = 2,
     Gunner  = 3,
     Beast   = 4,
+    Brawler = 5,
 }
 
 enum AttackType{
     Melee = 0,
-    Ranged = 1
+    Ranged = 1,
 }
 
 static var _speed = [
@@ -65,7 +74,8 @@ static var _speed = [
     TickerSpeed,
     BoomerSpeed,
     GunnerSpeed,
-    BeastSpeed
+    BeastSpeed,
+    BrawlerSpeed
 ];
 
 static var _hp = [
@@ -73,7 +83,8 @@ static var _hp = [
     TickerHP,
     BoomerHP,
     GunnerHP,
-    BeastHP
+    BeastHP,
+    BrawlerHP
 ];
 
 
@@ -82,7 +93,8 @@ static var _radius = [
     TickerRadius,
     BoomerRadius,
     GunnerRadius,
-    BeastRadius
+    BeastRadius,
+    BrawlerRadius
 ];
 
 static var _attackRadius = [
@@ -90,7 +102,8 @@ static var _attackRadius = [
     TickerAttackRadius,
     BoomerAttackRadius,
     GunnerAttackRadius,
-    BeastAttackRadius
+    BeastAttackRadius,
+    BrawlerAttackRadius
 ];
 
 static var _dps = [
@@ -98,7 +111,8 @@ static var _dps = [
     TickerDPS,
     BoomerDPS,
     GunnerDPS,
-    BeastDPS
+    BeastDPS,
+    BrawlerDPS
 ];
 
 static var _attackType = [
@@ -106,7 +120,8 @@ static var _attackType = [
     TickerAttackType,
     BoomerAttackType,
     GunnerAttackType,
-    BeastAttackType
+    BeastAttackType,
+    BrawlerAttackType
 ];
 
 static var _attackSpeed = [
@@ -114,7 +129,8 @@ static var _attackSpeed = [
     TickerAttackSpeed,
     BoomerAttackSpeed,
     GunnerAttackSpeed,
-    BeastAttackSpeed
+    BeastAttackSpeed,
+    BrawlerAttackSpeed
 ];
 
 

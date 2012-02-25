@@ -53,7 +53,7 @@ function Start () {
 
     seeker = GetComponent(Seeker);
 
-    speed = Tweakable.SpeedForType(type);
+    speed = Tweakable.SpeedForType(type)*Random.Range(0.9,1.1);
     HP = Tweakable.HPForType(type);
     attackRadius = Tweakable.AttackRadiusForType(type);
     dps = Tweakable.DPSForType(type);

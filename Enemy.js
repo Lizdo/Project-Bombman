@@ -1,4 +1,3 @@
-import System;
 import Tweakable;
 
 public class Enemy extends Pawn{
@@ -32,8 +31,8 @@ function Start () {
         innerAttackRadius = attackRadius*0.9;
     }
 
-    tickTime = UnityEngine.Random.value*tickInterval;
-    line = UnityEngine.Resources.Load("LineMesh");
+    tickTime = Random.value*tickInterval;
+    line = Resources.Load("LineMesh");
 
 }
 
@@ -64,8 +63,14 @@ function MoveToInnerRadius(){
     var myPosition:Vector3 = transform.position;
     
     var offset:Vector3 = myPosition - playerPosition;
-    offset = offset.normalized * innerAttackRadius * 0.95; //a little bit tolerance
+
+    //a little bit tolerance
+    offset = offset.normalized * innerAttackRadius * 0.95; 
     
+    //Rotate a little bit
+    var intialAngle:float = Random.Range(-20,20);
+    offset = Quaternion.AngleAxis(intialAngle, Vector3.up) * offset;    
+
     MoveTo(pawnManager.NearestAvailablePositon(playerPosition + offset, this));
 }
 
@@ -188,14 +193,14 @@ enum BlowBackType{
     Huge = 2
 }
 
-function BlowBack(origin:Vector3, blowBackType:BlowBackType){
+function BlowBack(origin:Vector3, blowBackType:int){
     blowBackOrigin = origin;
     blowBack = true;
     
-    var typeIndex:int = Enum.GetValues(typeof(BlowBackType))[blowBackType];
+    //var typeIndex:int = Enum.GetValues(typeof(BlowBackType))[blowBackType];
     
-    blowBackTime = typeIndex*0.1+0.05;
-    blowBackSpeed = typeIndex*3+1;
+    blowBackTime = blowBackType*0.1+0.05;
+    blowBackSpeed = blowBackType*3+1;
     yield WaitForSeconds(blowBackTime);
     blowBack = false;
 }

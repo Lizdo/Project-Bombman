@@ -16,8 +16,8 @@ function Start() {
 
     pawnManager = FindObjectOfType(PawnManager);
 
-    waves[0] = [4];
-    waves[1] = [1,1,1,1];
+    waves[0] = [1,1,1];
+    waves[1] = [1,4];
     waves[2] = [1,1,1,2,2,2];
 
     print("ObjManager Initialized");
