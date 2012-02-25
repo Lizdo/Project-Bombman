@@ -82,6 +82,15 @@ function Explode(){
             FindObjectOfType(UI).SpawnFloatingText(Explosive.Damage(), v.x, v.y, Tweakable.EnemyDamageColor);
         }
     }
+
+    var destructibles:Destructible[] = FindObjectsOfType(Destructible) as Destructible[];
+    for (var d:Destructible in destructibles){
+        if (Vector2.Distance(d.Position(), transform.position) <= Explosive.Range()){
+            d.Damage(Explosive.Damage());
+            var vd:Vector3 = Camera.main.WorldToViewportPoint(d.Center());
+            FindObjectOfType(UI).SpawnFloatingText(Explosive.Damage(), vd.x, vd.y, Tweakable.EnemyDamageColor);
+        }
+    }    
     
     yield WaitForSeconds(Explosive.Cooldown());
     explodeCooldown = false;

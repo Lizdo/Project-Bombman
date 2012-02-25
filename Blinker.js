@@ -35,6 +35,12 @@ private var teleportDistance:float = 10.0;
 
 function Teleport(){
 	var teleportMarkers:GameObject[] = GameObject.FindGameObjectsWithTag("TeleportMarker"); 
+
+	if (teleportMarkers.length == 0){
+		print("No Marker To Teleport");
+		return;
+	}
+
 	var i = Mathf.Floor(Random.Range(0,teleportMarkers.length-0.001));
 	var randomMarker:GameObject = teleportMarkers[i];
 
