@@ -363,8 +363,6 @@ function SwitchAnimation(newAnimation:PawnAnimationState){
     currentAnimation = newAnimation;
     var state:AnimationState = animation[AnimationName[newAnimation]];
     if (animation && state){
-        if (this == player)
-            print(AnimationName[newAnimation]);
         if (newAnimation == PawnAnimationState.Attack){
             animation.Play(AnimationName[newAnimation]);            
             // Need to sync with attack time
