@@ -1,3 +1,5 @@
+#pragma strict
+
 import Tweakable;
 
 public class Enemy extends Pawn{

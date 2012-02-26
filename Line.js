@@ -1,3 +1,5 @@
+#pragma strict
+
 private var lifeSpan:float = 0.2;
 
 function Start(){

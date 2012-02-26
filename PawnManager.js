@@ -1,3 +1,5 @@
+#pragma strict
+
 private var player:Player;
 public var pawns:Array;
 

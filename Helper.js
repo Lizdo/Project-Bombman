@@ -1,3 +1,5 @@
+#pragma strict
+
 static function ColorWithHex(hex:int){
     // 0xRRGGBB
     var r:float = ((hex & 0xFF0000) >> 16)/255.0;

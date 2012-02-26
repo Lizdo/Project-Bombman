@@ -1,3 +1,5 @@
+#pragma strict
+
 public var floatingText:FloatingText;
 
 function SpawnFloatingText(points: float, x: float, y: float, color:Color){

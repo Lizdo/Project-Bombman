@@ -1,3 +1,4 @@
+#pragma strict
 
 function Update () {
 }

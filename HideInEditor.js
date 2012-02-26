@@ -1,3 +1,5 @@
+#pragma strict
+
 @script ExecuteInEditMode()
 
 function update(){

@@ -1,52 +1,54 @@
+#pragma strict
+
 public class Tweakable{
 
-static var PlayerSpeed = 3.0;
-static var PlayerHP = 1000.0;
-static var PlayerRadius = 0.5;
-static var PlayerAttackRadius = 0.5;
-static var PlayerDPS = 10.0;
+static var PlayerSpeed:float = 3.0;
+static var PlayerHP:float = 1000.0;
+static var PlayerRadius:float = 0.5;
+static var PlayerAttackRadius:float = 0.5;
+static var PlayerDPS:float = 10.0;
 static var PlayerAttackType = AttackType.Melee;
-static var PlayerAttackSpeed = 1.0;
+static var PlayerAttackSpeed:float = 1.0;
 
-static var TickerSpeed = 2.8;
-static var TickerHP = 50.0;
-static var TickerRadius = 0.3;
-static var TickerAttackRadius = 1.2;
-static var TickerDPS = 10.0;
-static var TickerAttackType = AttackType.Melee;
-static var TickerAttackSpeed = 0.5;
+static var TickerSpeed:float = 2.8;
+static var TickerHP:float = 50.0;
+static var TickerRadius:float = 0.3;
+static var TickerAttackRadius:float = 1.2;
+static var TickerDPS:float = 10.0;
+static var TickerAttackType:AttackType = AttackType.Melee;
+static var TickerAttackSpeed:float = 0.5;
 
-static var BoomerSpeed = 1.5;
-static var BoomerHP = 500.0;
-static var BoomerRadius = 0.5;
-static var BoomerAttackRadius = 3.0;
-static var BoomerDPS = 100.0;
-static var BoomerAttackType = AttackType.Ranged;
-static var BoomerAttackSpeed = 1.5;
+static var BoomerSpeed:float = 1.5;
+static var BoomerHP:float = 500.0;
+static var BoomerRadius:float = 0.5;
+static var BoomerAttackRadius:float = 3.0;
+static var BoomerDPS:float = 100.0;
+static var BoomerAttackType:AttackType = AttackType.Ranged;
+static var BoomerAttackSpeed:float = 1.5;
 
-static var GunnerSpeed = 3.0;
-static var GunnerHP = 250.0;
-static var GunnerRadius = 2.0;
-static var GunnerAttackRadius = 5.0;
-static var GunnerDPS = 5.0;
-static var GunnerAttackType = AttackType.Melee;
-static var GunnerAttackSpeed = 2.0;
+static var GunnerSpeed:float = 3.0;
+static var GunnerHP:float = 250.0;
+static var GunnerRadius:float = 2.0;
+static var GunnerAttackRadius:float = 5.0;
+static var GunnerDPS:float = 5.0;
+static var GunnerAttackType:AttackType = AttackType.Melee;
+static var GunnerAttackSpeed:float = 2.0;
 
-static var BeastSpeed = 2.0;
-static var BeastHP = 500.0;
-static var BeastRadius = 1.5;
-static var BeastAttackRadius = 2.2;
-static var BeastDPS = 100.0;
-static var BeastAttackType = AttackType.Melee;
-static var BeastAttackSpeed = 3.0;
+static var BeastSpeed:float = 2.0;
+static var BeastHP:float = 500.0;
+static var BeastRadius:float = 1.5;
+static var BeastAttackRadius:float = 2.2;
+static var BeastDPS:float = 100.0;
+static var BeastAttackType:AttackType = AttackType.Melee;
+static var BeastAttackSpeed:float = 3.0;
 
-static var BrawlerSpeed = 3.0;
-static var BrawlerHP = 100.0;
-static var BrawlerRadius = 1.5;
-static var BrawlerAttackRadius = 2.2;
-static var BrawlerDPS = 30.0;
-static var BrawlerAttackType = AttackType.Melee;
-static var BrawlerAttackSpeed = 1.5;
+static var BrawlerSpeed:float = 3.0;
+static var BrawlerHP:float = 100.0;
+static var BrawlerRadius:float = 1.5;
+static var BrawlerAttackRadius:float = 2.2;
+static var BrawlerDPS:float = 30.0;
+static var BrawlerAttackType:AttackType = AttackType.Melee;
+static var BrawlerAttackSpeed:float = 1.5;
 
 static var FootCompensation = 0.38;
 
@@ -70,7 +72,7 @@ enum AttackType{
     Ranged = 1,
 }
 
-static var _speed = [
+static var _speed:float[] = [
     PlayerSpeed,
     TickerSpeed,
     BoomerSpeed,
@@ -79,7 +81,7 @@ static var _speed = [
     BrawlerSpeed
 ];
 
-static var _hp = [
+static var _hp:float[] = [
     PlayerHP,
     TickerHP,
     BoomerHP,
@@ -89,7 +91,7 @@ static var _hp = [
 ];
 
 
-static var _radius = [
+static var _radius:float[] = [
     PlayerRadius,
     TickerRadius,
     BoomerRadius,
@@ -98,7 +100,7 @@ static var _radius = [
     BrawlerRadius
 ];
 
-static var _attackRadius = [
+static var _attackRadius:float[] = [
     PlayerAttackRadius,
     TickerAttackRadius,
     BoomerAttackRadius,
@@ -107,7 +109,7 @@ static var _attackRadius = [
     BrawlerAttackRadius
 ];
 
-static var _dps = [
+static var _dps:float[] = [
     PlayerDPS,
     TickerDPS,
     BoomerDPS,
@@ -116,7 +118,7 @@ static var _dps = [
     BrawlerDPS
 ];
 
-static var _attackType = [
+static var _attackType:AttackType[] = [
     PlayerAttackType,
     TickerAttackType,
     BoomerAttackType,
@@ -125,7 +127,7 @@ static var _attackType = [
     BrawlerAttackType
 ];
 
-static var _attackSpeed = [
+static var _attackSpeed:float[] = [
     PlayerAttackSpeed,
     TickerAttackSpeed,
     BoomerAttackSpeed,
@@ -149,7 +151,7 @@ if (type == PawnType.Boss)
 
 static function RadiusForType(type:PawnType){
     if (type == PawnType.Boss)
-            return 0;    
+        return 0;    
     return _radius[type];
 }
 

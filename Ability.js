@@ -1,3 +1,5 @@
+#pragma strict
+
 public class Ability{
     static var Freeze:String = "Freeze";
     static var Fire:String = "Fire";    

@@ -1,3 +1,5 @@
+#pragma strict
+
 import Explosive;
 
 private var percentage:float;

@@ -1,4 +1,4 @@
-
+#pragma strict
 
 private var HP:float;
 public var maxHP:float;

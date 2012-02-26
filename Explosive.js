@@ -1,3 +1,5 @@
+#pragma strict
+
 public class Explosive{
     enum ExplosiveType{
         Bomb = 0,

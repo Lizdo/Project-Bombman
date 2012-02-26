@@ -1,3 +1,5 @@
+#pragma strict
+
 import Explosive;
 import Ability;
 import Enemy;

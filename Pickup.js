@@ -1,3 +1,5 @@
+#pragma strict
+
 enum PickupType{
     HP = 0,
     MP = 1,

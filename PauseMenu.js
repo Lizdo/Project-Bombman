@@ -1,3 +1,5 @@
+#pragma strict
+
 import Tweakable;
 
 public var skin:GUISkin;

@@ -1,3 +1,4 @@
+#pragma strict
 
 private var lifeTime:float = 0;
 private var maxLifeTime:float = 1.0;

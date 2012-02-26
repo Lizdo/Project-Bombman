@@ -1,3 +1,5 @@
+#pragma strict
+
 private var scroll: float = 0.05; // scrolling velocity 
 private var duration: float = 1.5; // time to die 
 private var alpha: float;

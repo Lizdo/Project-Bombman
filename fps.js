@@ -1,3 +1,5 @@
+#pragma strict
+
 var m_fps:float;
 
 function Update(){

@@ -1,3 +1,5 @@
+#pragma strict
+
 public class Blinker extends Enemy{
 
 function Start(){

@@ -1,3 +1,5 @@
+#pragma strict
+
 var skin:GUISkin;
 
 private var gldepth = -0.5;

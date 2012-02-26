@@ -1,3 +1,5 @@
+#pragma strict
+
 
 private var isGamePaused:boolean;
 private var pawnManager:PawnManager;

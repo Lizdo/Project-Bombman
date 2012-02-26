@@ -1,6 +1,6 @@
-import Ability;
+#pragma strict
 
-public var type:PawnType;
+import Ability;
 
 protected var speed:float;
 
@@ -16,7 +16,7 @@ protected var moveTargetMark:GameObject;
 
 protected var smooth:float = 4.0;
 protected var turnOnSpotRotationLimit = 60.0;
-
+public var type:PawnType;
 
 enum Goal{
     Wait = 0,
