@@ -9,6 +9,8 @@ private var spawnInProgress:boolean = true;
 
 private var delayBetweenWaves:float = 1;
 
+private static var kCurrentPhase:String = "CurrentPhase";
+
 function Start() {
     isGamePaused = true;
     MissionStart();
@@ -30,7 +32,8 @@ function Start() {
     print("ObjManager Initialized");
 
     // TODO: serialize phase number and skip directly to this phase
-    StartPhase(7);
+    phase = PlayerPrefs.GetInt(kCurrentPhase);
+    StartPhase(phase);
     isGamePaused = false;
 
     maxPhase = waves.length;
@@ -75,6 +78,9 @@ function StartPhase(phaseNumber:int){
     var player:Player = FindObjectOfType(Player);
     player.ResetHPMP();
 
+    // Save the current level
+    PlayerPrefs.SetInt(kCurrentPhase, phase);
+
     yield WaitForSeconds(delayBetweenWaves);
 
     for (var i:int in waves[phaseNumber]){
@@ -111,7 +117,8 @@ function MissionComplete() {
 }
 
 function RestartMission(){
-    Application.LoadLevel ("Level0");   
+    PlayerPrefs.SetInt(kCurrentPhase, 0);
+    Application.LoadLevel ("Level0");
 }
 
 function MissionFail() {
