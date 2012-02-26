@@ -14,7 +14,9 @@ private var increaseRate:float = 2.0; //per second
 function Start() {
     super.Start();
             
-    highlight = Instantiate(highlight, Vector3.zero, Quaternion.identity);
+    var ring:GameObject = Instantiate(Resources.Load("Ring"), Vector3.zero, Quaternion.identity);
+
+    highlight = ring.GetComponent(SpellHighlight);
     highlight.transform.position = transform.position;
     highlight.transform.parent = transform;
     
@@ -22,12 +24,30 @@ function Start() {
     MP = maxMP;
     
     print("Player Intialized");
+
+    goal = Goal.Wait;
 }
 
 
 function Update () {
     super.Update();
     UpdateMP();
+    UpdateAnimation();
+}
+
+function UpdateAnimation(){
+    if (goal == Goal.Attack){
+        SwitchAnimation(PawnAnimationState.Attack);
+        return;
+    }
+
+    if (goal == Goal.Move){
+        SwitchAnimation(PawnAnimationState.Move);
+        return;
+    }
+
+    SwitchAnimation(PawnAnimationState.Idle);
+
 }
 
 public var holdTimeThreshold:float = 0.1;
@@ -51,15 +71,21 @@ function ProcessHold (startTime:float){
         StopMoving();
         if (percentage == 1){
             Explode();
-        }       
+        }
+        goal = Goal.Attack;
     }else{
         // Hide Highlight
         highlight.SetPercentage(0);
     }
 }
 
+function AttackTime(){
+    return Explosive.ChargeTime() - holdTimeThreshold;
+}
+
 function EndHold (){
     highlight.SetPercentage(0);
+    goal = Goal.Wait;
 }
 
 
@@ -67,7 +93,8 @@ public var explodeCooldown:boolean;
 
 function Explode(){
     explodeCooldown = true;
-    
+    goal = Goal.Wait;
+
     var enemies:Enemy[] = FindObjectsOfType(Enemy);
     for (var e:Enemy in enemies){
         if (Vector2.Distance(e.Position(), transform.position) <= Explosive.Range()){
@@ -123,8 +150,18 @@ function RefillMP(amount:float){
     }
 }
 
+function MoveTo(p:Vector3){
+    super.MoveTo(p);
+    goal = Goal.Move;
+}
+
 function StopMoving(){
     MoveTo(Vector3.zero);
+    goal = Goal.Wait;
+}
+
+function MovementComplete(){
+    goal = Goal.Wait;
 }
 
 function Die(){

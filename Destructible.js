@@ -22,7 +22,6 @@ function Center(){
 }
 
 function Damage(amount:float){
-	print("Damaged!");
 	HP -= amount;
 	if (HP <= 0){
 		Destroy();

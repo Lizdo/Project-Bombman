@@ -18,6 +18,14 @@ protected var smooth:float = 4.0;
 protected var turnOnSpotRotationLimit = 60.0;
 
 
+enum Goal{
+    Wait = 0,
+    Move = 1,
+    Attack = 2,
+}
+
+protected var goal:Goal;
+
 //Pathfinding Variables
 private var seeker:Seeker;
 
@@ -58,7 +66,6 @@ function Start () {
     attackRadius = Tweakable.AttackRadiusForType(type);
     dps = Tweakable.DPSForType(type);
     attackType = Tweakable.AttackTypeForType(type);
-    
     attackSpeed = Tweakable.AttackSpeedForType(type);
     
     radius = Radius();
@@ -93,8 +100,18 @@ private function Renderer():Renderer{
     if (renderer)
         return renderer;
     
+    var mesh:Transform = transform.Find("Mesh");
+    if (mesh.renderer){
+        return mesh.renderer;
+    }
+
     var child:Transform = transform.Find("Arm/Bone");
-    return child.renderer;
+    if (child.renderer){
+        return child.renderer;    
+    }
+
+    print("Failed to get renderer. Need to check model hierarchy.");
+    return null;
 }
 
 private function LineOfSightToTarget():boolean{
@@ -141,6 +158,11 @@ private function UpdateMovement(){
     if (targetPosition == Vector3.zero)
         return;
 
+    var distance:float = Vector3.Distance(NextPoint(), transform.position);
+    if (distance < distanceTolerance){
+        MovementComplete();
+    }
+
     if(!Tweakable.UsePathfinding){
         RotateTowardTarget();
         //Direction to the next waypoint
@@ -168,7 +190,6 @@ private function UpdateMovement(){
         MoveTowardTarget();
     }
 
-    var distance:float = Vector3.Distance(NextPoint(), transform.position);
     if (distance < distanceTolerance){
         currentWaypoint++;
         // Don't check if it's already the last segment
@@ -177,6 +198,10 @@ private function UpdateMovement(){
         }
         return;
     }
+}
+
+function MovementComplete(){
+
 }
 
 private function AngleNeedToRotate(){
@@ -338,17 +363,23 @@ function SwitchAnimation(newAnimation:PawnAnimationState){
     currentAnimation = newAnimation;
     var state:AnimationState = animation[AnimationName[newAnimation]];
     if (animation && state){
-        //print(AnimationName[newAnimation]);
+        if (this == player)
+            print(AnimationName[newAnimation]);
         if (newAnimation == PawnAnimationState.Attack){
             animation.Play(AnimationName[newAnimation]);            
             // Need to sync with attack time
             var animationTime:float = state.length;
-            state.speed = animationTime/attackSpeed;
+            state.speed = animationTime/AttackTime();
         }else{
             animation.CrossFade(AnimationName[newAnimation]);
             state.speed = 1;            
         }
     }
+}
+
+// Override by Subclass
+function AttackTime(){
+    return 1.0;
 }
 
 function Position():Vector3{

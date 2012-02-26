@@ -2,8 +2,6 @@ import Tweakable;
 
 public class Enemy extends Pawn{
 
-protected var goal:Goal;
-
 private var blowBack:boolean = false;
 
 private var innerAttackRadius:float;
@@ -12,12 +10,6 @@ private var minimumAttackRadius:float;
 //public var phase:int = 0;
 
 private var line:GameObject;
-
-enum Goal{
-    Wait = 0,
-    Move = 1,
-    Attack = 2,
-}
 
 function Start () {
     super.Start();
@@ -171,6 +163,11 @@ function UpdateAttack(){
         attackTime = 0;
     }
 }
+
+function AttackTime(){
+    return attackSpeed;
+}
+
 
 private var BulletLineWidth:float = 0.1;
 
