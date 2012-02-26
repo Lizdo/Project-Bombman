@@ -8,10 +8,6 @@ function Start () {
     pawns = FindObjectsOfType(Pawn);
 }
 
-function Update () {
-    
-}
-
 function Spawn(type:PawnType){
     var template:GameObject;
     switch(type){
@@ -24,7 +20,13 @@ function Spawn(type:PawnType){
         case PawnType.Beast:
             template = Resources.Load("Beast");
             break;
-        case PawnType.Boss:
+        case PawnType.Brawler:
+            template = Resources.Load("Brawler");
+            break;
+        case PawnType.Sniper:
+            template = Resources.Load("Sniper");
+            break;
+        case PawnType.Other:
             template = Resources.Load("Blinker");
             break;    
     }
@@ -36,6 +38,21 @@ function Spawn(type:PawnType){
 
     var enemy:GameObject = Instantiate(template, RandomOffScreenPosition(), Quaternion.identity);
     pawns.Add(enemy.GetComponent(Pawn));
+}
+
+function AllPawnDead(){
+    var allDead:boolean = true;
+    for (var e:Pawn in pawns){
+        if (e == player){
+            continue;
+        }
+
+        if (e != null && !e.IsDead()){
+            allDead = false;
+            break;
+        }
+    }
+    return allDead;
 }
 
 function RandomOffScreenPosition(){

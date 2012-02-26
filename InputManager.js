@@ -22,7 +22,7 @@ function Start (){
 }
 
 function Update () {
-    if (pauseMenu.IsGamePaused()){
+    if (pauseMenu.IsGamePaused() || !player.gameObject.active){
         return;     
     }
     ProcessInput();

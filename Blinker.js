@@ -14,6 +14,25 @@ function Start(){
 	attackSpeed = 1.0;
 
 	InitAttackRadius();
+
+	InitTeleportMarker();
+}
+
+private var teleportDistance:float = 10.0;
+private var markerCount:int = 6;
+
+function InitTeleportMarker(){
+	var teleportMarker:GameObject = Resources.Load("TeleportMarker");
+
+	var offset:Vector3 = Vector3(teleportDistance, 0, 0);
+	var intialAngle:float = Random.value*360;
+	offset = Quaternion.AngleAxis(intialAngle, Vector3.up) * offset;
+
+	for (var i:int = 0; i < markerCount; i++){
+		Instantiate(teleportMarker, player.Position()+offset, Quaternion.identity);
+		offset = Quaternion.AngleAxis(360/markerCount, Vector3.up) * offset;
+	}
+
 }
 
 // Loop:
@@ -47,7 +66,6 @@ function Update(){
 	}	
 }
 
-private var teleportDistance:float = 10.0;
 
 
 //Blink for 1 seconds, then real teleport

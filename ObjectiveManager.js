@@ -18,16 +18,22 @@ function Start() {
 
     pawnManager = FindObjectOfType(PawnManager);
 
-    waves[0] = [100];
-    waves[1] = [1,4];
-    waves[2] = [1,1,1,2,2,2];
+    waves[0] = [1,1,1];
+    waves[1] = [1,1,5,5];
+    waves[2] = [2,2,5];
+    waves[3] = [3,3,5];
+    waves[4] = [3,3,4];
+    waves[5] = [2,3,4,4];
+    waves[6] = [2,2,3,3,4];
+    waves[7] = [100];
 
     print("ObjManager Initialized");
 
-    StartPhase();
+    // TODO: serialize phase number and skip directly to this phase
+    StartPhase(7);
     isGamePaused = false;
 
-
+    maxPhase = waves.length;
 }
 
 private var phase:int = 0;
@@ -42,19 +48,7 @@ function Update () {
         return;
     }
 
-    var allDead:boolean = true;
-
-    var enemies:Enemy[] = FindObjectsOfType(Enemy);
-    for (var e:Enemy in enemies){
-        if (e != null && !e.IsDead()){
-            allDead = false;
-            break;
-        }
-    }
-
-
-
-    if (allDead){
+    if (pawnManager.AllPawnDead()){
         GotoNextPhase();
     }
 }
@@ -69,18 +63,21 @@ function GotoNextPhase(){
     }
 
     //Spawn Phase X creatures
-    StartPhase();
+    StartPhase(phase);
 }
 
-function StartPhase(){
+function StartPhase(phaseNumber:int){
 
-    if (phase >= 1){
-        SetText("Phase " + (phase+1).ToString() + " Start");
+    if (phaseNumber >= 1){
+        SetText("Phase " + (phaseNumber+1).ToString() + " Start");
     }
+
+    var player:Player = FindObjectOfType(Player);
+    player.ResetHPMP();
 
     yield WaitForSeconds(delayBetweenWaves);
 
-    for (var i:int in waves[phase]){
+    for (var i:int in waves[phaseNumber]){
         pawnManager.Spawn(i);
     }
 

@@ -152,6 +152,11 @@ function RefillMP(amount:float){
     }
 }
 
+function ResetHPMP(){
+    MP = maxMP;
+    HP = maxHP;
+}
+
 function MoveTo(p:Vector3){
     super.MoveTo(p);
     goal = Goal.Move;

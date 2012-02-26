@@ -26,13 +26,13 @@ static var BoomerDPS:float = 100.0;
 static var BoomerAttackType:AttackType = AttackType.Ranged;
 static var BoomerAttackSpeed:float = 1.5;
 
-static var GunnerSpeed:float = 3.0;
-static var GunnerHP:float = 250.0;
-static var GunnerRadius:float = 2.0;
-static var GunnerAttackRadius:float = 5.0;
-static var GunnerDPS:float = 5.0;
-static var GunnerAttackType:AttackType = AttackType.Melee;
-static var GunnerAttackSpeed:float = 2.0;
+static var SniperSpeed:float = 3.0;
+static var SniperHP:float = 250.0;
+static var SniperRadius:float = 2.0;
+static var SniperAttackRadius:float = 5.0;
+static var SniperDPS:float = 100.0;
+static var SniperAttackType:AttackType = AttackType.Ranged;
+static var SniperAttackSpeed:float = 4.0;
 
 static var BeastSpeed:float = 2.0;
 static var BeastHP:float = 500.0;
@@ -43,12 +43,12 @@ static var BeastAttackType:AttackType = AttackType.Melee;
 static var BeastAttackSpeed:float = 3.0;
 
 static var BrawlerSpeed:float = 3.0;
-static var BrawlerHP:float = 100.0;
+static var BrawlerHP:float = 400.0;
 static var BrawlerRadius:float = 1.5;
 static var BrawlerAttackRadius:float = 2.2;
-static var BrawlerDPS:float = 30.0;
+static var BrawlerDPS:float = 60.0;
 static var BrawlerAttackType:AttackType = AttackType.Melee;
-static var BrawlerAttackSpeed:float = 1.5;
+static var BrawlerAttackSpeed:float = 2.0;
 
 static var FootCompensation = 0.38;
 
@@ -61,10 +61,10 @@ enum PawnType{
     Player  = 0,
     Ticker  = 1,
     Boomer  = 2,
-    Gunner  = 3,
+    Sniper  = 3,
     Beast   = 4,
     Brawler = 5,
-    Boss    = 100,
+    Other   = 100,
 }
 
 enum AttackType{
@@ -76,7 +76,7 @@ static var _speed:float[] = [
     PlayerSpeed,
     TickerSpeed,
     BoomerSpeed,
-    GunnerSpeed,
+    SniperSpeed,
     BeastSpeed,
     BrawlerSpeed
 ];
@@ -85,7 +85,7 @@ static var _hp:float[] = [
     PlayerHP,
     TickerHP,
     BoomerHP,
-    GunnerHP,
+    SniperHP,
     BeastHP,
     BrawlerHP
 ];
@@ -95,7 +95,7 @@ static var _radius:float[] = [
     PlayerRadius,
     TickerRadius,
     BoomerRadius,
-    GunnerRadius,
+    SniperRadius,
     BeastRadius,
     BrawlerRadius
 ];
@@ -104,7 +104,7 @@ static var _attackRadius:float[] = [
     PlayerAttackRadius,
     TickerAttackRadius,
     BoomerAttackRadius,
-    GunnerAttackRadius,
+    SniperAttackRadius,
     BeastAttackRadius,
     BrawlerAttackRadius
 ];
@@ -113,7 +113,7 @@ static var _dps:float[] = [
     PlayerDPS,
     TickerDPS,
     BoomerDPS,
-    GunnerDPS,
+    SniperDPS,
     BeastDPS,
     BrawlerDPS
 ];
@@ -122,7 +122,7 @@ static var _attackType:AttackType[] = [
     PlayerAttackType,
     TickerAttackType,
     BoomerAttackType,
-    GunnerAttackType,
+    SniperAttackType,
     BeastAttackType,
     BrawlerAttackType
 ];
@@ -131,50 +131,50 @@ static var _attackSpeed:float[] = [
     PlayerAttackSpeed,
     TickerAttackSpeed,
     BoomerAttackSpeed,
-    GunnerAttackSpeed,
+    SniperAttackSpeed,
     BeastAttackSpeed,
     BrawlerAttackSpeed
 ];
 
 
 static function SpeedForType(type:PawnType){
-    if (type == PawnType.Boss)
+    if (type == PawnType.Other)
         return 0;
     return _speed[type];
 }
 
 static function HPForType(type:PawnType){
-if (type == PawnType.Boss)
+if (type == PawnType.Other)
         return 0;    
     return _hp[type];
 }
 
 static function RadiusForType(type:PawnType){
-    if (type == PawnType.Boss)
+    if (type == PawnType.Other)
         return 0;    
     return _radius[type];
 }
 
 static function AttackRadiusForType(type:PawnType){
-    if (type == PawnType.Boss)
+    if (type == PawnType.Other)
         return 0;    
     return _attackRadius[type];
 }
 
 static function DPSForType(type:PawnType){
-    if (type == PawnType.Boss)
+    if (type == PawnType.Other)
         return 0;    
     return _dps[type];
 }
 
 static function AttackTypeForType(type:PawnType){
-    if (type == PawnType.Boss)
+    if (type == PawnType.Other)
         return 0;
     return _attackType[type];
 }
 
 static function AttackSpeedForType(type:PawnType){
-    if (type == PawnType.Boss)
+    if (type == PawnType.Other)
         return 0;
     return _attackSpeed[type];
 }
