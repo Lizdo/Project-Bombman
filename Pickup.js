@@ -15,9 +15,15 @@ private var pickupDistance:float = 1.0;
 
 function Start(){
     player = FindObjectOfType(Player);
+    color = renderer.material.color;
+
+    yield WaitForSeconds(lifeTime);
+    Disappear();
 }
 
 private var rotateSpeed:float = 360;
+
+private var color:Color;
 
 function Update(){
     currentLifeTime += Time.deltaTime;
@@ -40,7 +46,11 @@ function Blink(){
     offTime += Time.deltaTime;
     if (offTime >= blinkDuration){
         offTime = 0;
-        renderer.enabled = !renderer.enabled;
+        if (renderer.material.color == Color.white){
+            renderer.material.color = color;
+        }else{
+            renderer.material.color = Color.white;
+        }
     }
 }
 

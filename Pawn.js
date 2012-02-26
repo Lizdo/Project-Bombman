@@ -96,7 +96,7 @@ function Update () {
 
 }
 
-private function Renderer():Renderer{
+protected function Renderer():Renderer{
     if (renderer)
         return renderer;
     
@@ -315,14 +315,14 @@ private function UpdateEffects(){
     if (HasEffect(Effect.Freeze)){
         if (!freezeInProgress){
             freezeInProgress = true;
-            Renderer().material.SetColor(kOutlineColor, Tweakable.FreezeColor);
+            SetOutlineColor(Tweakable.FreezeColor);
             Renderer().material.SetFloat(kOutlineWidth, freezeOutlineWidth);            
             print("Changing Color");
         }
     }else{
         if (freezeInProgress){
             freezeInProgress = false;
-            Renderer().material.SetColor(kOutlineColor, borderColor);           
+            SetOutlineColor(borderColor);           
             Renderer().material.SetFloat(kOutlineWidth, outlineWidth);          
         }
     }
@@ -330,12 +330,12 @@ private function UpdateEffects(){
     if (HasEffect(Effect.Fire)){
         if (!fireInProgress){
             fireInProgress = true;
-            Renderer().material.SetColor(kOutlineColor, Tweakable.FreezeColor);
+            SetOutlineColor(Tweakable.FreezeColor);
         }
     }else{
         if (fireInProgress){
             fireInProgress = false;
-            Renderer().material.SetColor(kOutlineColor, borderColor);           
+            SetOutlineColor(borderColor);           
         }
     }
     
@@ -359,6 +359,10 @@ static var AnimationName = [
 function SwitchAnimation(newAnimation:PawnAnimationState){
     if (newAnimation == currentAnimation)
         return;
+
+    // if (this == player){
+    //     print(newAnimation);
+    // }
         
     currentAnimation = newAnimation;
     var state:AnimationState = animation[AnimationName[newAnimation]];
@@ -402,6 +406,14 @@ function SnapToGround(p:Vector3):Vector3{
 function Center():Vector3{
     //return Vector3(p.x, p.y+centerCompensation, p.z);
     return Renderer().bounds.center;
+}
+
+function SetColor(c:Color){
+    Renderer().material.color = c;
+}
+
+function SetOutlineColor(c:Color){
+    Renderer().material.SetColor(kOutlineColor, c);
 }
 
 function Damage(damage:float){
