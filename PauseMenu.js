@@ -2,10 +2,24 @@
 
 import Tweakable;
 
-public var skin:GUISkin;
+private var skin:GUISkin;
+public var skinNormal:GUISkin;
+public var skin2X:GUISkin;
 
 function Start() {
     Time.timeScale = 1.0;
+
+    skin = skinNormal;
+
+    if (Application.platform == RuntimePlatform.IPhonePlayer){
+        switch (iPhoneSettings.generation){
+            case iPhoneGeneration.iPhone4:
+            case iPhoneGeneration.iPodTouch4Gen:
+                skin = skin2X;
+                break;
+        }
+    }
+
 }
 
 
@@ -87,13 +101,28 @@ function MPUI(){
     // Upper Left
     if (FindObjectOfType(Player) == null)
         return;
+
+    GUI.color = Tweakable.DefaultColor;    
+
     var HP:int = Mathf.Ceil(FindObjectOfType(Player).HP);
     var maxHP:int = Mathf.Ceil(FindObjectOfType(Player).maxHP); 
     var MP:int = Mathf.Ceil(FindObjectOfType(Player).MP);
-    var maxMP:int = Mathf.Ceil(FindObjectOfType(Player).maxMP); 
-    GUILayout.BeginArea(Rect(padding, padding, 400, 200));
+    var maxMP:int = Mathf.Ceil(FindObjectOfType(Player).maxMP);
+
+    GUILayout.BeginArea(Rect(padding, padding, 400, 200));    
+
+    if((HP+0.001)/maxHP <= 0.2){
+        GUI.color = Tweakable.LowHealthColor;
+    }
     GUILayout.Label("Health:"+HP+"/"+maxHP);
+    GUI.color = Tweakable.DefaultColor;
+
+    if((MP+0.001)/maxMP <= 0.2){
+        GUI.color = Tweakable.LowManaColor;
+    }
     GUILayout.Label("Mana:"+MP+"/"+maxMP);
+    GUI.color = Tweakable.DefaultColor;
+
     GUILayout.EndArea();
 }
 

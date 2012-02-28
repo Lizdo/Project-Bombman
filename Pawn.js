@@ -360,23 +360,27 @@ function SwitchAnimation(newAnimation:PawnAnimationState){
     if (newAnimation == currentAnimation)
         return;
 
-    // if (this == player){
-    //     print(newAnimation);
-    // }
+    if (this == player){
+        print(newAnimation);
+    }
         
-    currentAnimation = newAnimation;
     var state:AnimationState = animation[AnimationName[newAnimation]];
     if (animation && state){
         if (newAnimation == PawnAnimationState.Attack){
-            animation.Play(AnimationName[newAnimation]);            
+            animation.Play(AnimationName[newAnimation]);
             // Need to sync with attack time
             var animationTime:float = state.length;
             state.speed = animationTime/AttackTime();
-        }else{
-            animation.CrossFade(AnimationName[newAnimation]);
+        }else if (currentAnimation == PawnAnimationState.Attack){
+            animation.CrossFadeQueued(AnimationName[newAnimation],blendTime);
             state.speed = 1;            
+        }else{
+            animation.CrossFade(AnimationName[newAnimation],blendTime);
+            state.speed = 1;                        
         }
     }
+
+    currentAnimation = newAnimation;
 }
 
 // Override by Subclass

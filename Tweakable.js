@@ -186,6 +186,8 @@ static var DefaultColor:Color = Color(230/255.0,230/255.0,230/255.0);
 static var BombColor:Color = Color(204/255.0,163/255.0,29/255.0);
 static var PlayerDamageColor:Color = Color(204/255.0,69/255.0,29/255.0);
 static var EnemyDamageColor:Color = DefaultColor;
+static var LowHealthColor:Color = Color(252/255.0,75/255.0,75/255.0);
+static var LowManaColor:Color = Color(75/255.0,125/255.0,252/255.0);
 
 
 
