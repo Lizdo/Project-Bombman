@@ -58,7 +58,7 @@ function PauseUI() {
         FindObjectOfType(ObjectiveManager).RestartMission();
     }
 
-    GUI.color = Tweakable.BombColor;
+    GUI.color = Tweakable.WeaponColor;
     if (GUILayout.Button ("Bomb")) {
         Explosive.type = ExplosiveType.Bomb;
         UnPauseGame();

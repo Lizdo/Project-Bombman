@@ -17,13 +17,13 @@ function Update () {
     var endColor:Color;
     switch (Explosive.type){
         case ExplosiveType.Bomb:
-            endColor = Color(184.0/255, 150/255, 0/255, 0.6);
+            endColor = Tweakable.BombColor;
             break;
         case ExplosiveType.Zap:
-            endColor = Color(255.0/255, 187/255, 98/255.0, 0.6);
+            endColor = Tweakable.ZapColor;
             break;
         case ExplosiveType.Pulse:
-            endColor = Color(0.0/255, 88/255.0, 237/255.0, 0.6);
+            endColor = Tweakable.PulseColor;
             break;                          
         default:
             endColor = Color(0.4,0.9,0.5,0.6);

@@ -285,7 +285,20 @@ function PathfindingComplete(p:Path){
 
 private function UpdateHP(){
     var ratio:float = 1-HP/maxHP;
-    Renderer().material.color = Color.Lerp(color, Color.grey, ratio*0.8);   
+    SetColor(Color.Lerp(color, Color.grey, ratio*0.8));
+    if (this == player){
+        if (ratio >= 0.9){
+            SetOutlineColor(Tweakable.LowHealthColor);
+        }else{
+            var mpRatio:float = 1-player.MP/player.maxMP;
+            if (mpRatio >= 0.9){
+                SetOutlineColor(Tweakable.LowManaColor);
+            }else{
+                SetOutlineColor(borderColor);
+            }
+        }
+    }
+
 }
 
 private var fireColor:Color = Color(204/255.0,29/255.0,64/255.0);
