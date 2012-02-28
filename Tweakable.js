@@ -183,12 +183,19 @@ static function AttackSpeedForType(type:PawnType){
 
 static var FreezeColor:Color = Color(77/255.0,116/255.0,185/255.0);
 static var DefaultColor:Color = Color(230/255.0,230/255.0,230/255.0);
+static var DefaultSecondaryColor:Color = Color(100/255.0,100/255.0,100/255.0);
+
 static var BombColor:Color = Color(204/255.0,163/255.0,29/255.0);
 static var PlayerDamageColor:Color = Color(204/255.0,69/255.0,29/255.0);
 static var EnemyDamageColor:Color = DefaultColor;
 static var LowHealthColor:Color = Color(252/255.0,75/255.0,75/255.0);
 static var LowManaColor:Color = Color(75/255.0,125/255.0,252/255.0);
 
+// Raycast Layers
+static var kObstacleMask:int = 1 << 9;
+static var kFloorMask:int = 1 << 10;
+static var kEnemyMask:int = 1 << 11;
+static var kPickupMask:int = 1 << 12;
 
 
 }

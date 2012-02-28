@@ -21,15 +21,32 @@ function Start (){
     
 }
 
+private var ignoreInputTimeAfterPause:float = 0.1;
+
 function Update () {
-    if (pauseMenu.IsGamePaused() || !player.gameObject.active){
+    if (pauseMenu.IsGamePaused()){
         return;     
     }
+
+    if (!player.gameObject.active){
+        return;
+    }
+
+    if (Time.time - pauseMenu.LastPaused() < ignoreInputTimeAfterPause){
+        return;
+    }
+
     ProcessInput();
 }
 
+// Porcess the touch events during game pause to show the description views
+function OnGUI() {
+    if (pauseMenu.IsGamePaused()){
+        ProcessPauseInput();
+    }
+}
+
 function ProcessInput(){
-    
     if (Application.platform == RuntimePlatform.IPhonePlayer){
         var touches = Input.touches;
         if (touches.length < 1)
@@ -53,6 +70,47 @@ function ProcessInput(){
         }
     }   
 }
+
+function ProcessPauseInput(){
+    // During Layout Phase, no event should be fired.
+    if (Event.current.type == EventType.Layout){
+        return;
+    }
+
+    if (Application.platform == RuntimePlatform.IPhonePlayer){
+        var touches = Input.touches;
+        if (touches.length < 1)
+            return;
+        var touch:Touch = touches[0];
+        if(touch.phase == TouchPhase.Ended){
+            PauseTouchEndedAt(touch.position);
+        }
+    }else{
+        if(Input.GetMouseButtonUp(0)){
+            PauseTouchEndedAt(Input.mousePosition);
+        }
+    }  
+}
+
+function PauseTouchEndedAt (point:Vector2){
+    var ray : Ray = camera.ScreenPointToRay(Vector3(point.x,
+        point.y,0));
+    var hit : RaycastHit;
+
+    if (Physics.Raycast (ray, hit, 200, Tweakable.kEnemyMask)){
+        var enemy:Enemy = hit.collider.GetComponent(Enemy);
+        pauseMenu.AddDescription(point, enemy.Title(),enemy.Description());
+        return;
+    }
+
+    if (Physics.Raycast (ray, hit, 200, Tweakable.kPickupMask)){
+        var pickup:Pickup = hit.collider.GetComponent(Pickup);
+        pauseMenu.AddDescription(point, pickup.Title(),pickup.Description());
+        return;
+    }
+
+}
+
 
 private var startHoldingTime:float;
 private var touchNearPlayer:boolean;
@@ -90,13 +148,11 @@ function TouchEndedAt (point:Vector2){
         point.y,0));
     var hit : RaycastHit;
 
-    var obstacleMask:int = 1 << 9;
-    if (Physics.Raycast (ray, hit, 200, obstacleMask)){
+    if (Physics.Raycast (ray, hit, 200, Tweakable.kObstacleMask)){
         return;
     }
     
-    var floorLayerMask:int = 1 << 10;
-    if (Physics.Raycast (ray, hit, 200, floorLayerMask)){
+    if (Physics.Raycast (ray, hit, 200, Tweakable.kFloorMask)){
         //Spawn Mark
         //Instantiate(moveTargetMark, hit.point, Quaternion.identity);  
         player.MoveTo(hit.point);

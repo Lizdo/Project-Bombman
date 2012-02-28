@@ -89,6 +89,8 @@ function Update () {
     if (!HasEffect(Effect.Freeze)) {
         UpdateMovement();
         RotateToPlayer();       
+    }else{
+        animation.Stop();
     }
     
     UpdateHP();
@@ -122,21 +124,20 @@ private function LineOfSightToTarget():boolean{
     if (distance <= distanceTolerance)
         return true;
     
-    var obstacleMask:int = 1 << 9;
-    if (Physics.Raycast (source, offset, distance, obstacleMask)){
+    if (Physics.Raycast (source, offset, distance, Tweakable.kObstacleMask)){
         return false;
     }
 
 
     var source1:Vector3 = source + Quaternion.AngleAxis(90, Vector3.up) * offset.normalized * radius;
     var target1:Vector3 = targetPosition + Quaternion.AngleAxis(90, Vector3.up) * offset.normalized * radius;
-    if (Physics.Raycast (source1, offset, distance, obstacleMask)){
+    if (Physics.Raycast (source1, offset, distance, Tweakable.kObstacleMask)){
         return false;
     }
 
     var source2:Vector3 = source + Quaternion.AngleAxis(-90, Vector3.up) * offset.normalized * radius;
     var target2:Vector3 = targetPosition + Quaternion.AngleAxis(-90, Vector3.up) * offset.normalized * radius;
-    if (Physics.Raycast (source2, offset, distance, obstacleMask)){
+    if (Physics.Raycast (source2, offset, distance, Tweakable.kObstacleMask)){
         return false;
     }
 
@@ -381,6 +382,10 @@ function SwitchAnimation(newAnimation:PawnAnimationState){
     }
 
     currentAnimation = newAnimation;
+}
+
+function FreezeAnimation(){
+    animation.Stop();
 }
 
 // Override by Subclass

@@ -19,7 +19,6 @@ function Start() {
                 break;
         }
     }
-
 }
 
 
@@ -51,7 +50,7 @@ private var savedTimeScale:float;
 
 
 function PauseUI() {
-    GUILayout.BeginArea(Rect(Screen.width - 200 - padding, padding, 200, 400));
+    GUILayout.BeginArea(Rect(Screen.width - 100 - padding, padding, 100, 400));
     if (GUILayout.Button ("Continue")) {
         UnPauseGame();
     }
@@ -83,12 +82,13 @@ function PauseUI() {
     
     GUILayout.EndArea();
     
-    MPUI(); 
+    MPUI();
+    DescriptionUI();
 }
 
 function InGameUI(){
     // Upper Right
-    GUILayout.BeginArea(Rect(Screen.width - 200 - padding, padding, 200, 200)); 
+    GUILayout.BeginArea(Rect(Screen.width - 100 - padding, padding, 100, 200)); 
     if (GUILayout.Button ("Pause")) {
         PauseGame();
     }
@@ -126,13 +126,62 @@ function MPUI(){
     GUILayout.EndArea();
 }
 
+private var descriptionUIWidth:float = 150;
+private var descriptionUIHeight:float = 100;
+
+function DescriptionUI() {
+    if (descriptionLocation == Vector2.zero){
+        return;
+    }
+
+    GUILayout.BeginArea(Rect(descriptionLocation.x, descriptionLocation.y, descriptionUIWidth, descriptionUIHeight));
+    GUILayout.Label(title, GUIStyle("Title"));
+    GUILayout.Label(description, GUIStyle("Description"));
+    GUILayout.EndArea();
+}
+
+private var descriptionLocation:Vector2;
+private var title:String;
+private var description:String;
+
+function AddDescription(v:Vector2, s1:String, s2:String){
+    descriptionLocation = Vector2(v.x, Screen.height - v.y);    
+
+    
+    if (descriptionLocation.x + descriptionUIWidth >= Screen.width + padding){
+        descriptionLocation.x = Screen.width - padding - descriptionUIWidth;
+    }
+
+    if (descriptionLocation.y + descriptionUIHeight >= Screen.height + padding){
+        descriptionLocation.y = Screen.height - padding - descriptionUIHeight;
+    }
+
+    title = s1;
+    description = s2;
+}
+
+function RemoveDescription(){
+    descriptionLocation = Vector2.zero;
+    title = "";
+    description = "";
+}
+
 function PauseGame() {
     savedTimeScale = Time.timeScale;
     Time.timeScale = 0;
     AudioListener.pause = true;
+    lastPaused = Time.time;
+
+}
+
+private var lastPaused:float = 0;
+
+function LastPaused():float{
+    return lastPaused;
 }
 
 function UnPauseGame() {
+    RemoveDescription();
     Time.timeScale = savedTimeScale;
     AudioListener.pause = false;
 }

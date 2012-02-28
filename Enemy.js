@@ -109,6 +109,11 @@ function Update () {
 
     super.Update(); 
 
+    if (HasEffect(Effect.Freeze)) {
+        return;
+    }
+
+
     tickTime += Time.deltaTime;
     if (tickTime >= tickInterval){
         tickTime = 0;
@@ -205,6 +210,15 @@ function BlowBack(origin:Vector3, blowBackType:int){
     blowBackSpeed = blowBackType*3+1;
     yield WaitForSeconds(blowBackTime);
     blowBack = false;
+}
+
+function Title():String{
+    var name:String = this.ToString().Split("("[0])[0];
+    return name + " " + HP.ToString() + "/" + maxHP.ToString();
+}
+
+function Description():String{
+    return "Extremely Fast\nMelee\nSuper Low HP\nAppears in Swarms";
 }
 
 //function DistanceToNearestEnemy():float{

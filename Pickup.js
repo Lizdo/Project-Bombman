@@ -56,6 +56,16 @@ function Blink(){
     }
 }
 
+
+function Title():String{
+    return "HP Pickup";
+}
+
+
+function Description(){
+    return "Add 50 HP";
+}
+
 function PickedUp(){
     switch (type){
         case PickupType.HP:
