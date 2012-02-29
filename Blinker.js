@@ -42,12 +42,21 @@ function InitTeleportMarker(){
 private var teleportTickingTime:float;
 private var teleportInterval:float = 10.0;
 
+private var spawnMinionTickingTime:float;
+private var spawnMinionInterval:float = 30.0;
+
 function UpdateGoals(){
 	teleportTickingTime += tickInterval;
 	if (teleportTickingTime >= teleportInterval){
 		teleportTickingTime = 0;
 		Teleport();
 	}
+
+	spawnMinionTickingTime += tickInterval;
+	if (spawnMinionTickingTime >= spawnMinionInterval){
+		spawnMinionTickingTime = 0;
+		SpawnMinion();
+	}	
 
 	super.UpdateGoals();
 }
@@ -92,6 +101,21 @@ function Teleport(){
 	var randomMarker:GameObject = teleportMarkers[randomIndex];
 
 	transform.position = randomMarker.GetComponent(Transform).position;
+}
+
+function SpawnMinion(){
+	if (HasEffect(Effect.Freeze))
+		return;
+
+	print("Spawning");
+
+	// Spawn 3 ticker & 1 random other enemy
+	pawnManager.Spawn(1);
+	pawnManager.Spawn(1);
+	pawnManager.Spawn(1);
+
+	var randomType:int = Mathf.Floor(Random.Range(2.0,4.999));
+	pawnManager.Spawn(randomType);
 }
 
 private var offTime:float = 0;

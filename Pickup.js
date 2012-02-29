@@ -18,6 +18,7 @@ private var pickupDistance:float = 1.0;
 function Start(){
     player = FindObjectOfType(Player);
     color = renderer.material.color;
+    startingY = transform.position.y;
 
     yield WaitForSeconds(lifeTime);
     Disappear();
@@ -28,6 +29,12 @@ private var rotateSpeed:float = 360;
 private var color:Color;
 
 function Update(){
+    if(Mathf.Abs(transform.position.y - floorHeight) >= 0.01){
+        UpdateDrop();
+        // TODO: Play a particle when touch the ground;
+        return;
+    }
+
     currentLifeTime += Time.deltaTime;
 
     if (lifeTime - currentLifeTime <= blinkTime){
@@ -40,6 +47,23 @@ function Update(){
     if (Vector3.Distance(player.Position(), transform.position) <= pickupDistance){
         PickedUp();
     }
+}
+
+private var floorHeight:float = 1.0;
+
+private var droppingTime:float = 0;
+private var startingY:float;
+private var g:float = 2;
+
+function UpdateDrop(){
+    droppingTime += Time.deltaTime;
+
+    var newY = startingY - g * droppingTime * droppingTime/2;
+    if (newY <= floorHeight){
+        newY = floorHeight;
+    }
+
+    transform.position = Vector3(transform.position.x, newY, transform.position.z);
 }
 
 private var offTime:float;

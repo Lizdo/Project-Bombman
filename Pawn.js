@@ -76,7 +76,8 @@ function Start () {
     Renderer().material.SetFloat(kOutlineWidth, outlineWidth);
     
     // Snap the Y axis
-    transform.position = SnapToGround(transform.position);
+    //transform.position = SnapToGround(transform.position);
+    startingY = transform.position.y;
     
     deathParticle = Resources.Load("Sparks");
     moveTargetMark = Resources.Load("MoveToCube");
@@ -85,6 +86,11 @@ function Start () {
 function Update () {
     if (objectiveManager.IsGamePaused())
         return;
+
+    if (Mathf.Abs(transform.position.y - Tweakable.FootCompensation) >= 0.01){
+        UpdateDrop();
+        return;
+    }
 
     if (!HasEffect(Effect.Freeze)) {
         UpdateMovement();
@@ -97,6 +103,22 @@ function Update () {
     UpdateEffects();
 
 }
+
+private var droppingTime:float = 0;
+private var startingY:float;
+private var g:float = 2;
+
+function UpdateDrop(){
+    droppingTime += Time.deltaTime;
+
+    var newY = startingY - g * droppingTime * droppingTime/2;
+    if (newY <= Tweakable.FootCompensation){
+        newY = Tweakable.FootCompensation;
+    }
+
+    transform.position = Vector3(transform.position.x, newY, transform.position.z);
+}
+
 
 protected function Renderer():Renderer{
     if (renderer)

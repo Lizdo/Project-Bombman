@@ -6,8 +6,11 @@ private var skin:GUISkin;
 public var skinNormal:GUISkin;
 public var skin2X:GUISkin;
 
+private var pawnManager:PawnManager;
+
 function Start() {
     Time.timeScale = 1.0;
+    pawnManager = FindObjectOfType(PawnManager);
 
     skin = skinNormal;
 
@@ -51,50 +54,55 @@ private var savedTimeScale:float;
 
 function PauseUI() {
     GUILayout.BeginArea(Rect(Screen.width - 100 - padding, padding, 100, 400));
-    if (GUILayout.Button ("Continue")) {
-        UnPauseGame();
-    }
-    if (GUILayout.Button ("Restart")) {
-        FindObjectOfType(ObjectiveManager).RestartMission();
-    }
+        if (GUILayout.Button ("Continue")) {
+            UnPauseGame();
+        }
+        if (GUILayout.Button ("Restart")) {
+            FindObjectOfType(ObjectiveManager).RestartMission();
+        }
 
-    GUI.color = Tweakable.WeaponColor;
-    if (GUILayout.Button ("Bomb")) {
-        Explosive.type = ExplosiveType.Bomb;
-        UnPauseGame();
-    }
-    if (GUILayout.Button ("Zap")) {
-        Explosive.type = ExplosiveType.Zap;
-        UnPauseGame();
-    }
-    if (GUILayout.Button ("Pulse")) {
-        Explosive.type = ExplosiveType.Pulse;
-        UnPauseGame();
-    }
-    GUI.color = Tweakable.DefaultColor;
-    
-    GUI.color = Tweakable.FreezeColor;
-    if (GUILayout.Button ("Freeze")) {
-        FindObjectOfType(Player).UseAbility(Ability.AbilityFreeze);     
-        UnPauseGame();
-    }
-    GUI.color = Tweakable.DefaultColor;
+        GUI.color = Tweakable.WeaponColor;
+            if (GUILayout.Button ("Bomb")) {
+                Explosive.type = ExplosiveType.Bomb;
+                UnPauseGame();
+            }
+            if (GUILayout.Button ("Zap")) {
+                Explosive.type = ExplosiveType.Zap;
+                UnPauseGame();
+            }
+            if (GUILayout.Button ("Pulse")) {
+                Explosive.type = ExplosiveType.Pulse;
+                UnPauseGame();
+            }
+        GUI.color = Tweakable.DefaultColor;
+        
+        GUI.color = Tweakable.FreezeColor;
+            if (GUILayout.Button ("Freeze")) {
+                FindObjectOfType(Player).UseAbility(Ability.AbilityFreeze);     
+                UnPauseGame();
+            }
+        GUI.color = Tweakable.DefaultColor;
     
     GUILayout.EndArea();
     
     MPUI();
     DescriptionUI();
+    BossHPUI();
 }
+
+public var pauseTexture:Texture2D;
 
 function InGameUI(){
     // Upper Right
     GUILayout.BeginArea(Rect(Screen.width - 100 - padding, padding, 100, 200)); 
     if (GUILayout.Button ("Pause")) {
+    //if (GUILayout.Button(pauseTexture)){
         PauseGame();
     }
     GUILayout.EndArea();
     
     MPUI();
+    BossHPUI();
 }
 
 function MPUI(){
@@ -111,19 +119,39 @@ function MPUI(){
 
     GUILayout.BeginArea(Rect(padding, padding, 400, 200));    
 
-    if((HP+0.001)/maxHP <= 0.2){
-        GUI.color = Tweakable.LowHealthColor;
-    }
-    GUILayout.Label("Health:"+HP+"/"+maxHP);
-    GUI.color = Tweakable.DefaultColor;
+        if((HP+0.001)/maxHP <= 0.2){
+            GUI.color = Tweakable.LowHealthColor;
+        }
+        GUILayout.Label("Health:"+HP+"/"+maxHP);
+        GUI.color = Tweakable.DefaultColor;
 
-    if((MP+0.001)/maxMP <= 0.2){
-        GUI.color = Tweakable.LowManaColor;
-    }
-    GUILayout.Label("Mana:"+MP+"/"+maxMP);
-    GUI.color = Tweakable.DefaultColor;
+        if((MP+0.001)/maxMP <= 0.2){
+            GUI.color = Tweakable.LowManaColor;
+        }
+        GUILayout.Label("Mana:"+MP+"/"+maxMP);
+        GUI.color = Tweakable.DefaultColor;
 
     GUILayout.EndArea();
+}
+
+private var bossHPBarHeight:float = 20.0;
+private var bossHPBarWidth:float = 300.0;
+private var barPadding:float = 2.0;
+
+function BossHPUI(){
+    var boss:Pawn = pawnManager.Boss();
+    if (boss == null)
+        return;
+
+    var r:Rect = Rect(padding, Screen.height - padding - bossHPBarHeight,bossHPBarWidth, bossHPBarHeight);
+    GUILayout.BeginArea(r, GUIStyle("BarEmpty"));
+        var bar:Rect = Rect(barPadding, barPadding,
+            boss.HP/boss.maxHP * (bossHPBarWidth - barPadding * 2),
+            bossHPBarHeight - barPadding * 2);
+        GUILayout.BeginArea(bar, GUIStyle("BarFull"));
+        GUILayout.EndArea();
+    GUILayout.EndArea();
+
 }
 
 private var descriptionUIWidth:float = 150;
@@ -135,8 +163,8 @@ function DescriptionUI() {
     }
 
     GUILayout.BeginArea(Rect(descriptionLocation.x, descriptionLocation.y, descriptionUIWidth, descriptionUIHeight));
-    GUILayout.Label(title, GUIStyle("Title"));
-    GUILayout.Label(description, GUIStyle("Description"));
+        GUILayout.Label(title, GUIStyle("Title"));
+        GUILayout.Label(description, GUIStyle("Description"));
     GUILayout.EndArea();
 }
 

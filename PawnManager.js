@@ -55,6 +55,15 @@ function AllPawnDead(){
     return allDead;
 }
 
+function Boss(){
+    for (var e:Pawn in pawns){
+        if (e.type == PawnType.Other){
+            return e;
+        }
+    }
+    return null;
+}
+
 function RandomOffScreenPosition(){
     var screenbound:float = FindObjectOfType(CameraManager).ScreenBound();
     var cameraHeight:float = FindObjectOfType(CameraManager).Height();
