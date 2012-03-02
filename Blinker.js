@@ -45,7 +45,7 @@ private var teleportInterval:float = 10.0;
 private var spawnMinionTickingTime:float;
 private var spawnMinionInterval:float = 30.0;
 
-function UpdateGoals(){
+function UpdateOtherGoals(){
 	teleportTickingTime += tickInterval;
 	if (teleportTickingTime >= teleportInterval){
 		teleportTickingTime = 0;
@@ -57,13 +57,9 @@ function UpdateGoals(){
 		spawnMinionTickingTime = 0;
 		SpawnMinion();
 	}	
-
-	super.UpdateGoals();
 }
 
-function Update(){
-	super.Update();
-
+function UpdateOthers(){
 	if (blinking){
 		wasBlinking = true;
 		UpdateBlink();

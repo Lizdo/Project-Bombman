@@ -137,6 +137,7 @@ function Update () {
 }
 
 function UpdateGoals(){
+    UpdateAbilities();
     // Change Goals 
     switch (goal){
         case Goal.Wait:
@@ -157,6 +158,12 @@ function UpdateGoals(){
         default:
             break;
     }
+}
+
+
+// Override by subclass
+function UpdateAbilities(){
+
 }
 
 

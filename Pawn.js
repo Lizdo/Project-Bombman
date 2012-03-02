@@ -106,6 +106,11 @@ function Update () {
     
     UpdateHP();
     UpdateEffects();
+    ExtraUpdates();
+}
+
+// Override by subclass
+function ExtraUpdates(){
 
 }
 
@@ -133,7 +138,7 @@ function BelowGround(){
     return transform.position.y < Tweakable.FootCompensation;
 }
 
-private var burrowSpeed:float = 1;
+private var burrowSpeed:float = 1.0;
 
 function UpdateBurrow(){
     transform.position = Vector3.MoveTowards(transform.position,
