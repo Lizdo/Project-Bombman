@@ -96,15 +96,18 @@ function PauseTouchEndedAt (point:Vector2){
     var ray : Ray = camera.ScreenPointToRay(Vector3(point.x,
         point.y,0));
     var hit : RaycastHit;
-
+    var v:Vector2;
     if (Physics.Raycast (ray, hit, 200, Tweakable.kEnemyMask)){
         var enemy:Enemy = hit.collider.GetComponent(Enemy);
-        pauseMenu.AddDescription(point, enemy.Title(),enemy.Description());
+        enemy.SetDetail(!enemy.showDetail);
+        //v = camera.WorldToScreenPoint(enemy.Position());
+        //pauseMenu.AddDescription(point, enemy.Title(),enemy.Description());
         return;
     }
 
     if (Physics.Raycast (ray, hit, 200, Tweakable.kPickupMask)){
         var pickup:Pickup = hit.collider.GetComponent(Pickup);
+        v = camera.WorldToScreenPoint(pickup.transform.position);        
         pauseMenu.AddDescription(point, pickup.Title(),pickup.Description());
         return;
     }

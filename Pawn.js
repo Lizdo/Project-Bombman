@@ -106,11 +106,11 @@ function Update () {
     
     UpdateHP();
     UpdateEffects();
-    ExtraUpdates();
+    UpdateOthers();
 }
 
 // Override by subclass
-function ExtraUpdates(){
+function UpdateOthers(){
 
 }
 
@@ -487,6 +487,33 @@ function SetColor(c:Color){
 
 function SetOutlineColor(c:Color){
     Renderer().material.SetColor(kOutlineColor, c);
+}
+
+private var screenPosition:Vector3;
+
+function ParsePauseData(){
+    var camera:Camera = FindObjectOfType(Camera); 
+    screenPosition = camera.WorldToScreenPoint(Position());
+    showDetail = false;
+}
+
+function ScreenPosition(){
+    return screenPosition;
+}
+
+public var showDetail:boolean = false;
+
+function SetDetail(b:boolean){
+    showDetail = b;
+}
+
+function Title():String{
+    var name:String = this.ToString().Split("("[0])[0];
+    return name + " " + Mathf.Round(HP).ToString() + "/" + Mathf.Round(maxHP).ToString();
+}
+
+function Description():String{
+    return "Extremely Fast\nMelee\nSuper Low HP\nAppears in Swarms";
 }
 
 function Damage(damage:float){

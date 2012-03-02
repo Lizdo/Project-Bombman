@@ -158,15 +158,36 @@ private var descriptionUIWidth:float = 150;
 private var descriptionUIHeight:float = 100;
 
 function DescriptionUI() {
-    if (descriptionLocation == Vector2.zero){
-        return;
+    for (var p:Pawn in pawnManager.Pawns()){
+        DescriptionForPawn(p);
     }
+    // if (descriptionLocation == Vector2.zero){
+    //     return;
+    // }
 
-    GUILayout.BeginArea(Rect(descriptionLocation.x, descriptionLocation.y, descriptionUIWidth, descriptionUIHeight));
-        GUILayout.Label(title, GUIStyle("Title"));
-        GUILayout.Label(description, GUIStyle("Description"));
-    GUILayout.EndArea();
+    // GUILayout.BeginArea(Rect(descriptionLocation.x, descriptionLocation.y, descriptionUIWidth, descriptionUIHeight));
+    //     GUILayout.Label(title, GUIStyle("Title"));
+    //     GUILayout.Label(description, GUIStyle("Description"));
+    // GUILayout.EndArea();
 }
+
+function DescriptionForPawn(p:Pawn){
+    var v:Vector2 = Vector2(p.ScreenPosition().x, Screen.height - p.ScreenPosition().y);
+
+    if (v.x <= 0 || v.x >= Screen.width)
+        return;
+
+    if (v.y <= 0 || v.y >= Screen.height)
+        return;
+
+    GUILayout.BeginArea(Rect(v.x, v.y, descriptionUIWidth, descriptionUIHeight));
+        GUILayout.Label(p.Title(), GUIStyle("Title"));
+        if (p.showDetail){
+            GUILayout.Label(p.Description(), GUIStyle("Description"));  
+        }
+    GUILayout.EndArea();    
+}
+
 
 private var descriptionLocation:Vector2;
 private var title:String;
@@ -199,7 +220,13 @@ function PauseGame() {
     Time.timeScale = 0;
     AudioListener.pause = true;
     lastPaused = Time.time;
+    ParsePauseData();
+}
 
+function ParsePauseData(){
+    for (var p:Pawn in pawnManager.Pawns()){
+        p.ParsePauseData();
+    }
 }
 
 private var lastPaused:float = 0;

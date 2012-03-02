@@ -55,6 +55,16 @@ function AllPawnDead(){
     return allDead;
 }
 
+function Pawns():Array{
+    var array:Array = new Array();
+    for (var p:Pawn in pawns){
+        if (p != null && !p.IsDead()){
+            array.Add(p);
+        }
+    }
+    return array;
+}
+
 function Boss(){
     for (var e:Pawn in pawns){
         if (e.type == PawnType.Other){

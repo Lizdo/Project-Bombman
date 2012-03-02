@@ -137,7 +137,7 @@ function Update () {
 }
 
 function UpdateGoals(){
-    UpdateAbilities();
+    UpdateOtherGoals();
     // Change Goals 
     switch (goal){
         case Goal.Wait:
@@ -162,7 +162,7 @@ function UpdateGoals(){
 
 
 // Override by subclass
-function UpdateAbilities(){
+function UpdateOtherGoals(){
 
 }
 
@@ -219,14 +219,6 @@ function BlowBack(origin:Vector3, blowBackType:int){
     blowBack = false;
 }
 
-function Title():String{
-    var name:String = this.ToString().Split("("[0])[0];
-    return name + " " + HP.ToString() + "/" + maxHP.ToString();
-}
-
-function Description():String{
-    return "Extremely Fast\nMelee\nSuper Low HP\nAppears in Swarms";
-}
 
 //function DistanceToNearestEnemy():float{
 //  var distance:float = 1000;
