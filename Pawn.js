@@ -87,8 +87,13 @@ function Update () {
     if (objectiveManager.IsGamePaused())
         return;
 
-    if (Mathf.Abs(transform.position.y - Tweakable.FootCompensation) >= 0.01){
+    if (AboveGround()){
         UpdateDrop();
+        return;
+    }
+
+    if (BelowGround()){
+        UpdateBurrow();
         return;
     }
 
@@ -108,6 +113,11 @@ private var droppingTime:float = 0;
 private var startingY:float;
 private var g:float = 2;
 
+
+function AboveGround(){
+    return transform.position.y - Tweakable.FootCompensation >= 0.01;
+}
+
 function UpdateDrop(){
     droppingTime += Time.deltaTime;
 
@@ -117,6 +127,18 @@ function UpdateDrop(){
     }
 
     transform.position = Vector3(transform.position.x, newY, transform.position.z);
+}
+
+function BelowGround(){
+    return transform.position.y < Tweakable.FootCompensation;
+}
+
+private var burrowSpeed:float = 1;
+
+function UpdateBurrow(){
+    transform.position = Vector3.MoveTowards(transform.position,
+        SnapToGround(transform.position),
+        burrowSpeed*Time.deltaTime);
 }
 
 
@@ -384,12 +406,14 @@ enum PawnAnimationState{
     Idle = 0,
     Move = 1,
     Attack = 2,
+    Cast = 3,
 }
 
 static var AnimationName = [
     "idle",
     "move",
-    "attack"
+    "attack",
+    "cast"
 ];
 
 function SwitchAnimation(newAnimation:PawnAnimationState){
