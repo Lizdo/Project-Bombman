@@ -22,7 +22,7 @@ function Start() {
     highlight.transform.position = transform.position;
     highlight.transform.parent = transform;
     
-    Explosive.type = ExplosiveType.Pulse;
+    Explosive.type = ExplosiveType.Bomb;
     MP = maxMP;
     
     print("Player Intialized");
@@ -94,12 +94,30 @@ function EndHold (){
 public var explodeCooldown:boolean;
 
 function Explode(){
-    explodeCooldown = true;
+
     goal = Goal.Wait;
+
+    if (MP < Explosive.Cost()){
+        return;
+    }
+
+    MP -= Explosive.Cost();
+    MP = Mathf.Clamp(MP, 0, maxMP);
+
+    var v:Vector3;
+
+    if (Explosive.Cost() < 0){
+        v = Camera.main.WorldToViewportPoint(Center());
+        FindObjectOfType(UI).SpawnFloatingText(-Explosive.Cost(), v.x-0.05, v.y, Tweakable.LowManaColor);    
+    }
+    
+
+    explodeCooldown = true;
+    
 
     var enemies:Enemy[] = FindObjectsOfType(Enemy);
     for (var e:Enemy in enemies){
-        if (Vector2.Distance(e.Position(), transform.position) <= Explosive.Range()){
+        if (Vector3.Distance(e.Position(), transform.position) <= Explosive.Range()){
             if (Explosive.Pushback()){
                 //TODO: Tweak Pushback Logic, need to push back even with small impulse
                 e.BlowBack(transform.position, BlowBackType.Large);
@@ -107,17 +125,17 @@ function Explode(){
                 e.BlowBack(transform.position, BlowBackType.Tiny);
             }
             e.Damage(Explosive.Damage());
-            var v:Vector3 = Camera.main.WorldToViewportPoint(e.Center());
+            v = Camera.main.WorldToViewportPoint(e.Center());
             FindObjectOfType(UI).SpawnFloatingText(Explosive.Damage(), v.x, v.y, Tweakable.EnemyDamageColor);
         }
     }
 
     var destructibles:Destructible[] = FindObjectsOfType(Destructible) as Destructible[];
     for (var d:Destructible in destructibles){
-        if (Vector2.Distance(d.Position(), transform.position) <= Explosive.Range()){
+        if (Vector3.Distance(d.Position(), transform.position) <= Explosive.Range()){
             d.Damage(Explosive.Damage());
-            var vd:Vector3 = Camera.main.WorldToViewportPoint(d.Center());
-            FindObjectOfType(UI).SpawnFloatingText(Explosive.Damage(), vd.x, vd.y, Tweakable.EnemyDamageColor);
+            v = Camera.main.WorldToViewportPoint(d.Center());
+            FindObjectOfType(UI).SpawnFloatingText(Explosive.Damage(), v.x, v.y, Tweakable.EnemyDamageColor);
         }
     }    
     
