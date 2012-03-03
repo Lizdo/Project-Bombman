@@ -12,7 +12,7 @@ private var minimumAttackRadius:float;
 //public var phase:int = 0;
 
 private var line:GameObject;
-private var attackRadiusRing:AttackRadiusRing;
+protected var attackRadiusRing:AttackRadiusRing;
 
 function Start () {
     super.Start();
@@ -24,14 +24,12 @@ function Start () {
 
     InitAttackRadius();
 
-    if (attackType == AttackType.Ranged){
-        var ring:GameObject = Instantiate(Resources.Load("AttackRadiusRing"), Vector3.zero, Quaternion.identity);
-        ring.transform.position = transform.position;
-        ring.transform.parent = transform;            
-        attackRadiusRing = ring.GetComponent(AttackRadiusRing);
-        attackRadiusRing.SetRadius(attackRadius);
-        attackRadiusRing.SetColor(borderColor);   
-    }
+    var ring:GameObject = Instantiate(Resources.Load("AttackRadiusRing"), Vector3.zero, Quaternion.identity);
+    ring.transform.position = transform.position;
+    ring.transform.parent = transform;            
+    attackRadiusRing = ring.GetComponent(AttackRadiusRing);
+    attackRadiusRing.SetRadius(attackRadius);
+    attackRadiusRing.SetColor(borderColor);   
 }
 
 function InitAttackRadius(){

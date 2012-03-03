@@ -7,11 +7,12 @@ public var skinNormal:GUISkin;
 public var skin2X:GUISkin;
 
 private var pawnManager:PawnManager;
+private var player:Player;
 
 function Start() {
     Time.timeScale = 1.0;
     pawnManager = FindObjectOfType(PawnManager);
-
+    player = FindObjectOfType(Player);
     skin = skinNormal;
 
     if (Application.platform == RuntimePlatform.IPhonePlayer){
@@ -110,15 +111,15 @@ function InGameUI(){
 
 function MPUI(){
     // Upper Left
-    if (FindObjectOfType(Player) == null)
+    if (player == null)
         return;
 
     GUI.color = Tweakable.DefaultColor;    
 
-    var HP:int = Mathf.Ceil(FindObjectOfType(Player).HP);
-    var maxHP:int = Mathf.Ceil(FindObjectOfType(Player).maxHP); 
-    var MP:int = Mathf.Ceil(FindObjectOfType(Player).MP);
-    var maxMP:int = Mathf.Ceil(FindObjectOfType(Player).maxMP);
+    var HP:int = Mathf.Ceil(player.HP);
+    var maxHP:int = Mathf.Ceil(player.maxHP); 
+    var MP:int = Mathf.Ceil(player.MP);
+    var maxMP:int = Mathf.Ceil(player.maxMP);
 
     GUILayout.BeginArea(Rect(padding, padding, 400, 200));    
 
@@ -243,9 +244,6 @@ private var zapInactive:Texture2D;
 private var pushActive:Texture2D;
 private var pushInactive:Texture2D;
 
-private var freezeActive:Texture2D;
-private var freezeInactive:Texture2D;
-
 function LoadTextures(){
     bombActive = Resources.Load("BombActive", Texture2D);
     bombInactive = Resources.Load("BombInactive", Texture2D);
@@ -255,9 +253,6 @@ function LoadTextures(){
 
     pushActive = Resources.Load("PushActive", Texture2D);
     pushInactive = Resources.Load("PushInactive", Texture2D);
-
-    freezeActive = Resources.Load("FreezeActive", Texture2D);
-    freezeInactive = Resources.Load("FreezeInactive", Texture2D);    
 }
 
 function ExplosiveSelectionUI () {
@@ -270,10 +265,15 @@ function ExplosiveSelectionUI () {
     GUILayout.BeginArea(r); 
     GUILayout.BeginHorizontal();
 
-    if (GUILayout.Button (freezeActive,  GUILayout.Width(explosiveButtonSize))) {
-        FindObjectOfType(Player).UseAbility(Ability.AbilityFreeze);  
-        lastButtonPress = Time.time;   
-    }  
+
+    if(player.FeatAvailable() && !Feat.inUse){
+        if (GUILayout.Button (Feat.Icon(),  GUILayout.Width(explosiveButtonSize))) {
+            player.UseFeat();
+            lastButtonPress = Time.time;
+        }
+    }else{
+        GUILayout.Label(Feat.IconInactive(),  GUILayout.Width(explosiveButtonSize));
+    }
 
     if (Explosive.type == ExplosiveType.Bomb){
         if (GUILayout.Button (bombActive,  GUILayout.Width(explosiveButtonSize))) {

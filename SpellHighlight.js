@@ -2,13 +2,12 @@
 
 import Explosive;
 
-private var percentage:float;
 private var scaleRatio:float = 3.0;
-
+private var player:Player;
 
 function Start (){
-    percentage = 0;
     transform.localPosition = Vector3(0,0.05,0);
+    player = FindObjectOfType(Player);
 }
 
 function Update () {
@@ -30,6 +29,8 @@ function Update () {
             break;
     }
 
+    var percentage:float = player.HoldPercentage();
+
     
     if (percentage <= 0){
         renderer.enabled = false;
@@ -38,9 +39,10 @@ function Update () {
     }
     
     transform.localScale = Vector3(percentage*Explosive.Range()/scaleRatio, 1.0, percentage*Explosive.Range()/scaleRatio);
-    renderer.material.color = Color.Lerp(startColor, endColor, percentage+0.15);
-}
-
-function SetPercentage(p:float){
-    percentage = p;
+    if (player.ExplosiveAvailable()){
+        renderer.material.color = Color.Lerp(startColor, endColor, percentage+0.15);    
+    }else{
+        renderer.material.color = startColor;
+    }
+    
 }

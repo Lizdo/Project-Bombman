@@ -1,9 +1,6 @@
 #pragma strict
 
 import Explosive;
-import Ability;
-import Enemy;
-import Pathfinding;
 
 public class Player extends Pawn{
 
@@ -35,6 +32,7 @@ function Update () {
     super.Update();
     UpdateMP();
     UpdateAnimation();
+    UpdateFeat();
 }
 
 function UpdateAnimation(){
@@ -59,25 +57,23 @@ function UpdateMP(){
     MP = Mathf.Clamp(MP,0,maxMP);
 }
 
+private var holdPercentage:float = 0;
+
 function ProcessHold (startTime:float){
     if (explodeCooldown){
-        highlight.SetPercentage(0);
+        holdPercentage = 0;
         return;
     }
 
     var currentTime = Time.time - startTime;
     if (currentTime > holdTimeThreshold){
         // Show Highlight
-        var percentage:float = Mathf.Clamp01((currentTime - holdTimeThreshold)/Explosive.ChargeTime());
-        highlight.SetPercentage(percentage);
+        holdPercentage = Mathf.Clamp01((currentTime - holdTimeThreshold)/Explosive.ChargeTime());
         StopMoving();
-        if (percentage == 1){
-            Explode();
-        }
         goal = Goal.Attack;
     }else{
         // Hide Highlight
-        highlight.SetPercentage(0);
+        holdPercentage = 0;
     }
 }
 
@@ -85,8 +81,15 @@ function AttackTime(){
     return Explosive.ChargeTime() - holdTimeThreshold;
 }
 
+public function HoldPercentage():float{
+    return holdPercentage;
+}
+
 function EndHold (){
-    highlight.SetPercentage(0);
+    if (holdPercentage == 1){
+        Explode();
+    }
+    holdPercentage = 0;
     goal = Goal.Wait;
 }
 
@@ -145,6 +148,7 @@ function Explode(){
     explodeCooldown = false;
 }
 
+
 function UseAbility(a:Ability){
     if (MP < a.cost){
         // TODO: Add a MP not enough Hint, or Block UI to make it impossible
@@ -162,6 +166,41 @@ function UseAbility(a:Ability){
         }
     }
     
+}
+
+function UseFeat(){
+    print("Using Feat: " + Feat.Name());
+
+    //MP -= Feat.Cost();
+    Feat.inUse = true;
+}
+
+function ExplosiveAvailable():boolean{
+    return MP >= Explosive.Cost();
+}
+
+function UpdateFeat(){
+    if (!Feat.inUse)
+        return;
+
+    for (var p:Pawn in pawnManager.pawns){
+        if (p != this){
+            p.AddEffect(Effect.EffectWithName(Feat.Name()));
+        }
+    }    
+
+    MP -= Feat.Cost()*Time.deltaTime;
+    if (MP <= 0){
+        Feat.inUse = false;
+        MP = 0;
+    }
+}
+
+function FeatAvailable():boolean{
+    if (MP < Feat.Cost()){
+        return false;
+    }
+    return true;
 }
 
 function RefillMP(amount:float){

@@ -14,6 +14,8 @@ function Start(){
 	attackSpeed = 1.0;
 
 	InitAttackRadius();
+	attackRadiusRing.SetRadius(attackRadius);
+
 
 	InitTeleportMarker();
 }

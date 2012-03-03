@@ -163,8 +163,8 @@ function TouchEndedAt (point:Vector2){
     
 }
 
-private var nearPlayerTolerancePC:float = 100;
-private var nearPlayerToleranceIOS:float = 200;
+private var nearPlayerTolerancePC:float = 1000;//100;
+private var nearPlayerToleranceIOS:float = 1000;//200;
 private var nearPlayerTolerance:float;
 
 function PointNearPlayer (point:Vector2) :boolean{

@@ -1,6 +1,6 @@
 #pragma strict
 
-import Ability;
+import Pathfinding;
 
 protected var speed:float;
 
@@ -22,6 +22,13 @@ enum Goal{
     Wait = 0,
     Move = 1,
     Attack = 2,
+}
+
+
+enum BlowBackType{
+    Tiny = 0,
+    Large = 1,
+    Huge = 2
 }
 
 protected var goal:Goal;
