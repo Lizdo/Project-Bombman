@@ -12,6 +12,7 @@ private var minimumAttackRadius:float;
 //public var phase:int = 0;
 
 private var line:GameObject;
+private var attackRadiusRing:AttackRadiusRing;
 
 function Start () {
     super.Start();
@@ -22,6 +23,15 @@ function Start () {
     line = Resources.Load("LineMesh");
 
     InitAttackRadius();
+
+    if (attackType == AttackType.Ranged){
+        var ring:GameObject = Instantiate(Resources.Load("AttackRadiusRing"), Vector3.zero, Quaternion.identity);
+        ring.transform.position = transform.position;
+        ring.transform.parent = transform;            
+        attackRadiusRing = ring.GetComponent(AttackRadiusRing);
+        attackRadiusRing.SetRadius(attackRadius);
+        attackRadiusRing.SetColor(borderColor);   
+    }
 }
 
 function InitAttackRadius(){
@@ -124,6 +134,13 @@ function Update () {
     if (goal == Goal.Attack){
         UpdateAttack();
         SwitchAnimation(PawnAnimationState.Attack);
+        if (attackType == AttackType.Ranged){
+            attackRadiusRing.Show();    
+        }
+    }else{
+        if (attackType == AttackType.Ranged){
+            attackRadiusRing.Hide();
+        }
     }
 
     if (goal == Goal.Move){
