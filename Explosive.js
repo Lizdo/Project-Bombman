@@ -3,12 +3,12 @@
 public class Explosive{
     enum ExplosiveType{
         Bomb = 0,
-        Pulse = 1,
+        Push = 1,
         Zap = 2
     }
 
     // -   Bomb (MP Spender): Big Range, Medium Charge, Big Damage, Small Bounce, cost MP
-    // -   Pulse (Crowd Control): Big Bounce, No Damage, Enemy Freeze for a X seconds
+    // -   Push (Crowd Control): Big Bounce, No Damage, Enemy Freeze for a X seconds
     // -   Zap (MP Generator): Small Range, Fast Charge, Small Damage, generate MP
     
     static var BombRange:float = 4.0;
@@ -18,12 +18,12 @@ public class Explosive{
     static var BombPushback:boolean = true;
     static var BombCost:float = 20.0;
     
-    static var PulseRange:float = 4.0;
-    static var PulseDamage:float = 1.0;
-    static var PulseCooldown:float = 0.1;
-    static var PulseChargeTime:float = 0.8;     
-    static var PulsePushback:boolean = true;
-    static var PulseCost:float = 40.0;
+    static var PushRange:float = 4.0;
+    static var PushDamage:float = 1.0;
+    static var PushCooldown:float = 0.1;
+    static var PushChargeTime:float = 0.8;     
+    static var PushPushback:boolean = true;
+    static var PushCost:float = 40.0;
     
     static var ZapRange:float = 2.0;
     static var ZapDamage:float = 2.0;
@@ -34,37 +34,37 @@ public class Explosive{
     
     static var _Range = [
         BombRange,
-        PulseRange,
+        PushRange,
         ZapRange
     ];
     
     static var _Damage = [
         BombDamage,
-        PulseDamage,
+        PushDamage,
         ZapDamage
     ];
     
     static var _Cooldown = [
         BombCooldown,
-        PulseCooldown,
+        PushCooldown,
         ZapCooldown
     ];
     
     static var _ChargeTime = [
         BombChargeTime,
-        PulseChargeTime,
+        PushChargeTime,
         ZapChargeTime
     ];
     
     static var _Pushback = [
         BombPushback,
-        PulsePushback,
+        PushPushback,
         ZapPushback
     ];
 
     static var _Cost = [
         BombCost,
-        PulseCost,
+        PushCost,
         ZapCost
     ];             
     

@@ -134,11 +134,11 @@ function Update () {
     if (goal == Goal.Attack){
         UpdateAttack();
         SwitchAnimation(PawnAnimationState.Attack);
-        if (attackType == AttackType.Ranged){
+        if (attackType == AttackType.Ranged && attackRadiusRing){
             attackRadiusRing.Show();    
         }
     }else{
-        if (attackType == AttackType.Ranged){
+        if (attackType == AttackType.Ranged && attackRadiusRing){
             attackRadiusRing.Hide();
         }
     }

@@ -21,7 +21,7 @@ function Start (){
     
 }
 
-private var ignoreInputTimeAfterPause:float = 0.1;
+private var ignoreInputTime:float = 0.1;
 
 function Update () {
     if (pauseMenu.IsGamePaused()){
@@ -32,7 +32,7 @@ function Update () {
         return;
     }
 
-    if (Time.time - pauseMenu.LastPaused() < ignoreInputTimeAfterPause){
+    if (Time.time - pauseMenu.LastButtonPress() < ignoreInputTime){
         return;
     }
 

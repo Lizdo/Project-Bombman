@@ -116,7 +116,7 @@ function UpdateOthers(){
 
 private var droppingTime:float = 0;
 private var startingY:float;
-private var g:float = 2;
+private var gravity:float = 8;
 
 
 function AboveGround(){
@@ -126,7 +126,7 @@ function AboveGround(){
 function UpdateDrop(){
     droppingTime += Time.deltaTime;
 
-    var newY = startingY - g * droppingTime * droppingTime/2;
+    var newY = startingY - gravity * droppingTime * droppingTime/2;
     if (newY <= Tweakable.FootCompensation){
         newY = Tweakable.FootCompensation;
     }
@@ -493,7 +493,7 @@ private var screenPosition:Vector3;
 
 function ParsePauseData(){
     var camera:Camera = FindObjectOfType(Camera); 
-    screenPosition = camera.WorldToScreenPoint(Position());
+    screenPosition = camera.WorldToScreenPoint(Center());
     showDetail = false;
 }
 

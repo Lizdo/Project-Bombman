@@ -97,6 +97,7 @@ function Explode(){
 
     goal = Goal.Wait;
 
+    //Update Mana Cost
     if (MP < Explosive.Cost()){
         return;
     }
@@ -106,6 +107,7 @@ function Explode(){
 
     var v:Vector3;
 
+    // Display Mana Gain UI
     if (Explosive.Cost() < 0){
         v = Camera.main.WorldToViewportPoint(Center());
         FindObjectOfType(UI).SpawnFloatingText(-Explosive.Cost(), v.x-0.05, v.y, Tweakable.LowManaColor);    
@@ -119,7 +121,7 @@ function Explode(){
     for (var e:Enemy in enemies){
         if (Vector3.Distance(e.Position(), transform.position) <= Explosive.Range()){
             if (Explosive.Pushback()){
-                //TODO: Tweak Pushback Logic, need to push back even with small impulse
+                //TODO: Tweak Pushback Logic, need to push back even with small imPush
                 e.BlowBack(transform.position, BlowBackType.Large);
             }else{
                 e.BlowBack(transform.position, BlowBackType.Tiny);

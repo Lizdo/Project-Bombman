@@ -8,7 +8,7 @@ function Start(){
 }
 
 function SetPoints(startPoint:Vector3, endPoint:Vector3){
-    var lineRenderer:LineRenderer = GetComponent(LineRenderer);     
+    var lineRenderer:LineRenderer = GetComponent(LineRenderer);         	
     lineRenderer.SetVertexCount(2);
     lineRenderer.SetPosition(0, startPoint);
     lineRenderer.SetPosition(1, endPoint);

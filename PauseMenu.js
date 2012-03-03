@@ -22,6 +22,8 @@ function Start() {
                 break;
         }
     }
+
+    LoadTextures();
 }
 
 
@@ -50,10 +52,10 @@ function LateUpdate () {
 
 private var padding:float = 10;
 private var savedTimeScale:float;
-
+private var menuWidth:float = 100;
 
 function PauseUI() {
-    GUILayout.BeginArea(Rect(Screen.width - 100 - padding, padding, 100, 400));
+    GUILayout.BeginArea(Rect(Screen.width - menuWidth - padding, padding, menuWidth, 400));
         if (GUILayout.Button ("Continue")) {
             UnPauseGame();
         }
@@ -61,27 +63,27 @@ function PauseUI() {
             FindObjectOfType(ObjectiveManager).RestartMission();
         }
 
-        GUI.color = Tweakable.WeaponColor;
-            if (GUILayout.Button ("Bomb")) {
-                Explosive.type = ExplosiveType.Bomb;
-                UnPauseGame();
-            }
-            if (GUILayout.Button ("Zap")) {
-                Explosive.type = ExplosiveType.Zap;
-                UnPauseGame();
-            }
-            if (GUILayout.Button ("Pulse")) {
-                Explosive.type = ExplosiveType.Pulse;
-                UnPauseGame();
-            }
-        GUI.color = Tweakable.DefaultColor;
+        // GUI.color = Tweakable.WeaponColor;
+        //     if (GUILayout.Button ("Bomb")) {
+        //         Explosive.type = ExplosiveType.Bomb;
+        //         UnPauseGame();
+        //     }
+        //     if (GUILayout.Button ("Zap")) {
+        //         Explosive.type = ExplosiveType.Zap;
+        //         UnPauseGame();
+        //     }
+        //     if (GUILayout.Button ("Push")) {
+        //         Explosive.type = ExplosiveType.Push;
+        //         UnPauseGame();
+        //     }
+        // GUI.color = Tweakable.DefaultColor;
         
-        GUI.color = Tweakable.FreezeColor;
-            if (GUILayout.Button ("Freeze")) {
-                FindObjectOfType(Player).UseAbility(Ability.AbilityFreeze);     
-                UnPauseGame();
-            }
-        GUI.color = Tweakable.DefaultColor;
+        // GUI.color = Tweakable.FreezeColor;
+        //     if (GUILayout.Button ("Freeze")) {
+        //         FindObjectOfType(Player).UseAbility(Ability.AbilityFreeze);     
+        //         UnPauseGame();
+        //     }
+        // GUI.color = Tweakable.DefaultColor;
     
     GUILayout.EndArea();
     
@@ -94,7 +96,7 @@ public var pauseTexture:Texture2D;
 
 function InGameUI(){
     // Upper Right
-    GUILayout.BeginArea(Rect(Screen.width - 100 - padding, padding, 100, 200)); 
+    GUILayout.BeginArea(Rect(Screen.width - menuWidth - padding, padding, menuWidth, 200)); 
     if (GUILayout.Button ("Pause")) {
     //if (GUILayout.Button(pauseTexture)){
         PauseGame();
@@ -103,6 +105,7 @@ function InGameUI(){
     
     MPUI();
     BossHPUI();
+    ExplosiveSelectionUI();
 }
 
 function MPUI(){
@@ -219,7 +222,7 @@ function PauseGame() {
     savedTimeScale = Time.timeScale;
     Time.timeScale = 0;
     AudioListener.pause = true;
-    lastPaused = Time.time;
+    lastButtonPress = Time.time;
     ParsePauseData();
 }
 
@@ -229,10 +232,94 @@ function ParsePauseData(){
     }
 }
 
-private var lastPaused:float = 0;
+private var explosiveButtonSize:float = 64;
 
-function LastPaused():float{
-    return lastPaused;
+private var bombActive:Texture2D;
+private var bombInactive:Texture2D;
+
+private var zapActive:Texture2D;
+private var zapInactive:Texture2D;
+
+private var pushActive:Texture2D;
+private var pushInactive:Texture2D;
+
+private var freezeActive:Texture2D;
+private var freezeInactive:Texture2D;
+
+function LoadTextures(){
+    bombActive = Resources.Load("BombActive", Texture2D);
+    bombInactive = Resources.Load("BombInactive", Texture2D);
+
+    zapActive = Resources.Load("ZapActive", Texture2D);
+    zapInactive = Resources.Load("ZapInactive", Texture2D);
+
+    pushActive = Resources.Load("PushActive", Texture2D);
+    pushInactive = Resources.Load("PushInactive", Texture2D);
+
+    freezeActive = Resources.Load("FreezeActive", Texture2D);
+    freezeInactive = Resources.Load("FreezeInactive", Texture2D);    
+}
+
+function ExplosiveSelectionUI () {
+    var w:float = explosiveButtonSize * 4 + padding * 5;
+    var h:float = explosiveButtonSize + padding * 2;
+    var r:Rect = Rect(Screen.width - menuWidth - padding - w,
+        padding,
+        w,
+        h);
+    GUILayout.BeginArea(r); 
+    GUILayout.BeginHorizontal();
+
+    if (GUILayout.Button (freezeActive,  GUILayout.Width(explosiveButtonSize))) {
+        FindObjectOfType(Player).UseAbility(Ability.AbilityFreeze);  
+        lastButtonPress = Time.time;   
+    }  
+
+    if (Explosive.type == ExplosiveType.Bomb){
+        if (GUILayout.Button (bombActive,  GUILayout.Width(explosiveButtonSize))) {
+            Explosive.type = ExplosiveType.Bomb;
+            lastButtonPress = Time.time;
+        }        
+    }else{
+        if (GUILayout.Button (bombInactive,  GUILayout.Width(explosiveButtonSize))) {
+            Explosive.type = ExplosiveType.Bomb;
+            lastButtonPress = Time.time;
+        }          
+    }
+
+    if (Explosive.type == ExplosiveType.Zap){
+        if (GUILayout.Button (zapActive,  GUILayout.Width(explosiveButtonSize))) {
+            Explosive.type = ExplosiveType.Zap;
+            lastButtonPress = Time.time;
+        }        
+    }else{
+        if (GUILayout.Button (zapInactive,  GUILayout.Width(explosiveButtonSize))) {
+            Explosive.type = ExplosiveType.Zap;
+            lastButtonPress = Time.time;
+        }
+    }       
+
+    if (Explosive.type == ExplosiveType.Push){
+        if (GUILayout.Button (pushActive,  GUILayout.Width(explosiveButtonSize))) {
+            Explosive.type = ExplosiveType.Push;
+            lastButtonPress = Time.time;
+        }        
+    }else{
+        if (GUILayout.Button (pushInactive,  GUILayout.Width(explosiveButtonSize))) {
+            Explosive.type = ExplosiveType.Push;
+            lastButtonPress = Time.time;
+        }
+    }
+
+  
+    GUILayout.EndHorizontal();
+    GUILayout.EndArea();    
+}
+
+private var lastButtonPress:float = 0;
+
+function LastButtonPress():float{
+    return lastButtonPress;
 }
 
 function UnPauseGame() {

@@ -22,8 +22,8 @@ function Update () {
         case ExplosiveType.Zap:
             endColor = Tweakable.ZapColor;
             break;
-        case ExplosiveType.Pulse:
-            endColor = Tweakable.PulseColor;
+        case ExplosiveType.Push:
+            endColor = Tweakable.PushColor;
             break;                          
         default:
             endColor = Color(0.4,0.9,0.5,0.6);
