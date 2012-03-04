@@ -8,6 +8,7 @@ public var skin2X:GUISkin;
 
 private var pawnManager:PawnManager;
 private var player:Player;
+private var doubleResolution:boolean = false;
 
 function Start() {
     Time.timeScale = 1.0;
@@ -19,14 +20,44 @@ function Start() {
         switch (iPhoneSettings.generation){
             case iPhoneGeneration.iPhone4:
             case iPhoneGeneration.iPodTouch4Gen:
-                skin = skin2X;
+                doubleResolution = true;
                 break;
         }
+    }
+
+    if (doubleResolution){
+        skin = skin2X;
+
+        //padding *= 2;
+        menuWidth *= 2;
+        hpBarWidth *= 2;
+        hpBarHeight *= 2;
+        bossHPBarHeight *= 2;
+        bossHPBarWidth *= 2;
+        barPadding *= 2;
+        descriptionUIWidth *= 2;
+        descriptionUIHeight *= 2;
+        buttonSize *= 1.5;
     }
 
     LoadTextures();
 }
 
+
+private var padding:float = 10;
+private var menuWidth:float = 100;
+
+private var hpBarWidth:float = 200;
+private var hpBarHeight:float = 35;
+
+private var bossHPBarHeight:float = 20.0;
+private var bossHPBarWidth:float = 200.0;
+private var barPadding:float = 2.0;
+
+private var descriptionUIWidth:float = 150;
+private var descriptionUIHeight:float = 100;
+
+private var buttonSize:float = 64;
 
 function OnGUI () {
     if (skin != null) {
@@ -51,11 +82,15 @@ function LateUpdate () {
     }
 }
 
-private var padding:float = 10;
-private var savedTimeScale:float;
-private var menuWidth:float = 100;
 
 function PauseUI() {
+
+    BossHPUI();
+    MPUI();
+
+    DescriptionUI();
+    
+
     GUILayout.BeginArea(Rect(Screen.width - menuWidth - padding, padding, menuWidth, 400));
         if (GUILayout.Button ("Continue")) {
             UnPauseGame();
@@ -87,10 +122,7 @@ function PauseUI() {
         // GUI.color = Tweakable.DefaultColor;
     
     GUILayout.EndArea();
-    
-    MPUI();
-    DescriptionUI();
-    BossHPUI();
+
 }
 
 public var pauseTexture:Texture2D;
@@ -109,9 +141,6 @@ function InGameUI(){
     ExplosiveSelectionUI();
 }
 
-
-private var hpBarWidth:float = 400;
-private var hpBarHeight:float = 35;
 
 function MPUI(){
     // Upper Left
@@ -143,21 +172,18 @@ function MPUI(){
         if((HP+0.001)/maxHP <= 0.2){
             GUI.color = Tweakable.LowHealthColor;
         }
-        GUILayout.Label("Health:"+HP+"/"+maxHP);
+        GUILayout.Label("HP:"+HP+"/"+maxHP);
         GUI.color = Tweakable.DefaultColor;
 
         if((MP+0.001)/maxMP <= 0.2){
             GUI.color = Tweakable.LowManaColor;
         }
-        GUILayout.Label("Mana:"+MP+"/"+maxMP);
+        GUILayout.Label("MP:"+MP+"/"+maxMP);
         GUI.color = Tweakable.DefaultColor;
 
     GUILayout.EndArea();
 }
 
-private var bossHPBarHeight:float = 20.0;
-private var bossHPBarWidth:float = 300.0;
-private var barPadding:float = 2.0;
 
 function BossHPUI(){
     var boss:Pawn = pawnManager.Boss();
@@ -175,8 +201,6 @@ function BossHPUI(){
 
 }
 
-private var descriptionUIWidth:float = 150;
-private var descriptionUIHeight:float = 100;
 
 function DescriptionUI() {
     for (var p:Pawn in pawnManager.Pawns()){
@@ -236,6 +260,8 @@ function RemoveDescription(){
     description = "";
 }
 
+private var savedTimeScale:float;
+
 function PauseGame() {
     savedTimeScale = Time.timeScale;
     Time.timeScale = 0;
@@ -249,8 +275,6 @@ function ParsePauseData(){
         p.ParsePauseData();
     }
 }
-
-private var explosiveButtonSize:float = 64;
 
 private var bombActive:Texture2D;
 private var bombInactive:Texture2D;
@@ -273,56 +297,56 @@ function LoadTextures(){
 }
 
 function ExplosiveSelectionUI () {
-    var w:float = explosiveButtonSize * 4 + padding * 5;
-    var h:float = explosiveButtonSize + padding * 2;
+    var w:float = buttonSize * 4;
+    var h:float = buttonSize;
     var r:Rect = Rect(Screen.width - menuWidth - padding - w,
         padding,
         w,
         h);
-    GUILayout.BeginArea(r); 
+    GUILayout.BeginArea(r,  GUIStyle("BarFull")); 
     GUILayout.BeginHorizontal();
 
 
     if(player.FeatAvailable() && !Feat.inUse){
-        if (GUILayout.Button (Feat.Icon(),  GUILayout.Width(explosiveButtonSize))) {
+        if (GUILayout.Button (Feat.Icon(),  GUILayout.Width(buttonSize))) {
             player.UseFeat();
             lastButtonPress = Time.time;
         }
     }else{
-        GUILayout.Label(Feat.IconInactive(),  GUILayout.Width(explosiveButtonSize));
+        GUILayout.Label(Feat.IconInactive(),  GUILayout.Width(buttonSize));
     }
 
     if (Explosive.type == ExplosiveType.Bomb){
-        if (GUILayout.Button (bombActive,  GUILayout.Width(explosiveButtonSize))) {
+        if (GUILayout.Button (bombActive,  GUILayout.Width(buttonSize))) {
             Explosive.type = ExplosiveType.Bomb;
             lastButtonPress = Time.time;
         }        
     }else{
-        if (GUILayout.Button (bombInactive,  GUILayout.Width(explosiveButtonSize))) {
+        if (GUILayout.Button (bombInactive,  GUILayout.Width(buttonSize))) {
             Explosive.type = ExplosiveType.Bomb;
             lastButtonPress = Time.time;
         }          
     }
 
     if (Explosive.type == ExplosiveType.Zap){
-        if (GUILayout.Button (zapActive,  GUILayout.Width(explosiveButtonSize))) {
+        if (GUILayout.Button (zapActive,  GUILayout.Width(buttonSize))) {
             Explosive.type = ExplosiveType.Zap;
             lastButtonPress = Time.time;
         }        
     }else{
-        if (GUILayout.Button (zapInactive,  GUILayout.Width(explosiveButtonSize))) {
+        if (GUILayout.Button (zapInactive,  GUILayout.Width(buttonSize))) {
             Explosive.type = ExplosiveType.Zap;
             lastButtonPress = Time.time;
         }
     }       
 
     if (Explosive.type == ExplosiveType.Push){
-        if (GUILayout.Button (pushActive,  GUILayout.Width(explosiveButtonSize))) {
+        if (GUILayout.Button (pushActive,  GUILayout.Width(buttonSize))) {
             Explosive.type = ExplosiveType.Push;
             lastButtonPress = Time.time;
         }        
     }else{
-        if (GUILayout.Button (pushInactive,  GUILayout.Width(explosiveButtonSize))) {
+        if (GUILayout.Button (pushInactive,  GUILayout.Width(buttonSize))) {
             Explosive.type = ExplosiveType.Push;
             lastButtonPress = Time.time;
         }

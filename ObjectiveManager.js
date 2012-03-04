@@ -20,11 +20,11 @@ function Start() {
 
     pawnManager = FindObjectOfType(PawnManager);
 
-    waves[0] = [100];
-    waves[1] = [1,1,2];
-    waves[2] = [2,2,5];
-    waves[3] = [3,3,5];
-    waves[4] = [3,3,4];
+    waves[0] = [1];
+    waves[1] = [2];
+    waves[2] = [3];
+    waves[3] = [4];
+    waves[4] = [5];
     waves[5] = [2,3,4,4];
     waves[6] = [2,2,3,3,4];
     waves[7] = [100];

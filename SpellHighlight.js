@@ -39,7 +39,7 @@ function Update () {
     }
     
     transform.localScale = Vector3(percentage*Explosive.Range()/scaleRatio, 1.0, percentage*Explosive.Range()/scaleRatio);
-    if (player.ExplosiveAvailable()){
+    if (player.ExplosiveAvailable() && percentage >= 0.95){
         renderer.material.color = Color.Lerp(startColor, endColor, percentage+0.15);    
     }else{
         renderer.material.color = startColor;
