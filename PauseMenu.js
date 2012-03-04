@@ -109,6 +109,10 @@ function InGameUI(){
     ExplosiveSelectionUI();
 }
 
+
+private var hpBarWidth:float = 400;
+private var hpBarHeight:float = 35;
+
 function MPUI(){
     // Upper Left
     if (player == null)
@@ -121,7 +125,20 @@ function MPUI(){
     var MP:int = Mathf.Clamp(Mathf.Ceil(player.MP), 0, 100000);
     var maxMP:int = Mathf.Ceil(player.maxMP);
 
-    GUILayout.BeginArea(Rect(padding, padding, 400, 200));    
+    GUILayout.BeginArea(Rect(padding, padding, hpBarWidth, hpBarHeight*2),  GUIStyle("BarEmpty"));    
+
+        var bar:Rect = Rect(barPadding, barPadding,
+            (HP+0.001)/maxHP * (hpBarWidth - barPadding * 2),
+            hpBarHeight - barPadding * 2);
+        GUILayout.BeginArea(bar, GUIStyle("BarFull"));
+        GUILayout.EndArea();
+
+        bar = Rect(barPadding, hpBarHeight + barPadding,
+            (MP+0.001)/maxMP * (hpBarWidth - barPadding * 2),
+            hpBarHeight - barPadding * 2);
+        GUILayout.BeginArea(bar, GUIStyle("BarFull"));
+        GUILayout.EndArea();        
+
 
         if((HP+0.001)/maxHP <= 0.2){
             GUI.color = Tweakable.LowHealthColor;
