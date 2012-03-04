@@ -10,24 +10,40 @@ function Start (){
     player = FindObjectOfType(Player);
 }
 
+private var bombTex:Texture = Resources.Load("Ring_Bomb");
+private var zapTex:Texture = Resources.Load("Ring_Zap");
+private var pushTex:Texture = Resources.Load("Ring_Push");
+
+private var type:ExplosiveType = -1;
+
 function Update () {
 
     var startColor:Color = Color(0.5,0.5,0.5,0.6);
     var endColor:Color;
-    switch (Explosive.type){
-        case ExplosiveType.Bomb:
-            endColor = Tweakable.BombColor;
-            break;
-        case ExplosiveType.Zap:
-            endColor = Tweakable.ZapColor;
-            break;
-        case ExplosiveType.Push:
-            endColor = Tweakable.PushColor;
-            break;                          
-        default:
-            endColor = Color(0.4,0.9,0.5,0.6);
-            break;
+
+    if (Explosive.type != type){
+        switch (Explosive.type){
+            case ExplosiveType.Bomb:
+                endColor = Tweakable.BombColor;
+                renderer.material.mainTexture = bombTex;
+                break;
+            case ExplosiveType.Zap:
+                endColor = Tweakable.ZapColor;
+                renderer.material.mainTexture = zapTex;
+                break;
+            case ExplosiveType.Push:
+                endColor = Tweakable.PushColor;
+                renderer.material.mainTexture = pushTex;
+                break;                          
+            default:
+                endColor = Color(0.4,0.9,0.5,0.6);
+                break;
+        }
+
+        type = Explosive.type;
     }
+
+
 
     var percentage:float = player.HoldPercentage();
 
@@ -46,3 +62,5 @@ function Update () {
     }
     
 }
+
+
