@@ -169,10 +169,23 @@ function UseAbility(a:Ability){
 }
 
 function UseFeat(){
+    if (!FeatAvailable())
+        return;
+
     print("Using Feat: " + Feat.Name());
 
-    //MP -= Feat.Cost();
+    MP -= Feat.Cost();
     Feat.inUse = true;
+
+    // Add the Effect on Enemies, Effect on the player will be accessed from Feat directly
+    for (var p:Pawn in pawnManager.pawns){
+        if (p != this){
+            p.AddEffect(Effect.EffectWithName(Feat.Name()));
+        }
+    }    
+
+    yield WaitForSeconds(Feat.Duration());
+    Feat.inUse = false;
 }
 
 function ExplosiveAvailable():boolean{
@@ -180,20 +193,7 @@ function ExplosiveAvailable():boolean{
 }
 
 function UpdateFeat(){
-    if (!Feat.inUse)
-        return;
 
-    for (var p:Pawn in pawnManager.pawns){
-        if (p != this){
-            p.AddEffect(Effect.EffectWithName(Feat.Name()));
-        }
-    }    
-
-    MP -= Feat.Cost()*Time.deltaTime;
-    if (MP <= 0){
-        Feat.inUse = false;
-        MP = 0;
-    }
 }
 
 function FeatAvailable():boolean{

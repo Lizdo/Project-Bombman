@@ -47,7 +47,7 @@ public class Effect{
 
     public static function EffectWithName(name:String):Effect{
         if (name == Freeze)
-            return new Effect(Freeze, 1);
+            return new Effect(Freeze, 10);
         else if (name == Fire)
             return new Effect(Fire, 10);
         else if (name == Fire)

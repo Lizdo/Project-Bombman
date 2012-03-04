@@ -116,9 +116,9 @@ function MPUI(){
 
     GUI.color = Tweakable.DefaultColor;    
 
-    var HP:int = Mathf.Ceil(player.HP);
+    var HP:int = Mathf.Clamp(Mathf.Ceil(player.HP), 0, 100000);
     var maxHP:int = Mathf.Ceil(player.maxHP); 
-    var MP:int = Mathf.Ceil(player.MP);
+    var MP:int = Mathf.Clamp(Mathf.Ceil(player.MP), 0, 100000);
     var maxMP:int = Mathf.Ceil(player.maxMP);
 
     GUILayout.BeginArea(Rect(padding, padding, 400, 200));    

@@ -42,17 +42,31 @@ public class Feat{
 	public static var inUse:boolean = false;
 
 	private static var _Cost = [
-		5,	//Freeze 			
+		40,	//Freeze 			
+		0,	//HealthLeech 	
+		0,	//ManaLeech 		
+		0,	//ExtraBombRadius 
+		40,	//Teleport 		
+		40,	//DoubleDamage 	
+		40	//Shield 			
+	];
+
+	private static var _Duration = [
+		10,	//Freeze 			
 		0,	//HealthLeech 	
 		0,	//ManaLeech 		
 		0,	//ExtraBombRadius 
 		10,	//Teleport 		
 		10,	//DoubleDamage 	
-		5	//Shield 			
+		10	//Shield 			
 	];
 
 	public static function Cost(){
 		return _Cost[type];
+	}
+
+	public static function Duration(){
+		return _Duration[type];
 	}
 
 	public static function Name():String{
@@ -70,7 +84,7 @@ public class Feat{
 
 	public static function IconInactive():Texture2D{
 		return Resources.Load(Name()+"_Inactive",Texture2D);
-	}	
+	}
 
 
 
