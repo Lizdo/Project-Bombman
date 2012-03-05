@@ -75,6 +75,12 @@ function StartPhase(phaseNumber:int){
         SetText("Phase " + (phaseNumber+1).ToString() + " Start");
     }
 
+    if (phaseNumber >= maxPhase){
+        print("Too Many Phases");
+        MissionComplete();
+        return;
+    }
+
     var player:Player = FindObjectOfType(Player);
     player.ResetHPMP();
 

@@ -523,16 +523,29 @@ function Description():String{
     return "Extremely Fast\nMelee\nSuper Low HP\nAppears in Swarms";
 }
 
+private var damageFXThreshold:float = 10;
+
 function Damage(damage:float){
     HP -= damage;
+    
+    if (damage >= damageFXThreshold){
+        PlayDamageFX();
+    }
+
     if (HP <= 0 && !isDead){
         isDead = true;  
         Die();
     }
 }
 
+function PlayDamageFX(){
+    var fx:GameObject = Instantiate(deathParticle, transform.position, Quaternion.identity);
+    fx.GetComponent(ParticleAnimator).autodestruct = true;
+    fx.transform.parent = transform;    
+}
+
 function Heal(amount:float){
-    // TODO: Add feedback;
+    // +++ Particle
     HP += amount;
     if (HP >= maxHP){
         HP = maxHP;
