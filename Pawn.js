@@ -54,6 +54,7 @@ protected var borderColor:Color;
 protected var objectiveManager:ObjectiveManager;
 protected var pawnManager:PawnManager;
 protected var player:Player;
+protected var cam:Camera;
 
 static var kOutlineColor:String = "_OutlineColor";
 static var kOutlineWidth:String = "_Outline";
@@ -65,7 +66,7 @@ function Start () {
     player = FindObjectOfType(Player);
     objectiveManager = FindObjectOfType(ObjectiveManager);
     pawnManager = FindObjectOfType(PawnManager);
-
+    cam =  FindObjectOfType(Camera);
     seeker = GetComponent(Seeker);
 
     speed = Tweakable.SpeedForType(type)*Random.Range(0.9,1.1);
@@ -114,6 +115,7 @@ function Update () {
     UpdateHP();
     UpdateEffects();
     UpdateOthers();
+    UpdateScreenPosition();
 }
 
 // Override by subclass
@@ -151,6 +153,18 @@ function UpdateBurrow(){
     transform.position = Vector3.MoveTowards(transform.position,
         SnapToGround(transform.position),
         burrowSpeed*Time.deltaTime);
+}
+
+private var screenPositionTickInterval:float = 0.1;
+private var screenPositionTickTime:float = 0;
+
+function UpdateScreenPosition() {
+    screenPositionTickTime += Time.deltaTime;
+    if (screenPositionTickTime >= screenPositionTickInterval){
+        screenPositionTickTime = 0;
+        screenPosition = cam.WorldToScreenPoint(Center());
+        //print("Screen Position:" + screenPosition.ToString());
+    }
 }
 
 
@@ -499,8 +513,7 @@ function SetOutlineColor(c:Color){
 private var screenPosition:Vector3;
 
 function ParsePauseData(){
-    var camera:Camera = FindObjectOfType(Camera); 
-    screenPosition = camera.WorldToScreenPoint(Center());
+    screenPosition = cam.WorldToScreenPoint(Center());
     showDetail = false;
 }
 

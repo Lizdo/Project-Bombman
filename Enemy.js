@@ -216,11 +216,6 @@ private var blowBackTime:float = 0.15;
 private var blowBackSpeed:float = 8;
 private var blowBackOrigin:Vector3;
 
-enum BlowBackType{
-    Tiny = 0,
-    Large = 1,
-    Huge = 2
-}
 
 function BlowBack(origin:Vector3, blowBackType:int){
     blowBackOrigin = origin;

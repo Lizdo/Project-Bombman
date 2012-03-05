@@ -38,6 +38,7 @@ function Start() {
         descriptionUIWidth *= 2;
         descriptionUIHeight *= 2;
         buttonSize *= 2;
+        offscreenIconSize *= 2;
     }
 
     LoadTextures();
@@ -58,6 +59,7 @@ private var descriptionUIWidth:float = 150;
 private var descriptionUIHeight:float = 100;
 
 private var buttonSize:float = 48;
+private var offscreenIconSize:float = 8;
 
 function OnGUI () {
     if (skin != null) {
@@ -85,6 +87,7 @@ function LateUpdate () {
 
 function PauseUI() {
 
+    OffscreenPawnUI();
     BossHPUI();
     MPUI();
 
@@ -136,6 +139,7 @@ function InGameUI(){
     }
     GUILayout.EndArea();
     
+    OffscreenPawnUI();
     MPUI();
     BossHPUI();
     ExplosiveSelectionUI();
@@ -201,6 +205,94 @@ function BossHPUI(){
 
 }
 
+
+function OffscreenPawnUI(){
+    for (var p:Pawn in pawnManager.Pawns()){
+        OffscreenIconForPawn(p);
+    }
+}
+
+
+
+function OffscreenIconForPawn(p:Pawn){
+    if (p == player || !IsOffscreen(p))
+        return;
+
+    // Draw a arrow
+    var v:Vector2 = Vector2(p.ScreenPosition().x, Screen.height - p.ScreenPosition().y);    
+    var center:Vector2 = Vector2(Screen.width/2-offscreenIconSize, Screen.height/2-offscreenIconSize);
+    var topLeft:Vector2 = Vector2(offscreenIconSize,offscreenIconSize);
+    var topRight:Vector2 = Vector2(Screen.width-offscreenIconSize, offscreenIconSize);
+    var bottomLeft:Vector2 = Vector2(offscreenIconSize,Screen.height-offscreenIconSize);
+    var bottomRight:Vector2 = Vector2(Screen.width-offscreenIconSize,Screen.height-offscreenIconSize);
+    var intersection:Vector2;
+
+    //Top
+    intersection = IntersectionForLines(v,center,topLeft,topRight);
+    if (intersection != Vector2.zero){
+        DrawDotAt(intersection);
+        return;
+    }
+
+    //Left
+    intersection = IntersectionForLines(v,center,topLeft,bottomLeft);
+    if (intersection != Vector2.zero){
+        DrawDotAt(intersection);
+        return;
+    }
+
+    //Bottom
+    intersection = IntersectionForLines(v,center,bottomRight,bottomLeft);
+    if (intersection != Vector2.zero){
+        DrawDotAt(intersection);
+        return;
+    }
+
+    //Right
+    intersection = IntersectionForLines(v,center,bottomRight,topRight);
+    if (intersection != Vector2.zero){
+        DrawDotAt(intersection);
+        return;
+    }    
+}
+
+private var dotTexture:Texture2D;
+
+function DrawDotAt(v:Vector2){
+    GUI.DrawTexture(Rect(v.x - offscreenIconSize,v.y - offscreenIconSize,offscreenIconSize*2,offscreenIconSize*2), dotTexture,ScaleMode.StretchToFill, true);
+}
+
+// http://paulbourke.net/geometry/lineline2d/
+
+function IntersectionForLines(v1:Vector2, v2:Vector2, v3:Vector2, v4:Vector2):Vector2{
+    var ua:float = ((v4.x - v3.x) * (v1.y - v3.y) - (v4.y - v3.y) * (v1.x - v3.x))/((v4.y - v3.y)*(v2.x - v1.x) - (v4.x - v3.x) * (v2.y - v1.y));
+    var ub:float = ((v2.x - v1.x) * (v1.y - v3.y) - (v2.y - v1.y) * (v1.x - v3.x))/((v4.y - v3.y)*(v2.x - v1.x) - (v4.x - v3.x) * (v2.y - v1.y));
+
+    if (ua < 0 || ua > 1 || ub < 0 || ub > 1){
+        return Vector2.zero;
+    }
+
+    var x:float = v1.x + ua * (v2.x - v1.x);
+    var y:float = v1.y + ua * (v2.y - v1.y);
+
+    //print("Intersection:" + Vector2(x,y).ToString());
+    return Vector2(x,y);
+}
+
+
+private var offscreenTolerance:float = 20; //px
+
+function IsOffscreen(p:Pawn){
+    var v:Vector2 = Vector2(p.ScreenPosition().x, Screen.height - p.ScreenPosition().y);
+
+    if (v.x <= -offscreenTolerance || v.x >= Screen.width+offscreenTolerance)
+        return true;
+
+    if (v.y <= -offscreenTolerance || v.y >= Screen.height+offscreenTolerance)
+        return true;
+
+    return false;
+}
 
 function DescriptionUI() {
     for (var p:Pawn in pawnManager.Pawns()){
@@ -294,15 +386,18 @@ function LoadTextures(){
 
     pushActive = Resources.Load("PushActive", Texture2D);
     pushInactive = Resources.Load("PushInactive", Texture2D);
+
+    dotTexture = Resources.Load("RedDot");
 }
 
 function ExplosiveSelectionUI () {
     var w:float = buttonSize * 4;
     var h:float = buttonSize;
+    // TODO: Fix the padding bug properly
     var r:Rect = Rect(Screen.width - menuWidth - padding - w,
-        padding,
+        0, //padding,
         w + padding,
-        h + padding);
+        h + padding * 2);
     GUILayout.BeginArea(r);//,  GUIStyle("BarFull")); 
     GUILayout.BeginHorizontal();
 
