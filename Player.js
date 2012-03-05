@@ -178,7 +178,7 @@ function UseFeat(){
     Feat.inUse = true;
 
     // Add the Effect on Enemies, Effect on the player will be accessed from Feat directly
-    for (var p:Pawn in pawnManager.pawns){
+    for (var p:Pawn in pawnManager.Pawns()){
         if (p != this){
             p.AddEffect(Effect.EffectWithName(Feat.Name()));
         }

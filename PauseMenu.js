@@ -28,7 +28,7 @@ function Start() {
     if (doubleResolution){
         skin = skin2X;
 
-        //padding *= 2;
+        padding *= 2;
         menuWidth *= 2;
         hpBarWidth *= 2;
         hpBarHeight *= 2;
@@ -37,27 +37,27 @@ function Start() {
         barPadding *= 2;
         descriptionUIWidth *= 2;
         descriptionUIHeight *= 2;
-        buttonSize *= 1.5;
+        buttonSize *= 2;
     }
 
     LoadTextures();
 }
 
 
-private var padding:float = 10;
+private var padding:float = 5;
 private var menuWidth:float = 100;
 
-private var hpBarWidth:float = 200;
+private var hpBarWidth:float = 170;
 private var hpBarHeight:float = 35;
 
 private var bossHPBarHeight:float = 20.0;
-private var bossHPBarWidth:float = 200.0;
+private var bossHPBarWidth:float = 150.0;
 private var barPadding:float = 2.0;
 
 private var descriptionUIWidth:float = 150;
 private var descriptionUIHeight:float = 100;
 
-private var buttonSize:float = 64;
+private var buttonSize:float = 48;
 
 function OnGUI () {
     if (skin != null) {
@@ -301,9 +301,9 @@ function ExplosiveSelectionUI () {
     var h:float = buttonSize;
     var r:Rect = Rect(Screen.width - menuWidth - padding - w,
         padding,
-        w,
-        h);
-    GUILayout.BeginArea(r,  GUIStyle("BarFull")); 
+        w + padding,
+        h + padding);
+    GUILayout.BeginArea(r);//,  GUIStyle("BarFull")); 
     GUILayout.BeginHorizontal();
 
 
@@ -313,7 +313,7 @@ function ExplosiveSelectionUI () {
             lastButtonPress = Time.time;
         }
     }else{
-        GUILayout.Label(Feat.IconInactive(),  GUILayout.Width(buttonSize));
+        GUILayout.Button(Feat.IconInactive(),  GUILayout.Width(buttonSize));
     }
 
     if (Explosive.type == ExplosiveType.Bomb){
@@ -352,7 +352,6 @@ function ExplosiveSelectionUI () {
         }
     }
 
-  
     GUILayout.EndHorizontal();
     GUILayout.EndArea();    
 }

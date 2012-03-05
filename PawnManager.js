@@ -12,22 +12,22 @@ function Spawn(type:PawnType){
     var template:GameObject;
     switch(type){
         case PawnType.Ticker:
-            template = Resources.Load("Ticker");
+            template = Resources.Load("PawnTicker");
             break;
         case PawnType.Boomer:
-            template = Resources.Load("Boomer");
+            template = Resources.Load("PawnBoomer");
             break;
         case PawnType.Beast:
-            template = Resources.Load("Beast");
+            template = Resources.Load("PawnBeast");
             break;
         case PawnType.Brawler:
-            template = Resources.Load("Brawler");
+            template = Resources.Load("PawnBrawler");
             break;
         case PawnType.Sniper:
-            template = Resources.Load("Sniper");
+            template = Resources.Load("PawnSniper");
             break;
         case PawnType.Other:
-            template = Resources.Load("Blinker");
+            template = Resources.Load("PawnBlinker");
             break;    
     }
 
@@ -67,7 +67,7 @@ function Pawns():Array{
 
 function Boss(){
     for (var e:Pawn in pawns){
-        if (e.type == PawnType.Other){
+        if (e != null && e.type == PawnType.Other){
             return e;
         }
     }
