@@ -8,7 +8,7 @@ public var skin2X:GUISkin;
 
 private var pawnManager:PawnManager;
 private var player:Player;
-private var doubleResolution:boolean = false;
+private var doubleResolution:boolean = true;
 
 function Start() {
     Time.timeScale = 1.0;
@@ -17,8 +17,9 @@ function Start() {
     skin = skinNormal;
 
     if (Application.platform == RuntimePlatform.IPhonePlayer){
-        switch (iPhoneSettings.generation){
+        switch (iPhone.generation){
             case iPhoneGeneration.iPhone4:
+            case iPhoneGeneration.iPhone4S:
             case iPhoneGeneration.iPodTouch4Gen:
                 doubleResolution = true;
                 break;

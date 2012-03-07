@@ -37,7 +37,7 @@ function UpdateCameraPosition(){
 
 function InitializeQualitySetting(){
     if (Application.platform == RuntimePlatform.IPhonePlayer){
-        switch (iPhoneSettings.generation){
+        switch (iPhone.generation){
             case iPhoneGeneration.iPad1Gen:
             case iPhoneGeneration.iPhone3GS:
                 QualitySettings.antiAliasing = 0;

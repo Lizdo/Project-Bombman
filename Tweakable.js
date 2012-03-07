@@ -191,9 +191,9 @@ static var EnemyDamageColor:Color = DefaultColor;
 static var LowHealthColor:Color = Color(252/255.0,75/255.0,75/255.0);
 static var LowManaColor:Color = Color(75/255.0,125/255.0,252/255.0);
 
-static var BombColor:Color = Color(184.0/255, 150/255, 0/255, 0.6);
-static var ZapColor:Color = Color(255.0/255, 187/255, 98/255.0, 0.6);
-static var PushColor:Color = Color(0.0/255, 88/255.0, 237/255.0, 0.6);
+static var BombColor:Color = Color(184.0/255, 150.0/255, 0/255, 0.6);
+static var ZapColor:Color = Color(255.0/255, 187.0/255, 98.0/255.0, 0.6);
+static var PushColor:Color = Color(0.0/255, 88.0/255.0, 237.0/255.0, 0.6);
 // Raycast Layers
 static var kObstacleMask:int = 1 << 9;
 static var kFloorMask:int = 1 << 10;

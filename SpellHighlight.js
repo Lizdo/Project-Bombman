@@ -10,16 +10,16 @@ function Start (){
     player = FindObjectOfType(Player);
 }
 
-private var bombTex:Texture = Resources.Load("Ring_Bomb");
-private var zapTex:Texture = Resources.Load("Ring_Zap");
-private var pushTex:Texture = Resources.Load("Ring_Push");
+private var bombTex:Texture = Resources.Load("Ring_Bomb", Texture);
+private var zapTex:Texture = Resources.Load("Ring_Zap", Texture);
+private var pushTex:Texture = Resources.Load("Ring_Push", Texture);
 
 private var type:ExplosiveType = -1;
 
-function Update () {
+private var startColor:Color = Color(0.5,0.5,0.5,0.6);
+private var endColor:Color = startColor;
 
-    var startColor:Color = Color(0.5,0.5,0.5,0.6);
-    var endColor:Color;
+function Update () {    
 
     if (Explosive.type != type){
         switch (Explosive.type){
@@ -39,14 +39,10 @@ function Update () {
                 endColor = Color(0.4,0.9,0.5,0.6);
                 break;
         }
-
         type = Explosive.type;
     }
 
-
-
     var percentage:float = player.HoldPercentage();
-
     
     if (percentage <= 0){
         renderer.enabled = false;
@@ -55,12 +51,16 @@ function Update () {
     }
     
     transform.localScale = Vector3(percentage*Explosive.Range()/scaleRatio, 1.0, percentage*Explosive.Range()/scaleRatio);
+
     if (player.ExplosiveAvailable() && percentage >= 0.95){
-        renderer.material.color = Color.Lerp(startColor, endColor, percentage+0.15);    
+        renderer.material.color = Color.Lerp(startColor, endColor, percentage);    
     }else{
         renderer.material.color = startColor;
     }
     
 }
+
+
+
 
 

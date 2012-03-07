@@ -13,7 +13,7 @@ private var increaseRate:float = 2.0; //per second
 function Start() {
     super.Start();
             
-    var ring:GameObject = Instantiate(Resources.Load("Ring"), Vector3.zero, Quaternion.identity);
+    var ring = Instantiate(Resources.Load("Ring", GameObject), Vector3.zero, Quaternion.identity);
 
     highlight = ring.GetComponent(SpellHighlight);
     highlight.transform.position = transform.position;

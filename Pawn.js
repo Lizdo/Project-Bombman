@@ -538,6 +538,9 @@ function SetDetail(b:boolean){
 
 function Title():String{
     var name:String = this.ToString().Split("("[0])[0];
+    if (name != "Player"){
+        name = name.Substring(4);
+    }
     return name + " " + Mathf.Round(HP).ToString() + "/" + Mathf.Round(maxHP).ToString();
 }
 
