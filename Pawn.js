@@ -319,6 +319,15 @@ private function NextPoint(){
     }
 }
 
+
+function FillColor(){
+    return color;
+}
+
+function BorderColor(){
+    return borderColor;
+}
+
 function MoveTo(p:Vector3){
     if (p == Vector3.zero){
         targetPosition = Vector3.zero;

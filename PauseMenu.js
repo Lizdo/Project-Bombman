@@ -210,6 +210,7 @@ function OffscreenPawnUI(){
     for (var p:Pawn in pawnManager.Pawns()){
         OffscreenIconForPawn(p);
     }
+    GUI.color = Tweakable.DefaultColor;
 }
 
 
@@ -226,6 +227,8 @@ function OffscreenIconForPawn(p:Pawn){
     var bottomLeft:Vector2 = Vector2(offscreenIconSize,Screen.height-offscreenIconSize);
     var bottomRight:Vector2 = Vector2(Screen.width-offscreenIconSize,Screen.height-offscreenIconSize);
     var intersection:Vector2;
+
+    GUI.color = p.FillColor();
 
     //Top
     intersection = IntersectionForLines(v,center,topLeft,topRight);
