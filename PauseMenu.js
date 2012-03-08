@@ -40,6 +40,7 @@ function Start() {
         descriptionUIHeight *= 2;
         buttonSize *= 2;
         offscreenIconSize *= 2;
+        topBorderHeight *= 2;
     }
 
     LoadTextures();
@@ -61,6 +62,8 @@ private var descriptionUIHeight:float = 100;
 
 private var buttonSize:float = 48;
 private var offscreenIconSize:float = 8;
+
+private var topBorderHeight:float = 2;
 
 function OnGUI () {
     if (skin != null) {
@@ -102,30 +105,10 @@ function PauseUI() {
         if (GUILayout.Button ("Restart")) {
             FindObjectOfType(ObjectiveManager).RestartMission();
         }
-
-        // GUI.color = Tweakable.WeaponColor;
-        //     if (GUILayout.Button ("Bomb")) {
-        //         Explosive.type = ExplosiveType.Bomb;
-        //         UnPauseGame();
-        //     }
-        //     if (GUILayout.Button ("Zap")) {
-        //         Explosive.type = ExplosiveType.Zap;
-        //         UnPauseGame();
-        //     }
-        //     if (GUILayout.Button ("Push")) {
-        //         Explosive.type = ExplosiveType.Push;
-        //         UnPauseGame();
-        //     }
-        // GUI.color = Tweakable.DefaultColor;
-        
-        // GUI.color = Tweakable.FreezeColor;
-        //     if (GUILayout.Button ("Freeze")) {
-        //         FindObjectOfType(Player).UseAbility(Ability.AbilityFreeze);     
-        //         UnPauseGame();
-        //     }
-        // GUI.color = Tweakable.DefaultColor;
     
     GUILayout.EndArea();
+
+    TopBorder();
 
 }
 
@@ -144,6 +127,14 @@ function InGameUI(){
     MPUI();
     BossHPUI();
     ExplosiveSelectionUI();
+
+    TopBorder();
+}
+
+
+function TopBorder(){
+    var r:Rect = Rect(0,0,Screen.width,topBorderHeight);
+    GUI.DrawTexture(r,topBorderTexture, ScaleMode.ScaleAndCrop);
 }
 
 
@@ -154,9 +145,9 @@ function MPUI(){
 
     GUI.color = Tweakable.DefaultColor;    
 
-    var HP:int = Mathf.Clamp(Mathf.Ceil(player.HP), 0, 100000);
+    var HP:int = Mathf.Clamp(Mathf.Ceil(player.HP()), 0, 100000);
     var maxHP:int = Mathf.Ceil(player.maxHP); 
-    var MP:int = Mathf.Clamp(Mathf.Ceil(player.MP), 0, 100000);
+    var MP:int = Mathf.Clamp(Mathf.Ceil(player.MP()), 0, 100000);
     var maxMP:int = Mathf.Ceil(player.maxMP);
 
     GUILayout.BeginArea(Rect(padding, padding, hpBarWidth, hpBarHeight*2),  GUIStyle("BarEmpty"));    
@@ -198,7 +189,7 @@ function BossHPUI(){
     var r:Rect = Rect(padding, Screen.height - padding - bossHPBarHeight,bossHPBarWidth, bossHPBarHeight);
     GUILayout.BeginArea(r, GUIStyle("BarEmpty"));
         var bar:Rect = Rect(barPadding, barPadding,
-            boss.HP/boss.maxHP * (bossHPBarWidth - barPadding * 2),
+            boss.HP()/boss.maxHP * (bossHPBarWidth - barPadding * 2),
             bossHPBarHeight - barPadding * 2);
         GUILayout.BeginArea(bar, GUIStyle("BarFull"));
         GUILayout.EndArea();
@@ -323,7 +314,7 @@ function DescriptionForPawn(p:Pawn){
 
     GUILayout.BeginArea(Rect(v.x, v.y, descriptionUIWidth, descriptionUIHeight));
         GUILayout.Label(p.Title(), GUIStyle("Title"));
-        if (p.showDetail){
+        if (p.ShowDetail()){
             GUILayout.Label(p.Description(), GUIStyle("Description"));  
         }
     GUILayout.EndArea();    
@@ -381,6 +372,8 @@ private var zapInactive:Texture2D;
 private var pushActive:Texture2D;
 private var pushInactive:Texture2D;
 
+private var topBorderTexture:Texture2D;
+
 function LoadTextures(){
     bombActive = Resources.Load("BombActive", Texture2D);
     bombInactive = Resources.Load("BombInactive", Texture2D);
@@ -391,7 +384,9 @@ function LoadTextures(){
     pushActive = Resources.Load("PushActive", Texture2D);
     pushInactive = Resources.Load("PushInactive", Texture2D);
 
-    dotTexture = Resources.Load("RedDot");
+    dotTexture = Resources.Load("RedDot", Texture2D);
+
+    topBorderTexture = Resources.Load("YellowBlackStrip", Texture2D);
 }
 
 function ExplosiveSelectionUI () {

@@ -2,21 +2,31 @@
 
 import Pathfinding;
 
-protected var speed:float;
+// Public Variables
 
+public var type:PawnType;
 
-protected var attackRadius:float;
-protected var dps:float;
-protected var attackType:AttackType;
-protected var radius:float = 2.0;
-protected var attackSpeed = 1.0;
+public var speed:float;
+
+protected var _HP:float;
+public var maxHP:float;
+
+public var attackRadius:float = 3.0;
+public var dps:float = 10;
+public var attackType:AttackType = AttackType.Melee;
+
+public var attackSpeed = 1.0;
+
+// Public Variables End
+
+private var radius:float = 2.0; //Calculated based on bounding box
 
 protected var deathParticle:GameObject;
 protected var moveTargetMark:GameObject;
 
 protected var smooth:float = 4.0;
 protected var turnOnSpotRotationLimit = 60.0;
-public var type:PawnType;
+
 
 enum Goal{
     Wait = 0,
@@ -44,8 +54,7 @@ private var distanceTolerance:float = 0.1;
 private var currentWaypoint:int = 0;
 
 protected var targetPosition:Vector3 = Vector3.zero;
-public var HP:float;
-public var maxHP:float;
+
 protected var isDead:boolean = false;
 
 protected var color:Color;
@@ -68,17 +77,10 @@ function Start () {
     pawnManager = FindObjectOfType(PawnManager);
     cam =  FindObjectOfType(Camera);
     seeker = GetComponent(Seeker);
-
-    speed = Tweakable.SpeedForType(type)*Random.Range(0.9,1.1);
-    HP = Tweakable.HPForType(type);
-    attackRadius = Tweakable.AttackRadiusForType(type);
-    dps = Tweakable.DPSForType(type);
-    attackType = Tweakable.AttackTypeForType(type);
-    attackSpeed = Tweakable.AttackSpeedForType(type);
     
     radius = Radius();
 
-    maxHP = HP;
+    _HP = maxHP;
     color = Renderer().material.color;
     borderColor = Renderer().material.GetColor(kOutlineColor);
     Renderer().material.SetFloat(kOutlineWidth, outlineWidth);
@@ -155,7 +157,7 @@ function UpdateBurrow(){
         burrowSpeed*Time.deltaTime);
 }
 
-private var screenPositionTickInterval:float = 0.1;
+private var screenPositionTickInterval:float = 0.05;
 private var screenPositionTickTime:float = 0;
 
 function UpdateScreenPosition() {
@@ -328,6 +330,11 @@ function BorderColor(){
     return borderColor;
 }
 
+function HP(){
+    return _HP;
+}
+
+
 function MoveTo(p:Vector3){
     if (p == Vector3.zero){
         targetPosition = Vector3.zero;
@@ -363,13 +370,13 @@ function PathfindingComplete(p:Path){
 
 
 private function UpdateHP(){
-    var ratio:float = 1-HP/maxHP;
+    var ratio:float = 1-_HP/maxHP;
     SetColor(Color.Lerp(color, Color.grey, ratio*0.8));
     if (this == player){
         if (ratio >= 0.9){
             SetOutlineColor(Tweakable.LowHealthColor);
         }else{
-            var mpRatio:float = 1-player.MP/player.maxMP;
+            var mpRatio:float = 1-player.MP()/player.maxMP;
             if (mpRatio >= 0.9){
                 SetOutlineColor(Tweakable.LowManaColor);
             }else{
@@ -530,10 +537,14 @@ function ScreenPosition(){
     return screenPosition;
 }
 
-public var showDetail:boolean = false;
+private var showDetail:boolean = false;
 
 function SetDetail(b:boolean){
     showDetail = b;
+}
+
+function ShowDetail(){
+    return showDetail;
 }
 
 function Title():String{
@@ -541,7 +552,7 @@ function Title():String{
     if (name != "Player"){
         name = name.Substring(4);
     }
-    return name + " " + Mathf.Round(HP).ToString() + "/" + Mathf.Round(maxHP).ToString();
+    return name + " " + Mathf.Round(_HP).ToString() + "/" + Mathf.Round(maxHP).ToString();
 }
 
 function Description():String{
@@ -551,13 +562,13 @@ function Description():String{
 private var damageFXThreshold:float = 10;
 
 function Damage(damage:float){
-    HP -= damage;
+    _HP -= damage;
     
     if (damage >= damageFXThreshold){
         PlayDamageFX();
     }
 
-    if (HP <= 0 && !isDead){
+    if (_HP <= 0 && !isDead){
         isDead = true;  
         Die();
     }
@@ -571,9 +582,9 @@ function PlayDamageFX(){
 
 function Heal(amount:float){
     // +++ Particle
-    HP += amount;
-    if (HP >= maxHP){
-        HP = maxHP;
+    _HP += amount;
+    if (_HP >= maxHP){
+        _HP = maxHP;
     }
 }
 

@@ -4,19 +4,6 @@ public class Blinker extends Enemy{
 
 function Start(){
 	super.Start();
-
-	//Override values
-	speed = 3.0;
-	maxHP = HP = 2000.0;
-	attackRadius = 5.0;
-	dps = 20;
-	attackType = AttackType.Ranged;
-	attackSpeed = 1.0;
-
-	InitAttackRadius();
-	attackRadiusRing.SetRadius(attackRadius);
-
-
 	InitTeleportMarker();
 }
 

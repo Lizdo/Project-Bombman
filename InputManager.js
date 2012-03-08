@@ -99,7 +99,7 @@ function PauseTouchEndedAt (point:Vector2){
     var v:Vector2;
     if (Physics.Raycast (ray, hit, 200, Tweakable.kEnemyMask)){
         var enemy:Enemy = hit.collider.GetComponent(Enemy);
-        enemy.SetDetail(!enemy.showDetail);
+        enemy.SetDetail(!enemy.ShowDetail());
         //v = camera.WorldToScreenPoint(enemy.Position());
         //pauseMenu.AddDescription(point, enemy.Title(),enemy.Description());
         return;
@@ -127,8 +127,8 @@ function TouchBeganAt (point:Vector2){
 }
 
 function TouchMovedAt (point:Vector2){
-    if(touchNearPlayer && PointNearPlayer(point) && !player.explodeCooldown){
-        if (Time.time - startHoldingTime >= player.holdTimeThreshold){
+    if(touchNearPlayer && PointNearPlayer(point) && !player.ExplodeCooldown()){
+        if (Time.time - startHoldingTime >= player.HoldTimeThreshold()){
             holdingTouch = true;
             player.ProcessHold(startHoldingTime);
         }

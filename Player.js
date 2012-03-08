@@ -4,8 +4,8 @@ import Explosive;
 
 public class Player extends Pawn{
 
-public var highlight:SpellHighlight;
-public var MP:float;
+private var highlight:SpellHighlight;
+private var _MP:float;
 public var maxMP:float = 100.0;
 private var increaseRate:float = 2.0; //per second
 
@@ -20,7 +20,7 @@ function Start() {
     highlight.transform.parent = transform;
     
     Explosive.type = ExplosiveType.Bomb;
-    MP = maxMP;
+    _MP = maxMP;
     
     print("Player Intialized");
 
@@ -33,6 +33,10 @@ function Update () {
     UpdateMP();
     UpdateAnimation();
     UpdateFeat();
+}
+
+function MP(){
+    return _MP;
 }
 
 function UpdateAnimation(){
@@ -50,14 +54,18 @@ function UpdateAnimation(){
 
 }
 
-public var holdTimeThreshold:float = 0.1;
+private var holdTimeThreshold:float = 0.1;
 
 function UpdateMP(){
-    MP += increaseRate * Time.deltaTime;
-    MP = Mathf.Clamp(MP,0,maxMP);
+    _MP += increaseRate * Time.deltaTime;
+    _MP = Mathf.Clamp(_MP,0,maxMP);
 }
 
 private var holdPercentage:float = 0;
+
+function HoldTimeThreshold():float{
+    return holdTimeThreshold;
+}
 
 function ProcessHold (startTime:float){
     if (explodeCooldown){
@@ -94,19 +102,23 @@ function EndHold (){
 }
 
 
-public var explodeCooldown:boolean;
+private var explodeCooldown:boolean;
+
+public function ExplodeCooldown():boolean{
+    return explodeCooldown;
+}
 
 function Explode(){
 
     goal = Goal.Wait;
 
     //Update Mana Cost
-    if (MP < Explosive.Cost()){
+    if (_MP < Explosive.Cost()){
         return;
     }
 
-    MP -= Explosive.Cost();
-    MP = Mathf.Clamp(MP, 0, maxMP);
+    _MP -= Explosive.Cost();
+    _MP = Mathf.Clamp(_MP, 0, maxMP);
 
     var v:Vector3;
 
@@ -150,7 +162,7 @@ function Explode(){
 
 
 function UseAbility(a:Ability){
-    if (MP < a.cost){
+    if (_MP < a.cost){
         // TODO: Add a MP not enough Hint, or Block UI to make it impossible
         print("Not Enough MP");
         return;
@@ -158,7 +170,7 @@ function UseAbility(a:Ability){
     
     print("Using Ability:" + a.name);
     
-    MP -= a.cost;
+    _MP -= a.cost;
     
     for (var p:Pawn in pawnManager.pawns){
         if (p != this){
@@ -174,7 +186,7 @@ function UseFeat(){
 
     print("Using Feat: " + Feat.Name());
 
-    MP -= Feat.Cost();
+    _MP -= Feat.Cost();
     Feat.inUse = true;
 
     // Add the Effect on Enemies, Effect on the player will be accessed from Feat directly
@@ -189,7 +201,7 @@ function UseFeat(){
 }
 
 function ExplosiveAvailable():boolean{
-    return MP >= Explosive.Cost();
+    return _MP >= Explosive.Cost();
 }
 
 function UpdateFeat(){
@@ -197,7 +209,7 @@ function UpdateFeat(){
 }
 
 function FeatAvailable():boolean{
-    if (MP < Feat.Cost()){
+    if (_MP < Feat.Cost()){
         return false;
     }
     return true;
@@ -205,15 +217,15 @@ function FeatAvailable():boolean{
 
 function RefillMP(amount:float){
     // TODO: Add feedback;
-    MP += amount;
-    if (MP >= maxMP){
-        MP = maxMP;
+    _MP += amount;
+    if (_MP >= maxMP){
+        _MP = maxMP;
     }
 }
 
 function ResetHPMP(){
-    MP = maxMP;
-    HP = maxHP;
+    _MP = maxMP;
+    _HP = maxHP;
 }
 
 function MoveTo(p:Vector3){
