@@ -18,15 +18,35 @@ private var pickupDistance:float = 1.0;
 function Start(){
     player = FindObjectOfType(Player);
     color = renderer.material.color;
+
+    // Snap to floor
+    if (transform.position.y != floorHeight){
+        transform.position = Vector3(transform.position.x, floorHeight, transform.position.z);
+    }
+
     startingY = transform.position.y;
 
-    yield WaitForSeconds(lifeTime);
-    Disappear();
+    print(transform.position);
+
+    // yield WaitForSeconds(lifeTime);
+    // Disappear();
 }
 
 private var rotateSpeed:float = 360;
 
 private var color:Color;
+
+static function Spawn(t:PickupType, p:Vector3){
+    var template:GameObject = Resources.Load("Pickup" + t.ToString());
+
+    if (template == null){
+        print("Spawn Failed!" + t.ToString());
+        return;
+    }
+
+    Instantiate(template, p, Quaternion.identity);
+    print("Spawned!" + t.ToString() + p.ToString());
+}
 
 function Update(){
     if(Mathf.Abs(transform.position.y - floorHeight) >= 0.01){
@@ -35,6 +55,7 @@ function Update(){
         return;
     }
 
+    print(currentLifeTime);
     currentLifeTime += Time.deltaTime;
 
     if (lifeTime - currentLifeTime <= blinkTime){
@@ -42,14 +63,14 @@ function Update(){
     }
 
     // Rotating
-    transform.Rotate(Vector3.up * Time.deltaTime*rotateSpeed);
+    transform.Rotate(Vector3.up * Time.deltaTime*rotateSpeed,  Space.World);
 
     if (Vector3.Distance(player.Position(), transform.position) <= pickupDistance){
         PickedUp();
     }
 }
 
-private var floorHeight:float = 1.0;
+private var floorHeight:float = 0.3;
 
 private var droppingTime:float = 0;
 private var startingY:float;
@@ -93,7 +114,7 @@ function Description(){
 function PickedUp(){
     switch (type){
         case PickupType.HP:
-            player.Heal(50);
+            player.Heal(250);
             break;
         case PickupType.MP:
             player.RefillMP(50);

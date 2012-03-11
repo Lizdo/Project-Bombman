@@ -15,7 +15,9 @@ public var attackRadius:float = 3.0;
 public var dps:float = 10;
 public var attackType:AttackType = AttackType.Melee;
 
-public var attackSpeed = 1.0;
+public var attackSpeed:float = 1.0;
+
+public var description:String;
 
 // Public Variables End
 
@@ -549,14 +551,14 @@ function ShowDetail(){
 
 function Title():String{
     var name:String = this.ToString().Split("("[0])[0];
-    if (name != "Player"){
+    if (this != player){
         name = name.Substring(4);
     }
     return name + " " + Mathf.Round(_HP).ToString() + "/" + Mathf.Round(maxHP).ToString();
 }
 
 function Description():String{
-    return "Extremely Fast\nMelee\nSuper Low HP\nAppears in Swarms";
+    return description;
 }
 
 private var damageFXThreshold:float = 10;
@@ -609,9 +611,24 @@ function HasEffect(n:String){
 }
 
 function Die(){
+    SpawnPickup();
     var fx:GameObject = Instantiate(deathParticle, transform.position, Quaternion.identity);
     fx.GetComponent(ParticleAnimator).autodestruct = true;
     gameObject.SetActiveRecursively(false);
+}
+
+private var pickupSpawnPercentage:float = 0.6;
+
+function SpawnPickup(){
+    if (player.LowHP()){
+        Pickup.Spawn(PickupType.HP, transform.position);
+        return;
+    }
+
+    if (Random.value <= pickupSpawnPercentage){
+        Pickup.Spawn(PickupType.HP, transform.position);
+        return;
+    }
 }
 
 function IsDead(){

@@ -223,6 +223,10 @@ function RefillMP(amount:float){
     }
 }
 
+function LowHP(){
+    return _HP/maxHP <= 0.2;
+}
+
 function ResetHPMP(){
     _MP = maxMP;
     _HP = maxHP;
