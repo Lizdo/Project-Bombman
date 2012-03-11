@@ -16,7 +16,8 @@ enum PawnType{
     Sniper  = 3,
     Beast   = 4,
     Brawler = 5,
-    Other   = 100,
+    Exploder = 11,
+    Blinker = 100,
 }
 
 enum AttackType{

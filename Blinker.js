@@ -95,9 +95,10 @@ function SpawnMinion(){
 	print("Spawning");
 
 	// Spawn 3 ticker
-	pawnManager.Spawn(1);
-	pawnManager.Spawn(1);
-	pawnManager.Spawn(1);
+	pawnManager.Spawn(1, Position(), 2.0, true);
+	pawnManager.Spawn(1, Position(), 2.0, true);
+	pawnManager.Spawn(1, Position(), 2.0, true);
+	//pawnManager.Spawn(1);
 
 	// var randomType:int = Mathf.Floor(Random.Range(2.0,4.999));
 	// pawnManager.Spawn(randomType);

@@ -9,34 +9,24 @@ function Start () {
 }
 
 function Spawn(type:PawnType){
-    var template:GameObject;
-    switch(type){
-        case PawnType.Ticker:
-            template = Resources.Load("PawnTicker");
-            break;
-        case PawnType.Boomer:
-            template = Resources.Load("PawnBoomer");
-            break;
-        case PawnType.Beast:
-            template = Resources.Load("PawnBeast");
-            break;
-        case PawnType.Brawler:
-            template = Resources.Load("PawnBrawler");
-            break;
-        case PawnType.Sniper:
-            template = Resources.Load("PawnSniper");
-            break;
-        case PawnType.Other:
-            template = Resources.Load("PawnBlinker");
-            break;    
-    }
+    Spawn(type, RandomOffScreenPosition());
+}
+
+function Spawn(type:PawnType, position:Vector3, offset:float, burrow:boolean){
+    var p:Vector3 = RandomPositionWithOffset(position, offset, burrow);
+    Spawn(type, p);
+}
+
+
+function Spawn(type:PawnType, position:Vector3){
+    var template:GameObject = Resources.Load("Pawn" + type.ToString());
 
     if (template == null){
         print("Spawn Failed!");
         return;
     }
 
-    var enemy:GameObject = Instantiate(template, RandomOffScreenPosition(), Quaternion.identity);
+    var enemy:GameObject = Instantiate(template, position, Quaternion.identity);
     pawns.Add(enemy.GetComponent(Pawn));
 }
 
@@ -67,22 +57,32 @@ function Pawns():Array{
 
 function Boss(){
     for (var e:Pawn in pawns){
-        if (e != null && e.type == PawnType.Other){
+        if (e != null && e.type == PawnType.Blinker){
             return e;
         }
     }
     return null;
 }
 
-function RandomOffScreenPosition(){
+function RandomOffScreenPosition():Vector3{
     var screenbound:float = FindObjectOfType(CameraManager).ScreenBound();
-    var cameraHeight:float = FindObjectOfType(CameraManager).Height();
-    var randomOffset:Vector3 = Quaternion.AngleAxis(Random.value*360, Vector3.up) * Vector3(screenbound,0,0);
-    var verticalHeight:Vector3 = Vector3(0,cameraHeight,0);
-    return player.Position() + randomOffset + verticalHeight;
+    return RandomPositionWithOffset(player.Position(), screenbound, false);    
 }
 
 static var PositionCount:int = 8;
+
+function RandomPositionWithOffset(position:Vector3, offset:float, burrow:boolean):Vector3{
+    var zOffset:float;
+    if (burrow){
+        zOffset = -2;
+    }else{
+        zOffset = FindObjectOfType(CameraManager).Height();
+    }
+
+    var randomOffset:Vector3 = Quaternion.AngleAxis(Random.value*360, Vector3.up) * Vector3(offset,0,0);
+    var verticalHeight:Vector3 = Vector3(0,zOffset,0);
+    return position + randomOffset + verticalHeight;
+}
 
 function NearestAvailablePositon(position:Vector3, pawn:Pawn):Vector3{
     if (IsPositionAvailable(position, pawn)){
