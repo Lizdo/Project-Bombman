@@ -201,7 +201,7 @@ function AttackTime(){
 private var BulletLineWidth:float = 0.1;
 
 function DealDamage(){
-    player.Damage(dps*attackTime);
+    player.Damage(dps*attackTime, this);
 
     var bulletLine:GameObject = Instantiate(line, Vector3.zero, Quaternion.identity);
     bulletLine.GetComponent(Line).SetPoints(Center(), player.Center());

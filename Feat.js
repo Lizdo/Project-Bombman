@@ -2,89 +2,85 @@
 
 public class Feat{
 
-// Unlock feats (Feat Burn MP)
-// - Freeze
-// - Health leech
-// - Mana leech
-// - Push back
-// - Bigger bomb radius
-// - Teleport
-// - Wrath, double damage
-// - Shield, ignore damage
 
-// Feat
-//	-	Type
-//	-	Mana Cost (Per Second)
-//	-	Unlock Level
-//	-	Name
-//	-	Description
-//	-	Icon
+// Feats:
+//		- Passive Abilities
+//		- Always active
+
+// -	Vampiric: Health leech
+// -	Moonshine: Mana leech
+// -	Explosive: Bigger bomb radius
+// -	TODO: Electrify: Zap will Stun Enemies
+// -	Numb: Ignore Damage < 20
+// -	Evade: 20% Evade
+// -	Haste: +20% Movement Speed
+// -	TODO: Flame: Dot for Bomb Damage
+// -	TODO: Poison: Dot for Zap Damage
+// -	CheatDeath: HP Refill after one death
 	
 	enum FeatType{
-		Freeze 			= 0,
-		HealthLeech 	= 1,
-		ManaLeech 		= 2,
-		ExtraBombRadius = 3,
-		Teleport 		= 4,
-		DoubleDamage 	= 5,
-		Shield 			= 6,
+		Vampiric		= 0,
+		Moonshine		= 1,
+		Explosive		= 2,
+		Electrify		= 3,
+		Numb			= 4,
+		Evade			= 5,
+		Haste			= 6,
+		Flame			= 7,
+		Poison			= 8,
+		CheatDeath		= 9,
 	}
 
-	//Freeze 			
-	//HealthLeech 	
-	//ManaLeech 		
-	//ExtraBombRadius 
-	//Teleport 		
-	//DoubleDamage 	
-	//Shield 			
+	// Vampiric	
+	// Moonshine	
+	// Explosive	
+	// Electrify	
+	// Numb		
+	// Evade		
+	// Haste		
+	// Flame		
+	// Poison		
+	// CheatDeath		
 
-	public static var type = FeatType.Freeze;
-	public static var inUse:boolean = false;
+	public static var type = FeatType.Vampiric;
 
-	private static var _Cost = [
-		40,	//Freeze 			
-		0,	//HealthLeech 	
-		0,	//ManaLeech 		
-		0,	//ExtraBombRadius 
-		40,	//Teleport 		
-		40,	//DoubleDamage 	
-		40	//Shield 			
+	private static var _Power = [
+		0.1,	// Vampiric	
+		0.05,	// Moonshine	
+		1.2,	// Explosive	
+		0,	// Electrify	
+		10,	// Numb		
+		0.2,	// Evade		
+		0.2,	// Haste		
+		0,	// Flame		
+		0,	// Poison		
+		0	// CheatDeath			
 	];
-
-	private static var _Duration = [
-		10,	//Freeze 			
-		0,	//HealthLeech 	
-		0,	//ManaLeech 		
-		0,	//ExtraBombRadius 
-		10,	//Teleport 		
-		10,	//DoubleDamage 	
-		10	//Shield 			
-	];
-
-	public static function Cost(){
-		return _Cost[type];
-	}
-
-	public static function Duration(){
-		return _Duration[type];
-	}
 
 	public static function Name():String{
 		return type.ToString();
 	}
 
-	public static function Level():int{
-		return type;
-	}
+    public static function Power(){
+        return _Power[type];
+    }   
 
 	// TODO: Manually load the icons
-	public static function Icon():Texture2D{
-		return Resources.Load(Name(),Texture2D);
-	}
+    public static function Icon():Texture2D{
+        var tex:Texture2D = Resources.Load(Name(),Texture2D);
+        if (tex == null){
+            tex = Resources.Load("Freeze", Texture2D);
+        }
+        return tex;
+    }
 
-	public static function IconInactive():Texture2D{
-		return Resources.Load(Name()+"_Inactive",Texture2D);
-	}
+    public static function IconInactive():Texture2D{
+        var tex:Texture2D = Resources.Load(Name()+"_Inactive",Texture2D);
+        if (tex == null){
+            tex = Resources.Load("Freeze"+"_Inactive", Texture2D);
+        }
+        return tex;        
+    }
 
 
 

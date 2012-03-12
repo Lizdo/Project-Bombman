@@ -1,5 +1,7 @@
 #pragma strict
 
+import Feat;
+
 public class Explosive{
     enum ExplosiveType{
         Bomb = 0,
@@ -71,7 +73,11 @@ public class Explosive{
     public static var type:ExplosiveType;
     
     public static function Range(){
-        return _Range[type];
+        var rangeMultiplier:float = 1.0;
+        if (Feat.type == FeatType.Explosive){
+            rangeMultiplier = Feat.Power();
+        }
+        return _Range[type] * rangeMultiplier;
     }
 
     public static function Damage(){

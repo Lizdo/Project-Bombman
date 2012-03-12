@@ -21,7 +21,7 @@ function Center(){
     return Renderer().bounds.center;
 }
 
-function Damage(amount:float){
+function Damage(amount:float, source:Pawn){
 	HP -= amount;
 	if (HP <= 0){
 		Destroy();

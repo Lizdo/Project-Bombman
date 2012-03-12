@@ -401,13 +401,13 @@ function ExplosiveSelectionUI () {
     GUILayout.BeginHorizontal();
 
 
-    if(player.FeatAvailable() && !Feat.inUse){
-        if (GUILayout.Button (Feat.Icon(),  GUILayout.Width(buttonSize))) {
-            player.UseFeat();
+    if(player.AbilityAvailable() && !Ability.inUse){
+        if (GUILayout.Button (Ability.Icon(),  GUILayout.Width(buttonSize))) {
+            player.UseAbility();
             lastButtonPress = Time.time;
         }
     }else{
-        GUILayout.Button(Feat.IconInactive(),  GUILayout.Width(buttonSize));
+        GUILayout.Button(Ability.IconInactive(),  GUILayout.Width(buttonSize));
     }
 
     if (Explosive.type == ExplosiveType.Bomb){

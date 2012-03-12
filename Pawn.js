@@ -302,7 +302,7 @@ private function RotateTowardTarget(){
 private function MoveTowardTarget(){
     transform.position = Vector3.MoveTowards(transform.position,
         NextPoint(),
-        Time.deltaTime * speed);
+        Time.deltaTime * Speed());
 }
 
 private function RotateToPlayer(){
@@ -321,6 +321,10 @@ private function NextPoint(){
     }else{
         return targetPosition;
     }
+}
+
+function Speed(){
+    return speed;
 }
 
 
@@ -563,7 +567,7 @@ function Description():String{
 
 private var damageFXThreshold:float = 10;
 
-function Damage(damage:float){
+function Damage(damage:float, source:Pawn){
     _HP -= damage;
     
     if (damage >= damageFXThreshold){
@@ -582,12 +586,22 @@ function PlayDamageFX(){
     fx.transform.parent = transform;    
 }
 
+private var healthPopupThreshold:float = 5.0;
+
 function Heal(amount:float){
     // +++ Particle
+
     _HP += amount;
     if (_HP >= maxHP){
+        amount -= (_HP - maxHP);     
         _HP = maxHP;
     }
+
+    if (amount >= healthPopupThreshold){
+        var v:Vector3 = Camera.main.WorldToViewportPoint(Center());
+        FindObjectOfType(UI).SpawnFloatingText(amount, v.x, v.y, Tweakable.HealthColor);    
+    }
+
 }
 
 private var effects:Array = new Array();
