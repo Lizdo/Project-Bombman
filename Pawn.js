@@ -480,7 +480,7 @@ function SwitchAnimation(newAnimation:PawnAnimationState){
             var animationTime:float = state.length;
             state.speed = animationTime/AttackTime();
         }else if (currentAnimation == PawnAnimationState.Attack){
-            animation.CrossFadeQueued(AnimationName[newAnimation],blendTime);
+            animation.CrossFade(AnimationName[newAnimation],blendTime);
             state.speed = 1;            
         }else{
             animation.CrossFade(AnimationName[newAnimation],blendTime);
