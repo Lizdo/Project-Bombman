@@ -95,6 +95,7 @@ function StartPhase(phaseNumber:int){
 
     yield WaitForSeconds(delayBetweenWaves);
 
+    print(phaseNumber);
     for (var i:int in waves[phaseNumber]){
         pawnManager.Spawn(i);
     }

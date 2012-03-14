@@ -26,8 +26,6 @@ function Start(){
 
     startingY = transform.position.y;
 
-    print(transform.position);
-
     // yield WaitForSeconds(lifeTime);
     // Disappear();
 }
@@ -55,7 +53,6 @@ function Update(){
         return;
     }
 
-    print(currentLifeTime);
     currentLifeTime += Time.deltaTime;
 
     if (lifeTime - currentLifeTime <= blinkTime){

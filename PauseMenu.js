@@ -82,13 +82,13 @@ function OnGUI () {
     
     switch (page){
         case MenuPage.InGame:
-            InGameUI();
+            InGamePage();
             break;
         case MenuPage.PauseMenu:
-            PauseUI();
+            PausePage();
             break;
         case MenuPage.FeatSelection:
-            FeatSelectionUI();
+            FeatSelectionPage();
             break;
     }
 }
@@ -105,7 +105,7 @@ function LateUpdate () {
 }
 
 
-function PauseUI() {
+function PausePage() {
 
     OffscreenPawnUI();
     BossHPBar();
@@ -118,12 +118,19 @@ function PauseUI() {
         if (GUILayout.Button ("Continue")) {
             UnPauseGame();
         }
+        GUI.color = Tweakable.WarningColor;
+
         if (GUILayout.Button ("Restart")) {
             FindObjectOfType(ObjectiveManager).RestartMission();
         }
+
+        GUI.color = Tweakable.FunctionColor;
+
         if (GUILayout.Button ("Abilities")) {
             page = MenuPage.FeatSelection;
         }        
+
+        GUI.color = Tweakable.DefaultColor;
     
     GUILayout.EndArea();
 
@@ -133,7 +140,7 @@ function PauseUI() {
 
 public var pauseTexture:Texture2D;
 
-function InGameUI(){
+function InGamePage(){
     // Upper Right
     GUILayout.BeginArea(Rect(Screen.width - menuWidth - padding, padding, menuWidth, 200)); 
     if (GUILayout.Button ("Pause")) {
@@ -151,13 +158,16 @@ function InGameUI(){
 }
 
 
-function FeatSelectionUI(){
+function FeatSelectionPage(){
     GUILayout.BeginArea(Rect(Screen.width - menuWidth - padding, padding, menuWidth, 200)); 
     if (GUILayout.Button ("Done")) {
     //if (GUILayout.Button(pauseTexture)){
         UnPauseGame();
     }
     GUILayout.EndArea();
+
+    AbilitySelectionMenu();
+    FeatSelectionMenu();
 
     TopBorder();
 }
@@ -482,6 +492,93 @@ function AbilitySelectionUI () {
 
     GUILayout.EndHorizontal();
     GUILayout.EndArea();    
+}
+
+//////////////////////////////////////
+//  Ability Selection
+//////////////////////////////////////
+
+function AbilitySelectionMenu(){
+    var w:float = Screen.width - menuWidth - padding * 2;
+    var h:float = Screen.height/2;
+    // TODO: Fix the padding bug properly
+    var r:Rect = Rect(padding,
+        padding,
+        w,
+        h);
+    GUILayout.BeginArea(r); 
+
+    var half:int = Mathf.Ceil(Ability.NumberOfTypes/2.0);
+    var i:int;
+
+    // Group 1
+    GUILayout.BeginHorizontal();
+        for (i = 0; i < half; i++){
+            AbilityItem(i);
+        }
+    GUILayout.EndHorizontal();
+
+    // Group 2
+    GUILayout.BeginHorizontal();
+        for (i = half; i < Ability.NumberOfTypes; i++){
+            AbilityItem(i);
+        }
+    GUILayout.EndHorizontal();
+
+
+    GUILayout.EndArea();
+}
+
+function AbilityItem(i:int){
+    var content:GUIContent = GUIContent(Ability.Name(i), Ability.Icon(i));
+    if (GUILayout.Button (content, GUIStyle("AbilityButton"), GUILayout.Width(buttonSize+padding*2))) {
+        if (Ability.Unlocked(i)){
+            Ability.type = i;    
+        }
+    }
+}
+
+
+function FeatSelectionMenu(){
+
+    var w:float = Screen.width - menuWidth - padding * 2;
+    var h:float = Screen.height/2;
+    // TODO: Fix the padding bug properly
+    var r:Rect = Rect(padding,
+        padding + Screen.height/2,
+        w,
+        h);
+    GUILayout.BeginArea(r); 
+
+    var half:int = Mathf.Ceil(Feat.NumberOfTypes/2.0);
+    var i:int;
+
+    // Group 1
+    GUILayout.BeginHorizontal();
+        for (i = 0; i < half; i++){
+            FeatItem(i);
+        }
+    GUILayout.EndHorizontal();
+
+    // Group 2
+    GUILayout.BeginHorizontal();
+        for (i = half; i < Feat.NumberOfTypes; i++){
+            FeatItem(i);
+        }
+    GUILayout.EndHorizontal();
+
+
+    GUILayout.EndArea();
+
+}
+
+function FeatItem(i:int){
+    var content:GUIContent = GUIContent(Feat.Name(i), Feat.Icon(i));
+    if (GUILayout.Button (content, GUIStyle("AbilityButton"), GUILayout.Width(buttonSize+padding*2))) {
+        if (Feat.Unlocked(i)){
+            Feat.type = i;    
+        }
+    }
 }
 
 

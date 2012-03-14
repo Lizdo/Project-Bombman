@@ -17,6 +17,9 @@ public class Feat{
 // -	TODO: Flame: Dot for Bomb Damage
 // -	TODO: Poison: Dot for Zap Damage
 // -	CheatDeath: HP Refill after one death
+
+    static var NumberOfTypes:int = 10;
+
 	
 	enum FeatType{
 		Vampiric		= 0,
@@ -61,26 +64,44 @@ public class Feat{
 		return type.ToString();
 	}
 
+
+    public static function Name(t:FeatType){
+        return t.ToString();
+    }
+
+    public static function Unlocked(t:FeatType):boolean{
+        return true;
+    }
+
     public static function Power(){
         return _Power[type];
     }   
 
 	// TODO: Manually load the icons
-    public static function Icon():Texture2D{
-        var tex:Texture2D = Resources.Load(Name(),Texture2D);
+    public static function Icon(t:FeatType):Texture2D{
+        var tex:Texture2D = Resources.Load(Name(t),Texture2D);
         if (tex == null){
             tex = Resources.Load("Freeze", Texture2D);
         }
         return tex;
     }
 
-    public static function IconInactive():Texture2D{
-        var tex:Texture2D = Resources.Load(Name()+"_Inactive",Texture2D);
+    public static function Icon():Texture2D{
+    	return Icon(type);
+    }
+
+    public static function IconInactive(t:FeatType):Texture2D{
+        var tex:Texture2D = Resources.Load(Name(t)+"_Inactive",Texture2D);
         if (tex == null){
             tex = Resources.Load("Freeze"+"_Inactive", Texture2D);
         }
         return tex;        
     }
+
+    public static function IconInactive():Texture2D{
+    	return IconInactive(type);
+    }
+
 
 
 

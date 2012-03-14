@@ -37,7 +37,7 @@ static var EnemyDamageColor:Color = DefaultColor;
 static var LowHealthColor:Color = Color(252/255.0,75/255.0,75/255.0);
 static var LowManaColor:Color = Color(75/255.0,125/255.0,252/255.0);
 
-static var HealthColor:Color = Color(125/255.0,109/255.0,209/255.0);
+static var HealthColor:Color = Color(209/255.0,109/255.0,109/255.0);
 static var ManaColor:Color = Color(109/255.0,169/255.0,209/255.0);
 
 static var BombColor:Color = Color(184.0/255, 150.0/255, 0/255, 0.6);
@@ -49,7 +49,7 @@ static var kFloorMask:int = 1 << 10;
 static var kEnemyMask:int = 1 << 11;
 static var kPickupMask:int = 1 << 12;
 
-static var WarningColor:Color = Color(125/255.0,109/255.0,209/255.0);
+static var WarningColor:Color = Color(209/255.0,109/255.0,109/255.0);
 static var FunctionColor:Color = Color(109/255.0,169/255.0,209/255.0);
 
 

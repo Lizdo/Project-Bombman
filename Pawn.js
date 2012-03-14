@@ -607,6 +607,9 @@ function Heal(amount:float){
 private var effects:Array = new Array();
 
 function AddEffect(e:Effect){
+    if (e == null){
+        return;
+    }
     var currentEffect:Effect = HasEffect(e.name);
     if (currentEffect) {
         currentEffect.Reset();

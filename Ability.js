@@ -19,6 +19,7 @@ public class Ability{
 // -   Trail: DOT Puddle
 // -   Avatar: become bigger, increase all parameters
 
+    static var NumberOfTypes:int = 10;
 
     enum AbilityType{
         Freeze      = 0,
@@ -103,9 +104,21 @@ public class Ability{
         return type.ToString();
     }
 
+    public static function Name(t:AbilityType){
+        return t.ToString();
+    }
+
+    public static function Unlocked(t:AbilityType):boolean{
+        return true;
+    }
+
     // TODO: Manually load the icons
     public static function Icon():Texture2D{
-        var tex:Texture2D = Resources.Load(Name(),Texture2D);
+        return Icon(type);
+    }
+
+    public static function Icon(t:AbilityType):Texture2D{
+        var tex:Texture2D = Resources.Load(Name(t),Texture2D);
         if (tex == null){
             tex = Resources.Load("Freeze", Texture2D);
         }
@@ -113,7 +126,12 @@ public class Ability{
     }
 
     public static function IconInactive():Texture2D{
-        var tex:Texture2D = Resources.Load(Name()+"_Inactive",Texture2D);
+        return IconInactive(type);
+    }
+
+
+    public static function IconInactive(t:AbilityType):Texture2D{
+        var tex:Texture2D = Resources.Load(Name(t)+"_Inactive",Texture2D);
         if (tex == null){
             tex = Resources.Load("Freeze"+"_Inactive", Texture2D);
         }
