@@ -44,6 +44,8 @@ function Start() {
     }
 
     LoadTextures();
+
+    page = MenuPage.InGame;
 }
 
 
@@ -65,16 +67,30 @@ private var offscreenIconSize:float = 8;
 
 private var topBorderHeight:float = 2;
 
+enum MenuPage{
+    InGame,
+    PauseMenu,
+    FeatSelection,
+}
+
+private var page:MenuPage;
+
 function OnGUI () {
     if (skin != null) {
         GUI.skin = skin;
     }   
     
-    if (IsGamePaused()) {
-        PauseUI();
-    }else{
-        InGameUI();
-    }   
+    switch (page){
+        case MenuPage.InGame:
+            InGameUI();
+            break;
+        case MenuPage.PauseMenu:
+            PauseUI();
+            break;
+        case MenuPage.FeatSelection:
+            FeatSelectionUI();
+            break;
+    }
 }
 
 
@@ -92,8 +108,8 @@ function LateUpdate () {
 function PauseUI() {
 
     OffscreenPawnUI();
-    BossHPUI();
-    MPUI();
+    BossHPBar();
+    HPMPBar();
 
     DescriptionUI();
     
@@ -105,6 +121,9 @@ function PauseUI() {
         if (GUILayout.Button ("Restart")) {
             FindObjectOfType(ObjectiveManager).RestartMission();
         }
+        if (GUILayout.Button ("Abilities")) {
+            page = MenuPage.FeatSelection;
+        }        
     
     GUILayout.EndArea();
 
@@ -124,13 +143,24 @@ function InGameUI(){
     GUILayout.EndArea();
     
     OffscreenPawnUI();
-    MPUI();
-    BossHPUI();
-    ExplosiveSelectionUI();
+    HPMPBar();
+    BossHPBar();
+    AbilitySelectionUI();
 
     TopBorder();
 }
 
+
+function FeatSelectionUI(){
+    GUILayout.BeginArea(Rect(Screen.width - menuWidth - padding, padding, menuWidth, 200)); 
+    if (GUILayout.Button ("Done")) {
+    //if (GUILayout.Button(pauseTexture)){
+        UnPauseGame();
+    }
+    GUILayout.EndArea();
+
+    TopBorder();
+}
 
 function TopBorder(){
     var r:Rect = Rect(0,0,Screen.width,topBorderHeight);
@@ -138,7 +168,7 @@ function TopBorder(){
 }
 
 
-function MPUI(){
+function HPMPBar(){
     // Upper Left
     if (player == null)
         return;
@@ -181,7 +211,7 @@ function MPUI(){
 }
 
 
-function BossHPUI(){
+function BossHPBar(){
     var boss:Pawn = pawnManager.Boss();
     if (boss == null)
         return;
@@ -197,6 +227,10 @@ function BossHPUI(){
 
 }
 
+
+//////////////////////////////////////
+//  Offscreen Pawn Dot
+//////////////////////////////////////
 
 function OffscreenPawnUI(){
     for (var p:Pawn in pawnManager.Pawns()){
@@ -289,6 +323,10 @@ function IsOffscreen(p:Pawn){
     return false;
 }
 
+//////////////////////////////////////
+//  Pause Game UI -  Pawn Info
+//////////////////////////////////////
+
 function DescriptionUI() {
     for (var p:Pawn in pawnManager.Pawns()){
         DescriptionForPawn(p);
@@ -347,21 +385,17 @@ function RemoveDescription(){
     description = "";
 }
 
-private var savedTimeScale:float;
-
-function PauseGame() {
-    savedTimeScale = Time.timeScale;
-    Time.timeScale = 0;
-    AudioListener.pause = true;
-    lastButtonPress = Time.time;
-    ParsePauseData();
-}
 
 function ParsePauseData(){
     for (var p:Pawn in pawnManager.Pawns()){
         p.ParsePauseData();
     }
 }
+
+///////////////////
+//  In Game UI
+///////////////////
+
 
 private var bombActive:Texture2D;
 private var bombInactive:Texture2D;
@@ -389,7 +423,7 @@ function LoadTextures(){
     topBorderTexture = Resources.Load("YellowBlackStrip", Texture2D);
 }
 
-function ExplosiveSelectionUI () {
+function AbilitySelectionUI () {
     var w:float = buttonSize * 4;
     var h:float = buttonSize;
     // TODO: Fix the padding bug properly
@@ -450,20 +484,41 @@ function ExplosiveSelectionUI () {
     GUILayout.EndArea();    
 }
 
+
+//////////////////////////////////////
+//  Handle Pause/Resume
+//////////////////////////////////////
+
 private var lastButtonPress:float = 0;
 
 function LastButtonPress():float{
     return lastButtonPress;
 }
 
+
+private var savedTimeScale:float;
+
+function PauseGame() {
+    page = MenuPage.PauseMenu;
+    savedTimeScale = Time.timeScale;
+    Time.timeScale = 0;
+    AudioListener.pause = true;
+    lastButtonPress = Time.time;
+    ParsePauseData();
+}
+
 function UnPauseGame() {
+    page = MenuPage.InGame;
     RemoveDescription();
     Time.timeScale = savedTimeScale;
     AudioListener.pause = false;
 }
 
-function IsGamePaused() {
-    return Time.timeScale==0;
+function IsGamePaused():boolean{
+    if (page == MenuPage.InGame){
+        return false;
+    }
+    return true;
 }
 
 function OnApplicationPause(pause:boolean) {

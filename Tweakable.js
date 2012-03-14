@@ -49,5 +49,8 @@ static var kFloorMask:int = 1 << 10;
 static var kEnemyMask:int = 1 << 11;
 static var kPickupMask:int = 1 << 12;
 
+static var WarningColor:Color = Color(125/255.0,109/255.0,209/255.0);
+static var FunctionColor:Color = Color(109/255.0,169/255.0,209/255.0);
+
 
 }

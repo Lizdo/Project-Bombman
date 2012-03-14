@@ -31,12 +31,18 @@ function Start() {
 
     print("ObjManager Initialized");
 
+    maxPhase = waves.length;
+
+
     // TODO: serialize phase number and skip directly to this phase
     phase = PlayerPrefs.GetInt(kCurrentPhase);
+    if (phase > maxPhase){
+        phase = maxPhase;
+    }
+
     StartPhase(phase);
     isGamePaused = false;
 
-    maxPhase = waves.length;
 }
 
 private var phase:int = 0;
