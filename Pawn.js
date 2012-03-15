@@ -568,6 +568,11 @@ function Description():String{
 private var damageFXThreshold:float = 10;
 
 function Damage(damage:float, source:Pawn){
+
+    if(HasEffect(Effect.Armor)){
+        damage *= 0.6;
+    }
+
     _HP -= damage;
     
     if (damage >= damageFXThreshold){
@@ -634,7 +639,10 @@ function Die(){
     gameObject.SetActiveRecursively(false);
 }
 
-private var pickupSpawnPercentage:float = 0.6;
+private var pickupHPPercentage:float = 0.3;
+private var pickupMPPercentage:float = 0.2;
+private var pickupArmorPercentage:float = 0.1;
+
 
 function SpawnPickup(){
     if (player.LowHP()){
@@ -642,10 +650,21 @@ function SpawnPickup(){
         return;
     }
 
-    if (Random.value <= pickupSpawnPercentage){
+    if (Random.value <= pickupHPPercentage){
         Pickup.Spawn(PickupType.HP, transform.position);
         return;
     }
+
+    if (Random.value <= pickupMPPercentage){
+        Pickup.Spawn(PickupType.MP, transform.position);
+        return;
+    }
+
+    if (Random.value <= pickupArmorPercentage){
+        Pickup.Spawn(PickupType.Armor, transform.position);
+        return;
+    }
+
 }
 
 function IsDead(){

@@ -25,9 +25,9 @@ public class Effect{
             return new Effect(Freeze, 10);
         else if (name == Fire)
             return new Effect(Fire, 10);
-        else if (name == Fire)
+        else if (name == Strength)
             return new Effect(Strength, 10);            
-        else if (name == Fire)
+        else if (name == Armor)
             return new Effect(Armor, 10);           
         else
             return null;
