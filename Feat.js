@@ -79,9 +79,9 @@ public class Feat{
 
 	// TODO: Manually load the icons
     public static function Icon(t:FeatType):Texture2D{
-        var tex:Texture2D = Resources.Load(Name(t),Texture2D);
+        var tex:Texture2D = Resources.Load(Name(t)+"Active",Texture2D);
         if (tex == null){
-            tex = Resources.Load("Freeze", Texture2D);
+            tex = Resources.Load("FreezeActive", Texture2D);
         }
         return tex;
     }
@@ -91,9 +91,9 @@ public class Feat{
     }
 
     public static function IconInactive(t:FeatType):Texture2D{
-        var tex:Texture2D = Resources.Load(Name(t)+"_Inactive",Texture2D);
+        var tex:Texture2D = Resources.Load(Name(t)+"Inactive",Texture2D);
         if (tex == null){
-            tex = Resources.Load("Freeze"+"_Inactive", Texture2D);
+            tex = Resources.Load("Freeze"+"Inactive", Texture2D);
         }
         return tex;        
     }
