@@ -7,7 +7,7 @@ function Die(){
 	super.Die();
 }
 
-private var spawnOffset:float = 2.0;
+private var spawnOffset:float = 0.3;
 
 function SpawnMinion(){
 	if (HasEffect(Effect.Freeze))

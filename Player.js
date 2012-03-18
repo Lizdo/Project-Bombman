@@ -9,7 +9,8 @@ public class Player extends Pawn{
 private var highlight:SpellHighlight;
 private var _MP:float;
 public var maxMP:float = 100.0;
-private var increaseRate:float = 2.0; //per second
+private var baseHPIncreaseRate:float = 1; //per second
+private var baseMPIncreaseRate:float = 0.5; //per second
 
 
 function Start() {
@@ -32,7 +33,7 @@ function Start() {
 
 function Update () {
     super.Update();
-    UpdateMP();
+    UpdateHPMP();
     UpdateAnimation();
     UpdateAbility();
 }
@@ -48,7 +49,7 @@ function Speed(){
         return speed * Feat.Power();
     }
 
-    if (Ability.type == AbilityType.Teleport){
+    if (HasEffect(Effect.Teleport)){
         return veryHighSpeed;
     }
 
@@ -73,9 +74,12 @@ function UpdateAnimation(){
 
 private var holdTimeThreshold:float = 0.1;
 
-function UpdateMP(){
-    _MP += increaseRate * Time.deltaTime;
+function UpdateHPMP(){
+    _MP += baseMPIncreaseRate * Time.deltaTime;
     _MP = Mathf.Clamp(_MP,0,maxMP);
+
+    _HP += baseHPIncreaseRate * Time.deltaTime;
+    _HP = Mathf.Clamp(_HP,0,maxHP);    
 }
 
 private var holdPercentage:float = 0;
@@ -208,6 +212,19 @@ function UseAbility(){
         Heal(Ability.Power());
     }
 
+    if (Ability.type == AbilityType.Trample){
+        var enemies:Enemy[] = FindObjectsOfType(Enemy);
+        for (var e:Enemy in enemies){
+            if (Vector3.Distance(e.Position(), transform.position) <= Ability.Power()){
+                e.BlowBack(transform.position, BlowBackType.Huge);
+            }
+        }
+    }
+
+    if (Ability.type == AbilityType.Teleport){
+        AddEffect(Effect.EffectWithName(Ability.Name()));
+    }
+
     yield WaitForSeconds(Ability.Duration());
     Ability.inUse = false;
     
@@ -296,7 +313,7 @@ function MovementComplete(){
 private var deathCheated:boolean = false;
 
 function Die(){
-    if (Feat.type == FeatType.CheatDeath && !deathCheated){
+    if (Feat.type == FeatType.Resurrect && !deathCheated){
         deathCheated = true;
         ResetHPMP();
         return;

@@ -506,7 +506,7 @@ function AbilitySelectionMenu(){
         padding,
         w,
         h);
-    GUILayout.BeginArea(r, GUIStyle("BarFull")); 
+    GUILayout.BeginArea(r, GUIStyle("BarEmpty")); 
 
     var half:int = Mathf.Ceil(Ability.NumberOfTypes/2.0);
     var i:int;
@@ -554,7 +554,7 @@ function FeatSelectionMenu(){
         padding + Screen.height/2,
         w,
         h);
-    GUILayout.BeginArea(r, GUIStyle("BarFull")); 
+    GUILayout.BeginArea(r, GUIStyle("BarEmpty")); 
 
     var half:int = Mathf.Ceil(Feat.NumberOfTypes/2.0);
     var i:int;
@@ -579,7 +579,13 @@ function FeatSelectionMenu(){
 }
 
 function FeatItem(i:int){
-    var content:GUIContent = GUIContent(Feat.Name(i), Feat.Icon(i));
+    var content:GUIContent;
+    if (Feat.type == i){
+        content = GUIContent(Feat.Name(i), Feat.Icon(i));    
+    }else{
+        content = GUIContent(Feat.Name(i), Feat.IconInactive(i));
+    }
+
     if (GUILayout.Button (content, GUIStyle("AbilityButton"), GUILayout.Width(buttonSize+padding*2))) {
         if (Feat.Unlocked(i)){
             Feat.type = i;    

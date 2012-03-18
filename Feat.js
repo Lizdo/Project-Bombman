@@ -16,7 +16,7 @@ public class Feat{
 // -	Haste: +20% Movement Speed
 // -	TODO: Flame: Dot for Bomb Damage
 // -	TODO: Poison: Dot for Zap Damage
-// -	CheatDeath: HP Refill after one death
+// -	Resurrect: HP Refill after one death
 
     static var NumberOfTypes:int = 10;
 
@@ -31,7 +31,7 @@ public class Feat{
 		Haste			= 6,
 		Flame			= 7,
 		Poison			= 8,
-		CheatDeath		= 9,
+		Resurrect		= 9,
 	}
 
 	// Vampiric	
@@ -43,7 +43,7 @@ public class Feat{
 	// Haste		
 	// Flame		
 	// Poison		
-	// CheatDeath		
+	// Resurrect		
 
 	public static var type = FeatType.Vampiric;
 
@@ -57,7 +57,7 @@ public class Feat{
 		0.2,	// Haste		
 		0,	// Flame		
 		0,	// Poison		
-		0	// CheatDeath			
+		0	// Resurrect			
 	];
 
 	public static function Name():String{

@@ -76,12 +76,12 @@ public class Ability{
 
     private static var _Power = [
         10,    // Freeze      
-        0,    // Trample     
+        4.0,    // Trample     
         0,    // Teleport    
         2,    // Wrath       
         0.9,    // Shield      
         400,    // Heal        
-        1.5,    // Deflection  
+        0.8,    // Deflection  
         100,    // Meteor      
         100,    // Trail       
         2    // Avatar  
@@ -105,10 +105,20 @@ public class Ability{
     }
 
     public static function Name(t:AbilityType){
+        if (!Unlocked(t)){
+            return "Locked";
+        }
         return t.ToString();
     }
 
     public static function Unlocked(t:AbilityType):boolean{
+        switch (t){
+            case AbilityType.Meteor:
+            case AbilityType.Trail:
+            case AbilityType.Avatar:
+                return false;
+        }
+
         return true;
     }
 
@@ -118,6 +128,10 @@ public class Ability{
     }
 
     public static function Icon(t:AbilityType):Texture2D{
+        if (!Unlocked(t)){
+            return Resources.Load("Lock", Texture2D);
+        }
+
         var tex:Texture2D = Resources.Load(Name(t) + "Active",Texture2D);
         if (tex == null){
             tex = Resources.Load("Freeze"+"Active", Texture2D);
@@ -131,6 +145,10 @@ public class Ability{
 
 
     public static function IconInactive(t:AbilityType):Texture2D{
+        if (!Unlocked(t)){
+            return Resources.Load("Lock", Texture2D);
+        }
+
         var tex:Texture2D = Resources.Load(Name(t)+"Inactive",Texture2D);
         if (tex == null){
             tex = Resources.Load("Freeze"+"Inactive", Texture2D);

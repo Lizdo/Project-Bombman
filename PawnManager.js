@@ -74,7 +74,7 @@ static var PositionCount:int = 8;
 function RandomPositionWithOffset(position:Vector3, offset:float, burrow:boolean):Vector3{
     var zOffset:float;
     if (burrow){
-        zOffset = -2;
+        zOffset = -0.5;
     }else{
         zOffset = FindObjectOfType(CameraManager).Height();
     }

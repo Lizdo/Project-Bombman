@@ -17,7 +17,7 @@ public class Explosive{
     static var BombDamage:float = 60.0;
     static var BombCooldown:float = 0.4;
     static var BombChargeTime:float = 1.2;
-    static var BombPushback:boolean = true;
+    static var BombPushback:boolean = false;
     static var BombCost:float = 20.0;
     
     static var PushRange:float = 4.0;

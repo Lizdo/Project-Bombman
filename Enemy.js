@@ -223,7 +223,7 @@ function BlowBack(origin:Vector3, blowBackType:int){
     
     //var typeIndex:int = Enum.GetValues(typeof(BlowBackType))[blowBackType];
     
-    blowBackTime = blowBackType*0.1+0.05;
+    blowBackTime = blowBackType*0.3+0.05;
     blowBackSpeed = blowBackType*3+1;
     yield WaitForSeconds(blowBackTime);
     blowBack = false;

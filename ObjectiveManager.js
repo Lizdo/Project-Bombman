@@ -8,6 +8,7 @@ private var waves:Array = new Array();
 private var spawnInProgress:boolean = true;
 
 private var delayBetweenWaves:float = 1;
+private var resetHPMPBetweenWaves:boolean = false;
 
 private static var kCurrentPhase:String = "CurrentPhase";
 
@@ -20,14 +21,12 @@ function Start() {
 
     pawnManager = FindObjectOfType(PawnManager);
 
-    waves[0] = [1];
-    waves[1] = [2];
-    waves[2] = [3];
-    waves[3] = [4];
-    waves[4] = [5];
-    waves[5] = [2,3,4,4];
-    waves[6] = [2,2,3,3,4];
-    waves[7] = [100];
+    waves[0] = [1,1,1];
+    waves[1] = [11,5];
+    waves[2] = [11,3,3];
+    waves[3] = [4,2];
+    waves[4] = [11,5,5,2];
+    waves[5] = [100];
 
     print("ObjManager Initialized");
 
@@ -87,8 +86,10 @@ function StartPhase(phaseNumber:int){
         return;
     }
 
-    var player:Player = FindObjectOfType(Player);
-    player.ResetHPMP();
+    if (resetHPMPBetweenWaves){
+        var player:Player = FindObjectOfType(Player);
+        player.ResetHPMP();    
+    }
 
     // Save the current level
     PlayerPrefs.SetInt(kCurrentPhase, phase);
