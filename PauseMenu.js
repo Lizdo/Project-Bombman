@@ -445,6 +445,8 @@ function AbilitySelectionUI () {
     GUILayout.BeginHorizontal();
 
 
+    GUILayout.Button(Feat.Icon(), GUILayout.Width(buttonSize));
+
     if(player.AbilityAvailable() && !Ability.inUse){
         if (GUILayout.Button (Ability.Icon(),  GUILayout.Width(buttonSize))) {
             player.UseAbility();
@@ -478,17 +480,6 @@ function AbilitySelectionUI () {
         }
     }       
 
-    if (Explosive.type == ExplosiveType.Push){
-        if (GUILayout.Button (pushActive,  GUILayout.Width(buttonSize))) {
-            Explosive.type = ExplosiveType.Push;
-            lastButtonPress = Time.time;
-        }        
-    }else{
-        if (GUILayout.Button (pushInactive,  GUILayout.Width(buttonSize))) {
-            Explosive.type = ExplosiveType.Push;
-            lastButtonPress = Time.time;
-        }
-    }
 
     GUILayout.EndHorizontal();
     GUILayout.EndArea();    
@@ -537,7 +528,7 @@ function AbilityItem(i:int){
         content = GUIContent(Ability.Name(i), Ability.IconInactive(i));
     }
     
-    if (GUILayout.Button (content, GUIStyle("AbilityButton"), GUILayout.Width(buttonSize+padding*2))) {
+    if (GUILayout.Button (content, GUIStyle("AbilityButton"), GUILayout.Width(buttonSize+padding*4))) {
         if (Ability.Unlocked(i)){
             Ability.type = i;    
         }
@@ -586,7 +577,7 @@ function FeatItem(i:int){
         content = GUIContent(Feat.Name(i), Feat.IconInactive(i));
     }
 
-    if (GUILayout.Button (content, GUIStyle("AbilityButton"), GUILayout.Width(buttonSize+padding*2))) {
+    if (GUILayout.Button (content, GUIStyle("AbilityButton"), GUILayout.Width(buttonSize+padding*4))) {
         if (Feat.Unlocked(i)){
             Feat.type = i;    
         }
