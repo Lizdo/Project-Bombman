@@ -22,7 +22,7 @@ function SetRadius(r:float){
 
 function SetColor(c:Color){
 	var lineRenderer:LineRenderer = GetComponent(LineRenderer);	
-	lineRenderer.SetColors(c,c);
+	lineRenderer.SetColors(c,Color(c.r,c.g,c.b,0));
 }
 
 function Show(){

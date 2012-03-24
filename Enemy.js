@@ -44,30 +44,30 @@ function InitAttackRadius(){
 // Helper Functions
 
 function InInnerAttackRadius():boolean{
-    var distanceToPlayer:float = Vector3.Distance(transform.position, player.Position());
-    //print("Distance to Player:" + distanceToPlayer.ToString());
-    return distanceToPlayer <= innerAttackRadius;
+    var distanceToTarget:float = Vector3.Distance(transform.position, target.Position());
+    //print("Distance to Player:" + distanceToTarget.ToString());
+    return distanceToTarget <= innerAttackRadius;
 }
 
 function OutsideAttackRadius():boolean{
-    var distanceToPlayer:float = Vector3.Distance(transform.position, player.Position());   
-    return distanceToPlayer > attackRadius;
+    var distanceToTarget:float = Vector3.Distance(transform.position, target.Position());   
+    return distanceToTarget > attackRadius;
 }
 
-function PlayerTooClose():boolean{
+function TargetTooClose():boolean{
     if (attackType == AttackType.Melee){
         return false;
     }
-    var distanceToPlayer:float = Vector3.Distance(transform.position, player.Position());       
-    return distanceToPlayer < minimumAttackRadius;
+    var distanceToTarget:float = Vector3.Distance(transform.position, target.Position());       
+    return distanceToTarget < minimumAttackRadius;
 }
 
 function MoveToInnerRadius(){
     goal = Goal.Move;
-    var playerPosition:Vector3 = player.Position();
+    var targetPosition:Vector3 = target.Position();
     var myPosition:Vector3 = transform.position;
     
-    var offset:Vector3 = myPosition - playerPosition;
+    var offset:Vector3 = myPosition - targetPosition;
 
     //a little bit tolerance
     offset = offset.normalized * innerAttackRadius * 0.95; 
@@ -76,7 +76,7 @@ function MoveToInnerRadius(){
     var intialAngle:float = Random.Range(-20,20);
     offset = Quaternion.AngleAxis(intialAngle, Vector3.up) * offset;    
 
-    MoveTo(pawnManager.NearestAvailablePositon(playerPosition + offset, this));
+    MoveTo(pawnManager.NearestAvailablePositon(targetPosition + offset, this));
 }
 
 function Attack(){
@@ -159,12 +159,12 @@ function UpdateGoals(){
             MoveToInnerRadius();
             break;
         case Goal.Attack:
-            if (OutsideAttackRadius() || PlayerTooClose()){
+            if (OutsideAttackRadius() || TargetTooClose()){
                 MoveToInnerRadius();
             }
             break;
         case Goal.Move:
-            if (InInnerAttackRadius() && !PlayerTooClose()){
+            if (InInnerAttackRadius() && !TargetTooClose()){
                 Attack();
             }else{
                 MoveToInnerRadius();
@@ -201,15 +201,21 @@ function AttackTime(){
 private var BulletLineWidth:float = 0.1;
 
 function DealDamage(){
-    player.Damage(dps*attackTime, this);
+    var damage:float = dps*attackTime;
+    target.Damage(damage, this);
 
     var bulletLine:GameObject = Instantiate(line, Vector3.zero, Quaternion.identity);
-    bulletLine.GetComponent(Line).SetPoints(Center(), player.Center());
+    bulletLine.GetComponent(Line).SetPoints(Center(), target.Center());
     bulletLine.GetComponent(Line).SetColor(borderColor);
     bulletLine.GetComponent(Line).SetWidth(BulletLineWidth);
 
-    var v:Vector3 = Camera.main.WorldToViewportPoint(player.Center());
-    FindObjectOfType(UI).SpawnFloatingText(dps*attackTime, v.x, v.y, Tweakable.PlayerDamageColor);      
+    var v:Vector3 = Camera.main.WorldToViewportPoint(target.Center());
+    if (damage >= 0){
+        FindObjectOfType(UI).SpawnFloatingText(damage, v.x, v.y, Tweakable.PlayerDamageColor);    
+    }else{
+        FindObjectOfType(UI).SpawnFloatingText(-damage, v.x, v.y, Tweakable.HealthColor);    
+    }
+    
 }
 
 private var blowBackTime:float = 0.15;

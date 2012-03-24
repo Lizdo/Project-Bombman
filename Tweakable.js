@@ -17,6 +17,7 @@ enum PawnType{
     Beast   = 4,
     Brawler = 5,
     Exploder = 11,
+    Healer = 12,    
     Blinker = 100,
 }
 
@@ -37,7 +38,7 @@ static var EnemyDamageColor:Color = DefaultColor;
 static var LowHealthColor:Color = Color(252/255.0,75/255.0,75/255.0);
 static var LowManaColor:Color = Color(75/255.0,125/255.0,252/255.0);
 
-static var HealthColor:Color = Color(209/255.0,109/255.0,109/255.0);
+static var HealthColor:Color = Color(120/255.0,170/255.0,101/255.0);
 static var ManaColor:Color = Color(109/255.0,169/255.0,209/255.0);
 
 static var BombColor:Color = Color(184.0/255, 150.0/255, 0/255, 0.6);

@@ -72,6 +72,7 @@ static var kOutlineWidth:String = "_Outline";
 
 static var outlineWidth:float = 0.01;
 static var freezeOutlineWidth:float = 0.02;
+protected var target:Pawn;
 
 function Start () {
     player = FindObjectOfType(Player);
@@ -93,6 +94,8 @@ function Start () {
     
     deathParticle = Resources.Load("Sparks");
     moveTargetMark = Resources.Load("MoveToCube");
+
+    target = player;
 }
 
 function Update () {
@@ -111,7 +114,7 @@ function Update () {
 
     if (!HasEffect(Effect.Freeze)) {
         UpdateMovement();
-        RotateToPlayer();       
+        RotateToTarget();       
     }else{
         animation.Stop();
     }
@@ -305,9 +308,12 @@ private function MoveTowardTarget(){
         Time.deltaTime * Speed());
 }
 
-private function RotateToPlayer(){
-    if (targetPosition == transform.position && this != player){
-        var offset:Vector3 = transform.position - player.Position();    
+private function RotateToTarget(){
+    if (this == player || this == target)
+        return;
+
+    if (targetPosition == transform.position){
+        var offset:Vector3 = transform.position - target.Position();    
         var targetRotation:Quaternion = Quaternion.LookRotation(offset);
         
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
