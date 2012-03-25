@@ -66,6 +66,7 @@ protected var objectiveManager:ObjectiveManager;
 protected var pawnManager:PawnManager;
 protected var player:Player;
 protected var cam:Camera;
+protected var ui:UI;
 
 static var kOutlineColor:String = "_OutlineColor";
 static var kOutlineWidth:String = "_Outline";
@@ -80,7 +81,8 @@ function Start () {
     pawnManager = FindObjectOfType(PawnManager);
     cam =  FindObjectOfType(Camera);
     seeker = GetComponent(Seeker);
-    
+    ui = FindObjectOfType(UI);
+
     radius = Radius();
 
     _HP = maxHP;
@@ -411,6 +413,10 @@ private function UpdateEffects(){
     var newEffects:Array = new Array();
     
     for (var e:Effect in effects){
+        if (e.currentTime == 0){
+            ui.PopupEffect(this, e.name);
+        }
+
         e.currentTime += Time.deltaTime;
         if (e.currentTime < e.duration){
             newEffects.Add(e);
@@ -610,7 +616,7 @@ function Heal(amount:float){
 
     if (amount >= healthPopupThreshold){
         var v:Vector3 = Camera.main.WorldToViewportPoint(Center());
-        FindObjectOfType(UI).SpawnFloatingText(amount, v.x, v.y, Tweakable.HealthColor);    
+        ui.PopupHealToPlayer(amount, v.x, v.y);
     }
 
 }

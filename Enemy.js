@@ -211,9 +211,9 @@ function DealDamage(){
 
     var v:Vector3 = Camera.main.WorldToViewportPoint(target.Center());
     if (damage >= 0){
-        FindObjectOfType(UI).SpawnFloatingText(damage, v.x, v.y, Tweakable.PlayerDamageColor);    
+        ui.PopupDamageToPlayer(damage, v.x, v.y);
     }else{
-        FindObjectOfType(UI).SpawnFloatingText(-damage, v.x, v.y, Tweakable.HealthColor);    
+        ui.PopupHealToEnemy(-damage, v.x, v.y);
     }
     
 }

@@ -146,7 +146,7 @@ function Explode(){
     // Display Mana Gain UI
     if (Explosive.Cost() < 0){
         v = Camera.main.WorldToViewportPoint(Center());
-        FindObjectOfType(UI).SpawnFloatingText(-Explosive.Cost(), v.x-0.05, v.y, Tweakable.LowManaColor);    
+        ui.PopupMana(-Explosive.Cost(), v.x, v.y);    
     }
     
 
@@ -166,7 +166,7 @@ function Explode(){
             e.Damage(Explosive.Damage(), this);
             damageDealt += Explosive.Damage();
             v = Camera.main.WorldToViewportPoint(e.Center());
-            FindObjectOfType(UI).SpawnFloatingText(Explosive.Damage(), v.x, v.y, Tweakable.EnemyDamageColor);
+            ui.PopupDamageToEnemy(Explosive.Damage(), v.x, v.y);
         }
     }
 
@@ -184,7 +184,7 @@ function Explode(){
         if (Vector3.Distance(d.Position(), transform.position) <= Explosive.Range()){
             d.Damage(Explosive.Damage(), this);
             v = Camera.main.WorldToViewportPoint(d.Center());
-            FindObjectOfType(UI).SpawnFloatingText(Explosive.Damage(), v.x, v.y, Tweakable.EnemyDamageColor);
+            ui.PopupDamageToEnemy(Explosive.Damage(), v.x, v.y);
         }
     }    
     
@@ -198,7 +198,8 @@ function UseAbility(){
         return;
     
     print("Using Ability:" + Ability.Name());
-    
+    ui.PopupUseAbility();
+
     _MP -= Ability.Cost();
     Ability.inUse = true;
     
@@ -259,7 +260,7 @@ function RefillMP(amount:float){
 
     if (amount >= popupThreshold){
         var v:Vector3 = Camera.main.WorldToViewportPoint(Center());
-        FindObjectOfType(UI).SpawnFloatingText(amount, v.x, v.y, Tweakable.ManaColor);
+        ui.PopupMana(amount, v.x, v.y);
     }    
 }
 
