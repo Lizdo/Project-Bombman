@@ -1,6 +1,7 @@
 #pragma strict
 
 import Tweakable;
+import EnemyAbility;
 
 public class Enemy extends Pawn{
 
@@ -30,6 +31,8 @@ function Start () {
     attackRadiusRing = ring.GetComponent(AttackRadiusRing);
     attackRadiusRing.SetRadius(attackRadius);
     attackRadiusRing.SetColor(borderColor);   
+
+    ParseAbilities();
 }
 
 function InitAttackRadius(){
@@ -58,6 +61,11 @@ function TargetTooClose():boolean{
     if (attackType == AttackType.Melee){
         return false;
     }
+
+    if (target == this){
+        return false;
+    }
+
     var distanceToTarget:float = Vector3.Distance(transform.position, target.Position());       
     return distanceToTarget < minimumAttackRadius;
 }
@@ -128,6 +136,8 @@ function Update () {
         UpdateGoals();
     }
     
+    UpdateAbilities();
+
     // Execute Goals
     if (goal == Goal.Attack){
         UpdateAttack();
@@ -141,6 +151,11 @@ function Update () {
         }
     }
 
+    if (goal == Goal.Cast){
+        UpdateCast();
+        SwitchAnimation(PawnAnimationState.Cast);        
+    }
+
     if (goal == Goal.Move){
         SwitchAnimation(PawnAnimationState.Move);
     }
@@ -152,9 +167,12 @@ function Update () {
 }
 
 function UpdateGoals(){
+    UpdateAbilityGoals();
     UpdateOtherGoals();
     // Change Goals 
     switch (goal){
+        case Goal.Cast:
+            break;
         case Goal.Wait:
             MoveToInnerRadius();
             break;
@@ -198,6 +216,22 @@ function AttackTime(){
 }
 
 
+private var castTime:float = 0;
+
+function UpdateCast(){
+    castTime += Time.deltaTime;
+    if (castTime >= castSpeed){
+        ResolveAbility();
+        castTime = 0;
+    }
+}
+
+function CastTime(){
+    return castSpeed;
+}
+
+
+
 private var BulletLineWidth:float = 0.1;
 
 function DealDamage(){
@@ -226,6 +260,10 @@ private var blowBackOrigin:Vector3;
 function BlowBack(origin:Vector3, blowBackType:int){
     blowBackOrigin = origin;
     blowBack = true;
+
+    if (goal == Goal.Cast){
+        goal = Goal.Wait;
+    }
     
     //var typeIndex:int = Enum.GetValues(typeof(BlowBackType))[blowBackType];
     
@@ -235,17 +273,96 @@ function BlowBack(origin:Vector3, blowBackType:int){
     blowBack = false;
 }
 
+///////////////////////////////
+//  Enemy Ability
+///////////////////////////////
 
-//function DistanceToNearestEnemy():float{
-//  var distance:float = 1000;
-//  for (var e:Enemy in enemies){
-//      if (e != null && e != this && e != player && e.goal != Goal.Wait){
-//          var newDistance:float = Vector2.Dista   nce(e.Position(), transform.position);
-//          distance = Mathf.Min(distance, newDistance);
-//          print(distance);
-//      }
-//  }
-//  return distance;
-//}
+
+
+public var abilityString:String;
+private var abilities = new Array();
+
+function ParseAbilities(){
+    var abilityTexts:String[] = abilityString.Split("|"[0]);
+    for (var s:String in abilityTexts){
+        var ability:EnemyAbility = EnemyAbility.EnemyAbilityFromString(s);
+        if (ability != null){
+            abilities.Add(ability);    
+        }
+    }
+}
+
+function UpdateAbilities(){
+    for (var ability:EnemyAbility in abilities){
+        UpdateAbility(ability);
+    }
+}
+
+
+function UpdateAbility(ability:EnemyAbility){
+    ability.Update();    
+}
+
+
+function UpdateAbilityGoals(){
+    for (var ability:EnemyAbility in abilities){
+        if (AbilityReady(ability)){
+            UseAbility(ability);
+        }
+    }    
+}
+
+private var currentAbility:EnemyAbility;
+private var castSpeed:float = 2.0;
+
+function UseAbility(ability:EnemyAbility){
+    print(this.ToString() + " Using Ability: " + ability.type);
+    ability.Use();
+    currentAbility = ability;
+    goal = Goal.Cast;
+}
+
+function AbilityReady(ability:EnemyAbility):boolean{
+    if (!ability.Ready()){
+        return false;
+    }
+
+    if (goal == Goal.Cast){
+        return false;
+    }
+
+    switch (ability.type){
+        case EnemyAbilityType.Heal:
+            if (HP()== maxHP)
+                return false;
+    }
+
+    return true;
+}
+
+
+function ResolveAbility(){
+    goal = Goal.Wait;
+
+    switch (currentAbility.type){
+        case EnemyAbilityType.Heal:
+            Heal(currentAbility.power);
+            break;
+        case EnemyAbilityType.Teleport:
+            Teleport(currentAbility.power);
+    }
+
+}
+
+
+function Teleport(distance:float){
+    //TODO: Spawn an Particle
+    var offset:Vector3 = Vector3(distance, 0, 0);
+    var intialAngle:float = Random.value*360;
+    offset = Quaternion.AngleAxis(intialAngle, Vector3.up) * offset;
+
+    transform.position += offset;  
+}
+
 
 }

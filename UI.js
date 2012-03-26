@@ -42,7 +42,7 @@ function PopupUseAbility(){
 	var p:Player = FindObjectOfType(Player);
 	var v:Vector3 = Camera.main.WorldToViewportPoint(p.Center());
 	var text:String = "Used " + Ability.Name();
-	SpawnFloatingText(text, v.x-0.04, v.y+0.06, Tweakable.FunctionColor);	
+	SpawnFloatingText(text, v.x-0.04, v.y+0.1, Tweakable.FunctionColor);	
 }
 
 function PopupEffect(p:Pawn, name:String){

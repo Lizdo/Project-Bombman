@@ -24,7 +24,7 @@ function Start() {
     waves[0] = [1,1,1];
     waves[1] = [11,5];
     waves[2] = [11,3,3];
-    waves[3] = [4,2];
+    waves[3] = [4,2,12,12];
     waves[4] = [11,5,5,2];
     waves[5] = [100];
 

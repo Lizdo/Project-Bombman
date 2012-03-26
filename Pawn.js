@@ -34,6 +34,7 @@ enum Goal{
     Wait = 0,
     Move = 1,
     Attack = 2,
+    Cast = 3
 }
 
 
@@ -483,17 +484,19 @@ function SwitchAnimation(newAnimation:PawnAnimationState){
     if (this == player){
         print(newAnimation);
     }
-        
+
+    var animationTime:float;
     var state:AnimationState = animation[AnimationName[newAnimation]];
+
     if (animation && state){
         if (newAnimation == PawnAnimationState.Attack){
             animation.Play(AnimationName[newAnimation]);
-            // Need to sync with attack time
-            var animationTime:float = state.length;
+            animationTime = state.length;
             state.speed = animationTime/AttackTime();
-        }else if (currentAnimation == PawnAnimationState.Attack){
-            animation.CrossFade(AnimationName[newAnimation],blendTime);
-            state.speed = 1;            
+        }else if (currentAnimation == PawnAnimationState.Cast){
+            animation.Play(AnimationName[newAnimation]);
+            animationTime = state.length;
+            state.speed = animationTime/CastTime();           
         }else{
             animation.CrossFade(AnimationName[newAnimation],blendTime);
             state.speed = 1;                        
@@ -509,6 +512,10 @@ function FreezeAnimation(){
 
 // Override by Subclass
 function AttackTime(){
+    return 1.0;
+}
+
+function CastTime(){
     return 1.0;
 }
 
