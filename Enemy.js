@@ -320,6 +320,7 @@ function UseAbility(ability:EnemyAbility){
     ability.Use();
     currentAbility = ability;
     goal = Goal.Cast;
+    MoveTo(Vector3.zero);
 }
 
 function AbilityReady(ability:EnemyAbility):boolean{

@@ -406,6 +406,8 @@ private var fireColor:Color = Color(204/255.0,29/255.0,64/255.0);
 private var freezeInProgress:boolean = false;
 private var fireInProgress:boolean = false;
 
+private var flameDPS:float = 5;
+private var poisonDPS:float = 5;
 
 private function UpdateEffects(){
     if (!effects || effects.length == 0)
@@ -457,6 +459,15 @@ private function UpdateEffects(){
             SetOutlineColor(borderColor);           
         }
     }
+
+    if (HasEffect(Effect.Flame)){
+        Damage(flameDPS * Time.deltaTime, player);
+    }
+
+    if (HasEffect(Effect.Poison)){
+        Damage(poisonDPS * Time.deltaTime, player);
+    }
+
     
 }
 

@@ -167,6 +167,17 @@ function Explode(){
             damageDealt += Explosive.Damage();
             v = Camera.main.WorldToViewportPoint(e.Center());
             ui.PopupDamageToEnemy(Explosive.Damage(), v.x, v.y);
+
+            if (Explosive.type == ExplosiveType.Bomb
+                && Feat.type == FeatType.Flame){
+                e.AddEffect(Effect.EffectWithName(Effect.Flame));
+            }
+
+            if (Explosive.type == ExplosiveType.Zap
+                && Feat.type == FeatType.Poison){
+                e.AddEffect(Effect.EffectWithName(Effect.Poison));
+            }
+
         }
     }
 

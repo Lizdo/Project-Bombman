@@ -46,7 +46,7 @@ public static function EnemyAbilityFromString(s:String):EnemyAbility{
 	if (s == "Heal")
 		return EnemyAbility(EnemyAbilityType.Heal, 30, 50);
 	if (s == "Teleport")
-		return EnemyAbility(EnemyAbilityType.Teleport, 5, 3);
+		return EnemyAbility(EnemyAbilityType.Teleport, 25, 3);
 	if (s == "SpawnMinion")
 		return EnemyAbility(EnemyAbilityType.SpawnMinion, 15, 2);
 	if (s == "Explode")

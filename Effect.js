@@ -6,6 +6,8 @@ public class Effect{
     static var Armor:String = "Armor";
     static var Strength:String = "Strength";
     static var Teleport:String = "Teleport";
+    static var Flame:String = "Flame";
+    static var Poison:String = "Poison";
     
     public var name:String;
     public var duration:float;
@@ -31,7 +33,11 @@ public class Effect{
         else if (name == Armor)
             return new Effect(Armor, 10);
         else if (name == Teleport)
-            return new Effect(Teleport, 10);     
+            return new Effect(Teleport, 10);
+        else if (name == Flame)
+            return new Effect(Flame, 10);
+        else if (name == Poison)
+            return new Effect(Poison, 10);        
         else
             return null;
     }
