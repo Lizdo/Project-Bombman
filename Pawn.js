@@ -98,6 +98,9 @@ function Start () {
     deathParticle = Resources.Load("Sparks");
     moveTargetMark = Resources.Load("MoveToCube");
 
+    InitEffectFX();
+
+
     target = player;
 }
 
@@ -126,6 +129,43 @@ function Update () {
     UpdateEffects();
     UpdateOthers();
     UpdateScreenPosition();
+    UpdateEffectFX();
+}
+
+private var effectFXHash:Hashtable;
+private var effectsWithFX:String[] = [Effect.Flame, Effect.Poison];
+
+
+function InitEffectFX(){
+    effectFXHash = new Hashtable();
+    for (var s:String in effectsWithFX){
+        var fx:ParticleSystem = Instantiate(Resources.Load("FX"+s, GameObject), transform.position, Quaternion.identity).GetComponent(ParticleSystem);
+        fx.Stop();
+        effectFXHash[s] = fx;
+    }
+}
+
+
+
+function UpdateEffectFX(){
+    for (var fx:ParticleSystem in effectFXHash.Values){
+        fx.transform.position = Center();
+    }
+
+    for (var s:String in effectsWithFX){
+        var fx:ParticleSystem = effectFXHash[s];
+        if (HasEffect(s) && !fx.isPlaying){
+            fx.Play();
+        }else if (!HasEffect(s) && fx.isPlaying){
+            fx.Stop();
+        }
+    }
+}
+
+function DestroyEffectFX(){
+    for (var fx:ParticleSystem in effectFXHash.Values){
+        Destroy(fx.gameObject);
+    }
 }
 
 // Override by subclass
@@ -461,7 +501,7 @@ private function UpdateEffects(){
     }
 
     if (HasEffect(Effect.Flame)){
-        Damage(flameDPS * Time.deltaTime, player);
+        Damage(flameDPS * Time.deltaTime, player);  
     }
 
     if (HasEffect(Effect.Poison)){
@@ -618,7 +658,7 @@ function Damage(damage:float, source:Pawn){
 function PlayDamageFX(){
     var fx:GameObject = Instantiate(deathParticle, transform.position, Quaternion.identity);
     fx.GetComponent(ParticleAnimator).autodestruct = true;
-    fx.transform.parent = transform;    
+    //fx.transform.parent = transform;    
 }
 
 private var healthPopupThreshold:float = 5.0;
@@ -664,6 +704,7 @@ function HasEffect(n:String){
 
 function Die(){
     SpawnPickup();
+    DestroyEffectFX();
     var fx:GameObject = Instantiate(deathParticle, transform.position, Quaternion.identity);
     fx.GetComponent(ParticleAnimator).autodestruct = true;
     gameObject.SetActiveRecursively(false);
