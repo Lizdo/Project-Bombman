@@ -63,7 +63,7 @@ private var descriptionUIWidth:float = 150;
 private var descriptionUIHeight:float = 100;
 
 private var buttonSize:float = 48;
-private var offscreenIconSize:float = 8;
+private var offscreenIconSize:float = 4;
 
 private var topBorderHeight:float = 2;
 

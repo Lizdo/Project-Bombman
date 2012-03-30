@@ -204,10 +204,20 @@ function Explode(){
 }
 
 
+// TODO: Cache FX
+
 function UseAbility(){
     if (!AbilityAvailable())
         return;
-    
+
+    var obj:GameObject = Resources.Load("FX"+Ability.Name(), GameObject);
+    if (obj != null){
+        var positionInFront:Vector3 = Center() + Vector3(0,0.5,-0.5);
+        var fx:ParticleSystem = Instantiate(obj, positionInFront, Quaternion.identity).GetComponent(ParticleSystem);
+        fx.Play();
+    }
+
+
     print("Using Ability:" + Ability.Name());
     ui.PopupUseAbility();
 
@@ -232,6 +242,11 @@ function UseAbility(){
             }
         }
     }
+
+
+    if (Ability.type == AbilityType.Shield){
+        AddEffect(Effect.EffectWithName(Ability.Name()));
+    }    
 
     if (Ability.type == AbilityType.Teleport){
         AddEffect(Effect.EffectWithName(Ability.Name()));
@@ -297,7 +312,7 @@ function Damage(damage:float, source:Pawn){
         }
     }
 
-    if (Ability.type == AbilityType.Shield){
+    if (HasEffect(Effect.Shield)){
         damage *= (1 - Ability.Power());
     }
 
