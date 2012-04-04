@@ -1,6 +1,6 @@
 private var player:Player;
 
-private var height:float = 6.0;
+private var height:float = 5.0;
 private var rotation:float = 50.0;
 private var PivotCompensation:float = 2.5;
 

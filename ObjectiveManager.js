@@ -1,8 +1,8 @@
 #pragma strict
 
 
-private var isGamePaused:boolean;
 private var pawnManager:PawnManager;
+private var pauseMenu:PauseMenu;
 
 private var waves:Array = new Array();
 private var spawnInProgress:boolean = true;
@@ -10,16 +10,68 @@ private var spawnInProgress:boolean = true;
 private var delayBetweenWaves:float = 1;
 private var resetHPMPBetweenWaves:boolean = false;
 
-private static var kCurrentPhase:String = "CurrentPhase";
+private static var kCurrentWave:String = "CurrentWave";
+
+// Game Flow
+// -   Press to Start
+// -   Load to the latest wave
+// -   Announce Wave: Composition
+// -       Gameplay
+// -   Announce Wave Complete
+// -       Unlock New Ability/Feat
+// -       Continue/Choose Ability
+
+enum GameState{
+    GameLoaded,
+    WaveAnnouncement,
+    Gameplay,
+    WaveCompleted,
+    WaveCompleteMenu,
+    NewWave
+}
+
+function GotoState(s:GameState){
+    print(s);
+    switch(s){
+        case GameState.GameLoaded:
+            SetText("Press Anywhere to Start");
+            break;
+        case GameState.WaveAnnouncement:
+            StartWave();
+            break;
+        case GameState.Gameplay:
+            SetText("");
+            break;
+        case GameState.WaveCompleted:
+            EndWave();
+            break;
+        case GameState.WaveCompleteMenu:
+            SetText("");
+            break;
+        case GameState.NewWave:
+            GotoNextWave();
+            break;
+    }
+    state = s;
+}
+
+public var state:GameState;
+
+function IsGamePaused():boolean{
+    if (state == GameState.Gameplay 
+        ||state == GameState.WaveAnnouncement){
+        return pauseMenu.IsGamePaused();
+    }
+
+    return true;
+}
 
 function Start() {
-    isGamePaused = true;
-    MissionStart();
-
 
     GUI.color = Tweakable.DefaultColor;
 
     pawnManager = FindObjectOfType(PawnManager);
+    pauseMenu = FindObjectOfType(PauseMenu); 
 
     waves[0] = [1,1,1];
     waves[1] = [11,5];
@@ -30,58 +82,62 @@ function Start() {
 
     print("ObjManager Initialized");
 
-    maxPhase = waves.length;
+    maxWave = waves.length;
 
 
-    // TODO: serialize phase number and skip directly to this phase
-    phase = PlayerPrefs.GetInt(kCurrentPhase);
-    if (phase > maxPhase){
-        phase = maxPhase;
+    // TODO: serialize wave number and skip directly to this wave
+    wave = PlayerPrefs.GetInt(kCurrentWave);
+    if (wave > maxWave){
+        wave = maxWave;
     }
 
-    StartPhase(phase);
-    isGamePaused = false;
+    //StartWave(wave);
+
+    GotoState(GameState.GameLoaded);
 
 }
 
-private var phase:int = 0;
-private var maxPhase:int = 3;
+private var wave:int = 0;
+private var maxWave:int = 3;
 
-function Phase(){
-    return phase;
+function Wave(){
+    return wave;
 }
 
 function Update () {
-    if (spawnInProgress){
+    if (state != GameState.Gameplay){
         return;
     }
 
     if (pawnManager.AllPawnDead()){
-        GotoNextPhase();
+        //GotoNextWave();
+        GotoState(GameState.WaveCompleted);
     }
 }
 
-function GotoNextPhase(){
-    spawnInProgress = true;
-
-    phase++;
-    if (phase == maxPhase){
+function GotoNextWave(){
+    wave++;
+    if (wave == maxWave){
         MissionComplete();
         return;
     }
 
-    //Spawn Phase X creatures
-    StartPhase(phase);
+    //Spawn Wave X creatures
+    StartWave(wave);
 }
 
-function StartPhase(phaseNumber:int){
+function StartWave(){
+    StartWave(wave);
+}
 
-    if (phaseNumber >= 1){
-        SetText("Phase " + (phaseNumber+1).ToString() + " Start");
-    }
+function StartWave(waveNumber:int){
 
-    if (phaseNumber >= maxPhase){
-        print("Too Many Phases");
+    wave = waveNumber;
+
+    SetText("Wave " + (wave+1).ToString() + " Start");
+
+    if (wave >= maxWave){
+        print("Too Many Waves");
         MissionComplete();
         return;
     }
@@ -92,26 +148,28 @@ function StartPhase(phaseNumber:int){
     }
 
     // Save the current level
-    PlayerPrefs.SetInt(kCurrentPhase, phase);
+    PlayerPrefs.SetInt(kCurrentWave, wave);
 
     yield WaitForSeconds(delayBetweenWaves);
 
-    print(phaseNumber);
-    for (var i:int in waves[phaseNumber]){
+    print(wave);
+    for (var i:int in waves[wave]){
         pawnManager.Spawn(i);
-    }
-
-    spawnInProgress = false;    
+    } 
 
     yield WaitForSeconds(2);
-    SetText("");    
+
+    GotoState(GameState.Gameplay);
 
 }
 
+function EndWave(){
+    SetText("Wave " + (wave+1).ToString() + " Cleared!");
+    yield WaitForSeconds(2);
 
-function IsGamePaused():boolean{
-    return isGamePaused;
+    GotoState(GameState.WaveCompleteMenu);
 }
+
 
 function SetText(text:String){
     guiText.text = text;
@@ -131,7 +189,7 @@ function MissionComplete() {
 }
 
 function RestartMission(){
-    PlayerPrefs.SetInt(kCurrentPhase, 0);
+    PlayerPrefs.SetInt(kCurrentWave, 0);
     Application.LoadLevel ("Level0");
 }
 

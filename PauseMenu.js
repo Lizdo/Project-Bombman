@@ -6,13 +6,15 @@ private var skin:GUISkin;
 public var skinNormal:GUISkin;
 public var skin2X:GUISkin;
 
+private var objectiveManager:ObjectiveManager;
 private var pawnManager:PawnManager;
 private var player:Player;
-private var doubleResolution:boolean = true;
+private var doubleResolution:boolean = false;
 
 function Start() {
     Time.timeScale = 1.0;
     pawnManager = FindObjectOfType(PawnManager);
+    objectiveManager = FindObjectOfType(ObjectiveManager);
     player = FindObjectOfType(Player);
     skin = skinNormal;
 
@@ -63,7 +65,7 @@ private var descriptionUIWidth:float = 150;
 private var descriptionUIHeight:float = 100;
 
 private var buttonSize:float = 48;
-private var offscreenIconSize:float = 4;
+private var offscreenIconSize:float = 8;
 
 private var topBorderHeight:float = 2;
 
@@ -71,6 +73,8 @@ enum MenuPage{
     InGame,
     PauseMenu,
     FeatSelection,
+    WaveComplete,
+    WaveCompleteFeatSelection
 }
 
 private var page:MenuPage;
@@ -78,7 +82,12 @@ private var page:MenuPage;
 function OnGUI () {
     if (skin != null) {
         GUI.skin = skin;
-    }   
+    }
+
+    if (objectiveManager.state != GameState.Gameplay
+        && objectiveManager.state != GameState.WaveCompleteMenu){
+        return;
+    }
     
     switch (page){
         case MenuPage.InGame:
@@ -90,6 +99,12 @@ function OnGUI () {
         case MenuPage.FeatSelection:
             FeatSelectionPage();
             break;
+        case MenuPage.WaveComplete:
+            WaveCompletePage();
+            break;
+        case MenuPage.WaveCompleteFeatSelection:
+            WaveCompleteFeatSelectionPage();
+            break;
     }
 }
 
@@ -100,6 +115,16 @@ function LateUpdate () {
             UnPauseGame();
         }else{
             PauseGame();
+        }
+    }
+    if (objectiveManager.state == GameState.WaveCompleteMenu){
+        if (page == MenuPage.InGame){
+            page = MenuPage.WaveComplete;
+        }
+    }
+    if (objectiveManager.state == GameState.Gameplay){
+        if (page == MenuPage.WaveComplete){
+            page = MenuPage.InGame;
         }
     }
 }
@@ -115,13 +140,14 @@ function PausePage() {
     
 
     GUILayout.BeginArea(Rect(Screen.width - menuWidth - padding, padding, menuWidth, 400));
+        GUI.color = Tweakable.DefaultColor;
         if (GUILayout.Button ("Continue")) {
             UnPauseGame();
         }
         GUI.color = Tweakable.WarningColor;
 
         if (GUILayout.Button ("Restart")) {
-            FindObjectOfType(ObjectiveManager).RestartMission();
+            objectiveManager.RestartMission();
         }
 
         GUI.color = Tweakable.FunctionColor;
@@ -162,7 +188,12 @@ function FeatSelectionPage(){
     GUILayout.BeginArea(Rect(Screen.width - menuWidth - padding, padding, menuWidth, 200)); 
     if (GUILayout.Button ("Done")) {
     //if (GUILayout.Button(pauseTexture)){
-        UnPauseGame();
+        if (objectiveManager.state == GameState.Gameplay){
+            UnPauseGame();
+        }else{
+            page = MenuPage.WaveComplete;
+        }
+        
     }
     GUILayout.EndArea();
 
@@ -170,6 +201,26 @@ function FeatSelectionPage(){
     FeatSelectionMenu();
 
     TopBorder();
+}
+
+function WaveCompletePage(){
+    GUILayout.BeginArea(Rect(Screen.width - menuWidth*2 - padding, padding, menuWidth*2, 200)); 
+        GUI.color = Tweakable.DefaultColor;
+        if (GUILayout.Button ("Next Wave")) {
+            objectiveManager.GotoState(GameState.NewWave);
+        }
+
+        GUI.color = Tweakable.FunctionColor;
+
+        if (GUILayout.Button ("Abilities")) {
+            page = MenuPage.WaveCompleteFeatSelection;
+        }
+    GUILayout.EndArea();
+    TopBorder();    
+}
+
+function WaveCompleteFeatSelectionPage(){
+    FeatSelectionPage();
 }
 
 function TopBorder(){

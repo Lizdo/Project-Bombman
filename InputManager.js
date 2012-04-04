@@ -4,11 +4,13 @@ private var player:Player;
 
 private var holdingTouch:boolean = false;
 private var pauseMenu:PauseMenu;
+private var objectiveManager:ObjectiveManager;
 
 function Start (){
     //initialize the Player 
     player = FindObjectOfType(Player); 
     pauseMenu = FindObjectOfType(PauseMenu); 
+    objectiveManager = FindObjectOfType(ObjectiveManager); 
     
     print("player initialized.");
     
@@ -24,17 +26,17 @@ function Start (){
 private var ignoreInputTime:float = 0.1;
 
 function Update () {
-    if (pauseMenu.IsGamePaused()){
-        return;     
-    }
+    // if (pauseMenu.IsGamePaused()){
+    //     return;     
+    // }
 
     if (!player.gameObject.active){
         return;
     }
 
-    if (Time.time - pauseMenu.LastButtonPress() < ignoreInputTime){
-        return;
-    }
+    // if (Time.time - pauseMenu.LastButtonPress() < ignoreInputTime){
+    //     return;
+    // }
 
     ProcessInput();
 }
@@ -72,7 +74,7 @@ function ProcessInput(){
 }
 
 function ProcessPauseInput(){
-    // During Layout Phase, no event should be fired.
+    // During Layout Wave, no event should be fired.
     if (Event.current.type == EventType.Layout){
         return;
     }
@@ -121,12 +123,20 @@ private var touchNearPlayer:boolean;
 
 // Input Handlers
 function TouchBeganAt (point:Vector2){
+    if (objectiveManager.IsGamePaused()){
+        return;
+    }
+
     holdingTouch = false;
     startHoldingTime = Time.time;
     touchNearPlayer = PointNearPlayer(point);
 }
 
 function TouchMovedAt (point:Vector2){
+    if (objectiveManager.IsGamePaused()){
+        return;
+    }
+
     if(touchNearPlayer && PointNearPlayer(point) && !player.ExplodeCooldown()){
         if (Time.time - startHoldingTime >= player.HoldTimeThreshold()){
             holdingTouch = true;
@@ -139,6 +149,14 @@ function TouchMovedAt (point:Vector2){
 }
 
 function TouchEndedAt (point:Vector2){
+    if (objectiveManager.state == GameState.GameLoaded){
+        objectiveManager.GotoState(GameState.WaveAnnouncement);
+        return;
+    }
+
+    if (objectiveManager.IsGamePaused()){
+        return;
+    }    
 
     if (holdingTouch){
         player.EndHold();
