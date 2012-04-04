@@ -48,7 +48,7 @@ private var veryHighSpeed:float = 40;
 
 function Speed(){
     if (Feat.type == FeatType.Haste){
-        return speed * Feat.Power();
+        return speed * (1 + Feat.Power());
     }
 
     if (HasEffect(Effect.Teleport)){

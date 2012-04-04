@@ -53,5 +53,6 @@ static var kPickupMask:int = 1 << 12;
 static var WarningColor:Color = Color(209/255.0,109/255.0,109/255.0);
 static var FunctionColor:Color = Color(109/255.0,169/255.0,209/255.0);
 
+static var DefaultTextColor:Color = Color(245/255.0,244/255.0,240/255.0);
 
 }

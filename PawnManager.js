@@ -30,6 +30,11 @@ function Spawn(type:PawnType, position:Vector3){
     pawns.Add(enemy.GetComponent(Pawn));
 }
 
+function Icon(type:PawnType):Texture2D{
+    return Resources.Load("VampiricActive", Texture2D);
+    //return Resources.Load("Icon" + type.ToString());
+}
+
 function AllPawnDead(){
     var allDead:boolean = true;
     for (var e:Pawn in pawns){

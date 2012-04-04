@@ -13,7 +13,7 @@ public class Explosive{
     // -   Push (Crowd Control): Big Bounce, No Damage, Enemy Freeze for a X seconds
     // -   Zap (MP Generator): Small Range, Fast Charge, Small Damage, generate MP
     
-    static var BombRange:float = 4.0;
+    static var BombRange:float = 2.5;
     static var BombDamage:float = 60.0;
     static var BombCooldown:float = 0.4;
     static var BombChargeTime:float = 1.2;
@@ -27,7 +27,7 @@ public class Explosive{
     static var PushPushback:boolean = true;
     static var PushCost:float = 40.0;
     
-    static var ZapRange:float = 2.0;
+    static var ZapRange:float = 1.0;
     static var ZapDamage:float = 2.0;
     static var ZapCooldown:float = 0.1;
     static var ZapChargeTime:float = 0.5;       

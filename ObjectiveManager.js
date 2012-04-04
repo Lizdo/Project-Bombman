@@ -5,7 +5,6 @@ private var pawnManager:PawnManager;
 private var pauseMenu:PauseMenu;
 
 private var waves:Array = new Array();
-private var spawnInProgress:boolean = true;
 
 private var delayBetweenWaves:float = 1;
 private var resetHPMPBetweenWaves:boolean = false;
@@ -27,6 +26,7 @@ enum GameState{
     Gameplay,
     WaveCompleted,
     WaveCompleteMenu,
+    WaveCompleteAbilitySelectionMenu,
     NewWave
 }
 
@@ -34,7 +34,7 @@ function GotoState(s:GameState){
     print(s);
     switch(s){
         case GameState.GameLoaded:
-            SetText("Press Anywhere to Start");
+            SetText("Press to Start");
             break;
         case GameState.WaveAnnouncement:
             StartWave();
@@ -46,10 +46,13 @@ function GotoState(s:GameState){
             EndWave();
             break;
         case GameState.WaveCompleteMenu:
+            SetText("Next Wave");
+            break;
+        case GameState.WaveCompleteAbilitySelectionMenu:
             SetText("");
             break;
         case GameState.NewWave:
-            GotoNextWave();
+            StartWave();
             break;
     }
     state = s;
@@ -69,6 +72,7 @@ function IsGamePaused():boolean{
 function Start() {
 
     GUI.color = Tweakable.DefaultColor;
+    guiText.material.color = Tweakable.DefaultTextColor;
 
     pawnManager = FindObjectOfType(PawnManager);
     pauseMenu = FindObjectOfType(PauseMenu); 
@@ -130,6 +134,14 @@ function StartWave(){
     StartWave(wave);
 }
 
+function CurrentWave(){
+    return waves[wave]; 
+}
+
+function Tooltip():String{
+    return "Tooltip: Use FREEZE against snipers.";
+}
+
 function StartWave(waveNumber:int){
 
     wave = waveNumber;
@@ -166,6 +178,8 @@ function StartWave(waveNumber:int){
 function EndWave(){
     SetText("Wave " + (wave+1).ToString() + " Cleared!");
     yield WaitForSeconds(2);
+    wave++;
+    PlayerPrefs.SetInt(kCurrentWave, wave);
 
     GotoState(GameState.WaveCompleteMenu);
 }

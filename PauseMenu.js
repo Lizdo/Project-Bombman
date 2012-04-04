@@ -43,6 +43,7 @@ function Start() {
         buttonSize *= 2;
         offscreenIconSize *= 2;
         topBorderHeight *= 2;
+        tooltipHeight *= 2;
     }
 
     LoadTextures();
@@ -55,7 +56,7 @@ private var padding:float = 5;
 private var menuWidth:float = 100;
 
 private var hpBarWidth:float = 170;
-private var hpBarHeight:float = 35;
+private var hpBarHeight:float = 20;
 
 private var bossHPBarHeight:float = 20.0;
 private var bossHPBarWidth:float = 150.0;
@@ -66,6 +67,8 @@ private var descriptionUIHeight:float = 100;
 
 private var buttonSize:float = 48;
 private var offscreenIconSize:float = 8;
+
+private var tooltipHeight:float = 16;
 
 private var topBorderHeight:float = 2;
 
@@ -84,8 +87,14 @@ function OnGUI () {
         GUI.skin = skin;
     }
 
+    if (objectiveManager.state == GameState.WaveAnnouncement){
+        WaveAnnouncementPage();
+        return;
+    }
+
     if (objectiveManager.state != GameState.Gameplay
-        && objectiveManager.state != GameState.WaveCompleteMenu){
+        && objectiveManager.state != GameState.WaveCompleteMenu
+        && objectiveManager.state != GameState.WaveCompleteAbilitySelectionMenu){
         return;
     }
     
@@ -129,6 +138,39 @@ function LateUpdate () {
     }
 }
 
+function WaveAnnouncementPage(){
+    WaveDescriptionUI();
+    TooltipUI();
+
+}
+
+function WaveDescriptionUI(){
+    var description:int[] = objectiveManager.CurrentWave();
+    var w:float = (buttonSize + padding) * description.length;
+    var h:float = buttonSize;
+    // TODO: Fix the padding bug properly
+    var r:Rect = Rect(Screen.width/2 - w/2,
+        Screen.height/2 + padding*4, //padding,
+        w + padding,
+        h + padding * 2);
+
+    GUILayout.BeginArea(r);
+    GUILayout.BeginHorizontal();
+        for (var i:int in description){
+            print(i);
+            GUILayout.Label(pawnManager.Icon(i),  GUILayout.Width(buttonSize));
+        } 
+    GUILayout.EndHorizontal();
+    GUILayout.EndArea();    
+}
+
+function TooltipUI(){
+    var tipRect:Rect = Rect(padding, Screen.height - padding -tooltipHeight,
+        tooltipHeight, Screen.width);
+
+    GUI.Label (tipRect, objectiveManager.Tooltip());
+}
+
 
 function PausePage() {
 
@@ -161,6 +203,7 @@ function PausePage() {
     GUILayout.EndArea();
 
     TopBorder();
+    TooltipUI();
 
 }
 
@@ -192,6 +235,7 @@ function FeatSelectionPage(){
             UnPauseGame();
         }else{
             page = MenuPage.WaveComplete;
+            objectiveManager.GotoState(GameState.WaveCompleteMenu);
         }
         
     }
@@ -214,9 +258,15 @@ function WaveCompletePage(){
 
         if (GUILayout.Button ("Abilities")) {
             page = MenuPage.WaveCompleteFeatSelection;
+            objectiveManager.GotoState(GameState.WaveCompleteAbilitySelectionMenu);
         }
+        GUI.color = Tweakable.DefaultColor;
     GUILayout.EndArea();
-    TopBorder();    
+    
+    WaveDescriptionUI();
+
+    TopBorder();
+    TooltipUI();
 }
 
 function WaveCompleteFeatSelectionPage(){
