@@ -44,6 +44,7 @@ function Start() {
         offscreenIconSize *= 2;
         topBorderHeight *= 2;
         tooltipHeight *= 2;
+        popupUIHeight *= 2;
     }
 
     LoadTextures();
@@ -71,6 +72,7 @@ private var offscreenIconSize:float = 8;
 private var tooltipHeight:float = 16;
 
 private var topBorderHeight:float = 2;
+private var popupUIHeight:float = 90;
 
 enum MenuPage{
     InGame,
@@ -86,6 +88,11 @@ function OnGUI () {
     if (skin != null) {
         GUI.skin = skin;
     }
+
+    if (popupInProgress){
+        PopupUI();
+        return;
+    }    
 
     if (objectiveManager.state == GameState.WaveAnnouncement){
         WaveAnnouncementPage();
@@ -118,6 +125,47 @@ function OnGUI () {
 }
 
 
+// Popup Menu
+//  Check PopupInProgress
+//  Call back
+//
+
+private var popupInProgress:boolean = false;
+
+private var callback:String;
+
+function ShowPopup(c:String){
+    popupInProgress = true;
+    callback = c;
+}
+
+
+function CallbackRestart(){
+    objectiveManager.RestartMission();
+}
+
+function PopupUI(){
+    GUILayout.BeginArea(Rect(Screen.width/2, Screen.height/2, menuWidth, popupUIHeight), GUIStyle("BarFull"));
+        GUI.color = Tweakable.DefaultColor;
+
+        GUILayout.Label("Are you sure?");
+
+        GUI.color = Tweakable.WarningColor;
+        if (GUILayout.Button ("Yes")) {
+            SendMessage(callback);
+        }
+
+        GUI.color = Tweakable.FunctionColor;
+        if (GUILayout.Button ("No")) {
+            popupInProgress = false;
+        }        
+
+        GUI.color = Tweakable.DefaultColor;
+    
+    GUILayout.EndArea();
+}
+
+
 function LateUpdate () {
     if (Input.GetKeyDown("escape")) {
         if (IsGamePaused()){
@@ -141,7 +189,6 @@ function LateUpdate () {
 function WaveAnnouncementPage(){
     WaveDescriptionUI();
     TooltipUI();
-
 }
 
 function WaveDescriptionUI(){
@@ -189,7 +236,8 @@ function PausePage() {
         GUI.color = Tweakable.WarningColor;
 
         if (GUILayout.Button ("Restart")) {
-            objectiveManager.RestartMission();
+            //objectiveManager.RestartMission();
+            ShowPopup("CallbackRestart");
         }
 
         GUI.color = Tweakable.FunctionColor;

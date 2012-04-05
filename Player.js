@@ -19,6 +19,7 @@ function Start() {
     var ring = Instantiate(Resources.Load("Ring", GameObject), Vector3.zero, Quaternion.identity);
 
     transform.position = SnapToGround(transform.position);
+    transform.rotation = Quaternion.Euler(0, 30, 0);
 
     highlight = ring.GetComponent(SpellHighlight);
     highlight.transform.position = transform.position;
