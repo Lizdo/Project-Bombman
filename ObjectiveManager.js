@@ -151,6 +151,8 @@ function Tooltip():String{
     return "Tooltip: Use FREEZE against snipers.";
 }
 
+public var WaveAnnouncementTime:float = 2.0;
+
 function StartWave(waveNumber:int){
 
     wave = waveNumber;
@@ -171,14 +173,14 @@ function StartWave(waveNumber:int){
     // Save the current level
     PlayerPrefs.SetInt(kCurrentWave, wave);
 
-    yield WaitForSeconds(delayBetweenWaves);
+    //yield WaitForSeconds(delayBetweenWaves);
 
     print(wave);
     for (var i:int in waves[wave]){
         pawnManager.Spawn(i);
     } 
 
-    yield WaitForSeconds(2);
+    yield WaitForSeconds(WaveAnnouncementTime);
 
     GotoState(GameState.Gameplay);
 
