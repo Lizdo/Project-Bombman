@@ -69,6 +69,15 @@ function IsGamePaused():boolean{
     return true;
 }
 
+function IsGameplay():boolean{
+    if (state == GameState.Gameplay 
+        ||state == GameState.WaveAnnouncement){
+        return true;
+    }
+
+    return false;
+}
+
 function Start() {
 
     GUI.color = Tweakable.DefaultColor;

@@ -27,6 +27,9 @@ function Start (){
       
     camera.fieldOfView = fov;
 
+    r = rotationDuringPause;
+    h = heightDuringPause;
+
     //ZOffset = height * Mathf.Tan((90-rotation)*Mathf.Deg2Rad)-PivotCompensation;
     print("Camera Initialized.");
 }
@@ -39,17 +42,34 @@ function ScreenBound():float{
     return height * Mathf.Tan((90-rotation)*Mathf.Deg2Rad) + PivotCompensation;
 }
 
+private var targetR:float;
+private var targetH:float;
+
+private var r:float;
+private var h:float;
+private var lerpTime:float = 4;
+private var startTime:float;
+
 function UpdateCameraPosition(){
     if (player == null)
         return;
 
-    var r:float = rotation;
-    var h:float = height;
+    if (!objectiveManager.IsGameplay()){
+        targetR = rotationDuringPause;
+        targetH = heightDuringPause;
+    }else{
+        targetR = rotation;
+        targetH = height;
+    }
 
-    // if (objectiveManager.IsGamePaused()){
-    //     r = rotationDuringPause;
-    //     h = heightDuringPause;
-    // }
+    if (r == targetR){
+        startTime = Time.time;
+    }
+
+    var percentage:float = (Time.time - startTime)/lerpTime;
+
+    r = Mathf.Lerp(r,targetR,percentage);
+    h = Mathf.Lerp(h,targetH,percentage);
 
     transform.rotation = Quaternion.Euler(r,0,0);   
 
