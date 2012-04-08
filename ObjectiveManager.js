@@ -5,6 +5,7 @@ private var pawnManager:PawnManager;
 private var pauseMenu:PauseMenu;
 
 private var waves:Array = new Array();
+private var tooltips:Array = new Array();
 
 private var delayBetweenWaves:float = 1;
 private var resetHPMPBetweenWaves:boolean = false;
@@ -87,11 +88,36 @@ function Start() {
     pauseMenu = FindObjectOfType(PauseMenu); 
 
     waves[0] = [1,1,1];
-    waves[1] = [11,5];
-    waves[2] = [11,3,3];
-    waves[3] = [4,2,12,12];
-    waves[4] = [11,5,5,2];
-    waves[5] = [100];
+    waves[1] = [5];
+    waves[2] = [1,1,4];
+    waves[3] = [11,4,1,1];
+    waves[4] = [11,11,11,4];
+    waves[5] = [11,11,5];
+    waves[6] = [5,5,5];
+    waves[7] = [5,5,11,11,4];    
+    waves[8] = [3,3];
+    waves[9] = [3,3,12,12];
+    waves[10] = [1,1,1,11,11,11,5,5];
+    waves[11] = [11,11,4,4,4,5,12];
+    waves[12] = [2,2,2];
+    waves[13] = [2,2,2,12,12,4];
+    waves[14] = [100];
+    
+    tooltips[0] = "Hold touch to charge EXPLOSION.";
+    tooltips[1] = "You can switch between CHARGE and EXPLOSION.";
+    tooltips[2] = "Use SHIELD to absorb some damage.";
+    tooltips[3] = "EXPLODER will spawn TICKERs when killed.";
+    tooltips[4] = "Use HEAL to replenish some health.";
+    tooltips[5] = "Choose your active ability wisely.";
+    tooltips[6] = "Use TRAMPLE to push back melee enemies.";
+    tooltips[7] = "Keep distance from your enemies.";
+    tooltips[8] = "Use FREEZE to stop the enemies from moving.";    
+    tooltips[9] = "HEALER will heal the other units";
+    tooltips[10] = "Use WRATH to boost your damage.";   
+    tooltips[11] = "Use CHARGE to replenish your MANA from time to time.";
+    tooltips[12] = "Use TELEPORT to quickly move outside BOOMER's attack range.";   
+    tooltips[13] = "Kill the HEALERs first.";
+    tooltips[14] = "Use DEFLECTION with good timing to deal good damage.";
 
     print("ObjManager Initialized");
 
@@ -148,7 +174,7 @@ function CurrentWave(){
 }
 
 function Tooltip():String{
-    return "Tooltip: Use FREEZE against snipers.";
+    return "TIP: " + tooltips[wave];
 }
 
 public var WaveAnnouncementTime:float = 2.0;

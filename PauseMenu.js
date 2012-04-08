@@ -94,6 +94,11 @@ function OnGUI () {
         return;
     }    
 
+    if (objectiveManager.state == GameState.GameLoaded){
+        GameLoadedPage();
+        return;
+    }
+
     if (objectiveManager.state == GameState.WaveAnnouncement){
         WaveAnnouncementPage();
         return;
@@ -184,6 +189,10 @@ function LateUpdate () {
             page = MenuPage.InGame;
         }
     }
+}
+
+function GameLoadedPage(){
+    TooltipUI();
 }
 
 function WaveAnnouncementPage(){

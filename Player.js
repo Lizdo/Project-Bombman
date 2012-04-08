@@ -227,9 +227,11 @@ function UseAbility(){
     _MP -= Ability.Cost();
     Ability.inUse = true;
     
-    for (var p:Pawn in pawnManager.pawns){
-        if (p != this){
-            p.AddEffect(Effect.EffectWithName(Ability.Name()));
+    if (Ability.type == AbilityType.Freeze){
+        for (var p:Pawn in pawnManager.pawns){
+            if (p != this){
+                p.AddEffect(Effect.EffectWithName(Ability.Name()));
+            }
         }
     }
 
