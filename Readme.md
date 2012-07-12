@@ -1,6 +1,6 @@
 #Project Bombman
 
-A top down fast paced action game prototype. Been working on and off on it for around 4 months. Currently off...
+A top down fast paced action game prototype. Been working on and off on it for around 4 months. Currently *off*…
 
 ##Current Features:
 
@@ -11,5 +11,5 @@ A top down fast paced action game prototype. Been working on and off on it for a
 
 ##Screenshot:
 
-![Screenshot](https://github.com/Lizdo/Project-Isometric/blob/master/Screenshot/Screenshot.png?raw=true)
+![Screenshot](https://github.com/Lizdo/Project-Bombman/raw/master/Screenshots/Screenshot.png?raw=true)
 
