@@ -1,1 +1,8 @@
 .DS_Store
+iso.sublime-project
+iso.sublime-workspace
+Explodor/
+Library/cache/
+Library/previews/
+Temp/
+/Assembly-*
