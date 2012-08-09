@@ -600,15 +600,15 @@
 	},
 	"file_history":
 	[
+		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/AttackRadiusRing.js",
+		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Enemy.js",
+		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Pawn.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/UI.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Menu.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/PauseMenu.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/ObjectiveManager.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Destructible.js",
-		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Pawn.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Helper.js",
-		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/AttackRadiusRing.js",
-		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Enemy.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/fps.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/InputManager.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/EnemyAbility.js",
@@ -656,7 +656,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 91.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"",
@@ -671,6 +671,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"enum",
+			"Grass",
+			"string",
 			"color",
 			"rgb",
 			"hs",
@@ -795,10 +798,7 @@
 			"MP",
 			"HP",
 			"speed",
-			"highlight",
-			"spellhight",
-			"iPhoneGeneration",
-			"camera"
+			"highlight"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -883,6 +883,18 @@
 		"selected_items":
 		[
 			[
+				"",
+				"AttackRadiusRing.js"
+			],
+			[
+				"ene",
+				"Enemy.js"
+			],
+			[
+				"pawn",
+				"Pawn.js"
+			],
+			[
 				"obj",
 				"ObjectiveManager.js"
 			],
@@ -893,14 +905,6 @@
 			[
 				"ui",
 				"UI.js"
-			],
-			[
-				"pawn",
-				"Pawn.js"
-			],
-			[
-				"",
-				"AttackRadiusRing.js"
 			],
 			[
 				"enem",
@@ -1049,10 +1053,6 @@
 			[
 				"blin",
 				"Blinker.js"
-			],
-			[
-				"ene",
-				"EnemyAbility.js"
 			],
 			[
 				"bl",
