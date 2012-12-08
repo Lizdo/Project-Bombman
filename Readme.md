@@ -13,3 +13,4 @@ A top down fast paced action game prototype. Been working on and off on it for a
 
 ![Screenshot](https://raw.github.com/Lizdo/Project-Bombman/master/Screenshots/Screenshot.png)
 
+###[Play the current build!](http://htmlpreview.github.com/?https://github.com/Lizdo/Project-Bombman/blob/master/Export/Export.html)
