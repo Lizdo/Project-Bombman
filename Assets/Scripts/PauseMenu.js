@@ -18,15 +18,17 @@ function Start() {
     player = FindObjectOfType(Player);
     skin = skinNormal;
 
-    if (Application.platform == RuntimePlatform.IPhonePlayer){
-        switch (iPhone.generation){
-            case iPhoneGeneration.iPhone4:
-            case iPhoneGeneration.iPhone4S:
-            case iPhoneGeneration.iPodTouch4Gen:
-                doubleResolution = true;
-                break;
+    #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer){
+            switch (iPhone.generation){
+                case iPhoneGeneration.iPhone4:
+                case iPhoneGeneration.iPhone4S:
+                case iPhoneGeneration.iPodTouch4Gen:
+                    doubleResolution = true;
+                    break;
+            }
         }
-    }
+    #endif
 
     if (doubleResolution){
         skin = skin2X;

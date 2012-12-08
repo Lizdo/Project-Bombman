@@ -102,6 +102,7 @@ function UpdateCameraPosition(){
 }
 
 function InitializeQualitySetting(){
+#if UNITY_IPHONE
     if (Application.platform == RuntimePlatform.IPhonePlayer){
         switch (iPhone.generation){
             case iPhoneGeneration.iPad1Gen:
@@ -109,4 +110,5 @@ function InitializeQualitySetting(){
                 QualitySettings.antiAliasing = 0;
         }
     }
+#endif
 }
