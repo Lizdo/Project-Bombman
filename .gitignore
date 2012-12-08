@@ -6,3 +6,6 @@ Library/cache/
 Library/previews/
 Temp/
 /Assembly-*
+*.dll
+
+*.sln
