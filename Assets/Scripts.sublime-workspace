@@ -4,16 +4,84 @@
 		"selected_items":
 		[
 			[
+				"input",
+				"inputVerticalValue"
+			],
+			[
+				"init",
+				"initmouseDownCameraRotationY"
+			],
+			[
+				"in",
+				"initmouseDownCameraRotation"
+			],
+			[
+				"mouse",
+				"mouseDownCameraTravelSpeed"
+			],
+			[
+				"camera",
+				"cameraMode"
+			],
+			[
+				"came",
+				"cameraMode"
+			],
+			[
+				"rota",
+				"rotationY"
+			],
+			[
+				"Update",
+				"UpdateMovement"
+			],
+			[
+				"defa",
+				"defaultCameraAngle"
+			],
+			[
+				"ro",
+				"rotationY"
+			],
+			[
+				"target",
+				"targetCameraPosition"
+			],
+			[
+				"upda",
+				"updatePosition"
+			],
+			[
+				"up",
+				"updateRotation"
+			],
+			[
+				"taret",
+				"targetCameraRotation"
+			],
+			[
+				"r",
+				"Relative"
+			],
+			[
+				"Camera",
+				"CameraMode"
+			],
+			[
+				"Came",
+				"CameraMode"
+			],
+			[
+				"main",
+				"mainCamera"
+			],
+			[
 				"Game",
 				"GameLoadedPage"
 			],
 			[
 				"Too",
 				"TooltipUI"
-			],
-			[
-				"target",
-				"targetZ"
 			],
 			[
 				"height",
@@ -26,10 +94,6 @@
 			[
 				"h",
 				"heightDuringPause"
-			],
-			[
-				"ro",
-				"rotationDuringPause"
 			],
 			[
 				"pop",
@@ -152,10 +216,6 @@
 				"abilities"
 			],
 			[
-				"Update",
-				"UpdateAbility"
-			],
-			[
 				"Enemy",
 				"EnemyAbility"
 			],
@@ -258,10 +318,6 @@
 			[
 				"Wa",
 				"WaitForSeconds"
-			],
-			[
-				"in",
-				"inUse"
 			],
 			[
 				"fre",
@@ -458,51 +514,11 @@
 			[
 				"distance",
 				"distanceToPlayer"
-			],
-			[
-				"iP",
-				"iPhoneGeneration"
-			],
-			[
-				"ma",
-				"maxHP"
-			],
-			[
-				"source",
-				"source2"
-			],
-			[
-				"targ",
-				"target1"
-			],
-			[
-				"sour",
-				"source"
-			],
-			[
-				"Snap",
-				"SnapToGround"
-			],
-			[
-				"tol",
-				"distanceTolerance"
-			],
-			[
-				"Rotate",
-				"RotateToTarget"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "Scripts/Pawn.js",
-			"settings":
-			{
-				"buffer_size": 17736,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -608,15 +624,19 @@
 	},
 	"file_history":
 	[
-		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/AttackRadiusRing.js",
+		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Line.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Enemy.js",
-		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Pawn.js",
+		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/AttackRadiusRing.js",
+		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Player.js",
+		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/FloatingText.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/UI.js",
+		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Pawn.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Menu.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/PauseMenu.js",
+		"/Users/Liz/Dropbox/Projects/YouAreTheVillian/Assets/PlayerController.js",
+		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Helper.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/ObjectiveManager.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Destructible.js",
-		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Helper.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/fps.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/InputManager.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/EnemyAbility.js",
@@ -624,12 +644,10 @@
 		"/Users/Liz/.Trash/CameraManager (MBP's conflicted copy 2012-05-12).js",
 		"/Users/Liz/解压/disinfeqt-dizain-1bbbdd6/stylesheets/style.css",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Ability.js",
-		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Player.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Blinker.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Effect.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Tweakable.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/PawnManager.js",
-		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/FloatingText.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Exploder.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Explosive.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Pickup.js",
@@ -640,7 +658,6 @@
 		"/Users/Liz/MPQExtractor/build/bin/1.txt",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Healer.js",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/EnemyAbility",
-		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/Line.js",
 		"/Users/Liz/Library/Application Support/Sublime Text 2/Packages/User/Default (OSX).sublime-keymap",
 		"/Users/Liz/Dropbox/Projects/DiabloLike/Assets/Scripts/AttackRadiusRing",
 		"/Users/Liz/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
@@ -679,6 +696,19 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"line",
+			"p",
+			"animation",
+			"Center",
+			"PopupDamageToEnemy",
+			"floating",
+			"HP",
+			"mouseDownDistanceValue",
+			"mouseDownDistance",
+			"eulerAngles",
+			"inputVerticalValue",
+			"verticalValue",
+			"horizontalValue",
 			"animation",
 			"enum",
 			"Grass",
@@ -793,20 +823,7 @@
 			"ability",
 			"Pickup",
 			"FindObjectOfType",
-			"Position()",
-			"Title",
-			"die",
-			"other",
-			"type",
-			"explode",
-			"holdTimeThreshold",
-			"showDetail",
-			"showDe",
-			"HP",
-			"self.HP",
-			"MP",
-			"HP",
-			"speed"
+			"Position()"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -844,37 +861,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "Scripts/Pawn.js",
-					"settings":
-					{
-						"buffer_size": 17736,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9465,
-								9465
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 5254.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -920,8 +908,40 @@
 		"selected_items":
 		[
 			[
+				"line",
+				"Line.js"
+			],
+			[
+				"ring",
+				"AttackRadiusRing.js"
+			],
+			[
 				"pawn",
 				"Pawn.js"
+			],
+			[
+				"ui",
+				"UI.js"
+			],
+			[
+				"player",
+				"Player.js"
+			],
+			[
+				"flo",
+				"FloatingText.js"
+			],
+			[
+				"pause",
+				"PauseMenu.js"
+			],
+			[
+				"menu",
+				"Menu.js"
+			],
+			[
+				"hel",
+				"Helper.js"
 			],
 			[
 				"",
@@ -934,14 +954,6 @@
 			[
 				"obj",
 				"ObjectiveManager.js"
-			],
-			[
-				"menu",
-				"PauseMenu.js"
-			],
-			[
-				"ui",
-				"UI.js"
 			],
 			[
 				"enem",
@@ -1002,10 +1014,6 @@
 			[
 				"pawnm",
 				"PawnManager.js"
-			],
-			[
-				"pause",
-				"PauseMenu.js"
 			],
 			[
 				"ab",
@@ -1104,10 +1112,6 @@
 				"Healer.js"
 			],
 			[
-				"flo",
-				"FloatingText.js"
-			],
-			[
 				"u",
 				"UI.js"
 			],
@@ -1126,10 +1130,6 @@
 			[
 				"a",
 				"Ability.js"
-			],
-			[
-				"player",
-				"Player.js"
 			],
 			[
 				"abili",
@@ -1194,10 +1194,6 @@
 			[
 				"expl",
 				"Explosive.js"
-			],
-			[
-				"line",
-				"Line.js"
 			],
 			[
 				"attack",
